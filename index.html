@@ -348,59 +348,64 @@
 </ul>
 </li>
 <li>安装特定版本的工具链:<ul>
-<li><pre><code class="shell">  rustup toolchain install nightly # 安装nightly版本
-  rustup toolchain install 1.58.0  # 安装指定版本
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- 切换到特定工具链:</span><br><span class="line">    - ```shell </span><br><span class="line">        rustup default nightly # 设置默认nightly版本</span><br><span class="line">        rustup default 1.58.0  # 设置默认特定版本</span><br></pre></td></tr></table></figure>
-</code></pre>
+<li>rustup toolchain install nightly # 安装nightly版本<br>  rustup toolchain install 1.58.0  # 安装指定版本</li>
+</ul>
 </li>
+<li>切换到特定工具链:<ul>
+<li>rustup default nightly # 设置默认nightly版本<br>  rustup default 1.58.0  # 设置默认特定版本</li>
 </ul>
 </li>
 <li>查看已经安装的组件:<ul>
-<li><pre><code class="bash">  rustup component list --installed
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- 安装Rust组件:</span><br><span class="line">    - ```bash</span><br><span class="line">        rustup component add rustfmt</span><br><span class="line">        rustup component add clippy</span><br></pre></td></tr></table></figure>
-</code></pre>
+<li>rustup component list –installed</li>
+</ul>
 </li>
+<li>安装Rust组件:<ul>
+<li>rustup component add rustfmt<br>  rustup component add clippy</li>
 </ul>
 </li>
 <li>卸载Rust组件:<ul>
-<li><pre><code class="bash">  rustup component remove rustfmt
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- 创建新项目:</span><br><span class="line">    - ```bash</span><br><span class="line">        cargo new xxx</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
+<li>rustup component remove rustfmt</li>
 </ul>
 </li>
-<li>构建项目:  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> xxx</span><br><span class="line">cargo build</span><br></pre></td></tr></table></figure></li>
-<li>运行项目<ul>
-<li><pre><code class="bash">  cargo run
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- 运行测试：</span><br><span class="line">    - ```bash</span><br><span class="line">        cargo test</span><br></pre></td></tr></table></figure>
-</code></pre>
+<li>创建新项目:<ul>
+<li>cargo new xxx</li>
+</ul>
 </li>
+<li>构建项目:<ul>
+<li>cd xxx<br>  cargo build</li>
+</ul>
+</li>
+<li>运行项目<ul>
+<li>cargo run</li>
+</ul>
+</li>
+<li>运行测试：<ul>
+<li>cargo test</li>
 </ul>
 </li>
 <li>发布项目<ul>
-<li><pre><code class="bash">  cargo publish
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">### cargo常见命令</span><br><span class="line">- 更新依赖项</span><br><span class="line">    - ```bash</span><br><span class="line">        cargo update</span><br></pre></td></tr></table></figure>
-</code></pre>
+<li>cargo publish</li>
+</ul>
 </li>
+</ul>
+<h3 id="cargo常见命令"><a href="#cargo常见命令" class="headerlink" title="cargo常见命令"></a>cargo常见命令</h3><ul>
+<li>更新依赖项<ul>
+<li>cargo update</li>
 </ul>
 </li>
 <li>检查项目：<ul>
-<li><pre><code class="bash">  cargo check
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- 生成文档：</span><br><span class="line">    - ```bash</span><br><span class="line">        cargo doc --open # 生成并打开文档</span><br></pre></td></tr></table></figure>
-</code></pre>
+<li>cargo check</li>
+</ul>
 </li>
+<li>生成文档：<ul>
+<li>cargo doc –open # 生成并打开文档</li>
 </ul>
 </li>
 </ul>
 <h3 id="创建第一个rust项目"><a href="#创建第一个rust项目" class="headerlink" title="创建第一个rust项目"></a>创建第一个rust项目</h3><ul>
-<li><pre><code class="bash">  cargo new hello_cargo
-  cd hello_cargo
-</code></pre>
-</li>
+<li>cargo new hello_cargo<br>  cd hello_cargo</li>
+<li>下边是项目目录<br><img src="/../images/project.jpg"></li>
 </ul>
-<pre><code>- 下边是项目目录
-![](/images/project.jpg)
-</code></pre>
 
           
         
