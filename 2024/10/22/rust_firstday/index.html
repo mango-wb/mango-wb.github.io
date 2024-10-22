@@ -87,8 +87,15 @@
 <meta property="og:description" content="环境搭建  1. 环境安装Rust环境安装比较简单。在terminal输入:  $curl --proto &#39;&#x3D;https&#39; --tlsv1.2 https:&#x2F;&#x2F;sh.rustup.rs -sSf | sh 这条命令用户安装Rust的管理工具rustup。 安装成功会提示：Rust is installed now. Greate!  2. 常见命令 更新Rust: rustup">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/images/project.jpg">
+<meta property="og:image" content="http://example.com/images/main.jpg">
+<meta property="og:image" content="http://example.com/images/target.jpg">
+<meta property="og:image" content="http://example.com/images/toml.jpg">
+<meta property="og:image" content="http://example.com/images/run.jpg">
+<meta property="og:image" content="http://example.com/images/debug.jpg">
+<meta property="og:image" content="http://example.com/images/release.jpg">
+<meta property="og:image" content="http://example.com/images/cargoconfig.jpg">
 <meta property="article:published_time" content="2024-10-22T03:02:38.250Z">
-<meta property="article:modified_time" content="2024-10-22T06:45:47.020Z">
+<meta property="article:modified_time" content="2024-10-22T07:18:21.310Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/project.jpg">
@@ -404,8 +411,37 @@
 </li>
 </ul>
 <h3 id="4-创建第一个rust项目"><a href="#4-创建第一个rust项目" class="headerlink" title="4. 创建第一个rust项目"></a>4. 创建第一个rust项目</h3><ul>
-<li>cargo new hello_cargo<br>  cd hello_cargo</li>
-<li>下边是项目目录<br><img src="/../images/project.jpg"></li>
+<li><p>cargo new hello_cargo<br>  cd hello_cargo</p>
+</li>
+<li><p>下边是项目目录<br><img src="/../images/project.jpg"></p>
+<ul>
+<li><p>src目录用于存放rust源码文件。rust项目的代码都存放在这里。<br>  <img src="/../images/main.jpg"></p>
+</li>
+<li><p>target目录: cargo编译代码时生成的文件都会存放在此目录中，其中包含中间文件、可执行文件等。<br>  <img src="/../images/target.jpg"></p>
+</li>
+<li><p>Cargo.toml文件: 此文件是项目的配置文件，管理项目等元数据、依赖和编译选项。<br>  <img src="/../images/toml.jpg"></p>
+<ul>
+<li>pakage: 定义包的基本信息，如名称、版本和Rust版本</li>
+<li>dependencies: 累出所需的依赖包及其版本，cargo会根据这些配置自动下载依赖项。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-使用cargo编译运行rust项目"><a href="#5-使用cargo编译运行rust项目" class="headerlink" title="5. 使用cargo编译运行rust项目"></a>5. 使用cargo编译运行rust项目</h3><ul>
+<li><code>cargo run: </code> 此命令会在target&#x2F;debug目录下生成可执行文件<br>  <img src="/../images/run.jpg"></li>
+<li><code>cargo run/build --debug/--release</code>: <ul>
+<li><code>debug</code>模式: debug为默认模式, 生成的文件会包含调试信息，便于调试和错误追踪，使用debug进行编译未进行优化，编译速度快，但是运行速度慢。 生成的文件位于target&#x2F;debug下。<br>  <img src="/../images/debug.jpg"><br>  <strong>默认使用debug模式，所以会报错，不需要加–debug</strong></li>
+<li><code>release</code>模式: release模式会启用编译起优化, 生成更小且更快的可执行文件，因为编译过程中编译起对其进行了优化，所以编译速度比较慢。生成的文件位于targer&#x2F;release下。<br>  <img src="/../images/release.jpg"></li>
+</ul>
+</li>
+</ul>
+<h3 id="6-cargo配置toml源"><a href="#6-cargo配置toml源" class="headerlink" title="6. cargo配置toml源"></a>6. cargo配置toml源</h3><ul>
+<li>文件位于 ~&#x2F;.cargo&#x2F;config.toml<br><img src="/../images/cargoconfig.jpg"><ul>
+<li></li>
+<li>[source.ustc]: 指定USTC的镜像地址，其中sparse+的意思表示使用Sparse Protocol是crates.io推出的协议。</li>
+</ul>
+</li>
 </ul>
 
       
@@ -537,7 +573,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85"><span class="nav-number">1.0.1.</span> <span class="nav-text">1. 环境安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4"><span class="nav-number">1.0.2.</span> <span class="nav-text">2. 常见命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-cargo%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4"><span class="nav-number">1.0.3.</span> <span class="nav-text">3. cargo常见命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AArust%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.0.4.</span> <span class="nav-text">4. 创建第一个rust项目</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85"><span class="nav-number">1.0.1.</span> <span class="nav-text">1. 环境安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4"><span class="nav-number">1.0.2.</span> <span class="nav-text">2. 常见命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-cargo%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4"><span class="nav-number">1.0.3.</span> <span class="nav-text">3. cargo常见命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AArust%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.0.4.</span> <span class="nav-text">4. 创建第一个rust项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%BD%BF%E7%94%A8cargo%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8Crust%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.0.5.</span> <span class="nav-text">5. 使用cargo编译运行rust项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-cargo%E9%85%8D%E7%BD%AEtoml%E6%BA%90"><span class="nav-number">1.0.6.</span> <span class="nav-text">6. cargo配置toml源</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
