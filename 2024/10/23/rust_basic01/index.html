@@ -79,11 +79,15 @@
 
 
 
-<meta property="og:type" content="website">
+<meta name="description" content="Rust基础  可变量和不可变量不可变量: 默认情况下，变量是不可变的。一旦赋值就不能再改变该变量的值。12345fn immutable() &#123;    let x : i32 &#x3D; 5;    println!(&quot;The value is: &#123;&#125;&quot;, x);    x &#x3D; 1;  &#x2F;&#x2F;cannot mutate immutable variabl">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:url" content="http://example.com/2024/10/23/rust_basic01/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Rust基础  可变量和不可变量不可变量: 默认情况下，变量是不可变的。一旦赋值就不能再改变该变量的值。12345fn immutable() &#123;    let x : i32 &#x3D; 5;    println!(&quot;The value is: &#123;&#125;&quot;, x);    x &#x3D; 1;  &#x2F;&#x2F;cannot mutate immutable variabl">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-10-23T01:09:22.190Z">
+<meta property="article:modified_time" content="2024-10-23T02:51:46.710Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/"/>
+  <link rel="canonical" href="http://example.com/2024/10/23/rust_basic01/"/>
 
 
 
 
 
-  <title>Hexo</title>
+  <title> | Hexo</title>
   
 
 
@@ -140,8 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -244,9 +247,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -276,9 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/10/23/rust_basic01/" itemprop="url">Untitled</a></h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -328,9 +329,7 @@
       
 
       
-        
-          
-            <h1 style="text-align: center"> Rust基础</h1>
+        <h1 style="text-align: center"> Rust基础</h1>
 
 <h2 id="可变量和不可变量"><a href="#可变量和不可变量" class="headerlink" title="可变量和不可变量"></a>可变量和不可变量</h2><h3 id="不可变量"><a href="#不可变量" class="headerlink" title="不可变量:"></a>不可变量:</h3><ul>
 <li>默认情况下，变量是不可变的。一旦赋值就不能再改变该变量的值。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fn immutable() &#123;</span><br><span class="line">    let x : i32 = 5;</span><br><span class="line">    println!(&quot;The value is: &#123;&#125;&quot;, x);</span><br><span class="line">    x = 1;  //cannot mutate immutable variable `x`</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
@@ -413,8 +412,6 @@
 <li>此次学习了解了Rust可变量、不可变量、常量、静态变量以及Rust作用域、遮蔽等概念，还学习到了AtomicUsize防止数据竞争的关键所在。</li>
 </ul>
 
-          
-        
       
     </div>
     
@@ -431,236 +428,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/22/rust_firstday/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/10/22/rust_firstday/" itemprop="url">Untitled</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-22T11:02:38+08:00">
-                2024-10-22
-              </time>
+              <a href="/2024/10/22/rust_firstday/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <h1 style="text-align: center">环境搭建</h1>
-
-<h3 id="1-环境安装"><a href="#1-环境安装" class="headerlink" title="1. 环境安装"></a>1. 环境安装</h3><p>Rust环境安装比较简单。在terminal输入:</p>
-<ul>
-<li><code>$curl --proto &#39;=https&#39; --tlsv1.2 https://sh.rustup.rs -sSf | sh</code></li>
-<li>这条命令用户安装Rust的管理工具rustup。</li>
-<li>安装成功会提示：<code>Rust is installed now. Greate!</code></li>
-</ul>
-<h3 id="2-常见命令"><a href="#2-常见命令" class="headerlink" title="2. 常见命令"></a>2. 常见命令</h3><ul>
-<li>更新Rust:<ul>
-<li><code>rustup update</code></li>
-</ul>
-</li>
-<li>查看已经按咋混改的工具链:<ul>
-<li><code>rustup toolchain list</code></li>
-</ul>
-</li>
-<li>安装特定版本的工具链:<ul>
-<li>rustup toolchain install nightly # 安装nightly版本<br>  rustup toolchain install 1.58.0  # 安装指定版本</li>
-</ul>
-</li>
-<li>切换到特定工具链:<ul>
-<li>rustup default nightly # 设置默认nightly版本<br>  rustup default 1.58.0  # 设置默认特定版本</li>
-</ul>
-</li>
-<li>查看已经安装的组件:<ul>
-<li>rustup component list –installed</li>
-</ul>
-</li>
-<li>安装Rust组件:<ul>
-<li>rustup component add rustfmt<br>  rustup component add clippy</li>
-</ul>
-</li>
-<li>卸载Rust组件:<ul>
-<li>rustup component remove rustfmt</li>
-</ul>
-</li>
-<li>创建新项目:<ul>
-<li>cargo new xxx</li>
-</ul>
-</li>
-<li>构建项目:<ul>
-<li>cd xxx<br>  cargo build</li>
-</ul>
-</li>
-<li>运行项目<ul>
-<li>cargo run</li>
-</ul>
-</li>
-<li>运行测试：<ul>
-<li>cargo test</li>
-</ul>
-</li>
-<li>发布项目<ul>
-<li>cargo publish</li>
-</ul>
-</li>
-</ul>
-<h3 id="3-cargo常见命令"><a href="#3-cargo常见命令" class="headerlink" title="3. cargo常见命令"></a>3. cargo常见命令</h3><ul>
-<li>更新依赖项<ul>
-<li>cargo update</li>
-</ul>
-</li>
-<li>检查项目：<ul>
-<li>cargo check</li>
-</ul>
-</li>
-<li>生成文档：<ul>
-<li>cargo doc –open # 生成并打开文档</li>
-</ul>
-</li>
-</ul>
-<h3 id="4-创建第一个rust项目"><a href="#4-创建第一个rust项目" class="headerlink" title="4. 创建第一个rust项目"></a>4. 创建第一个rust项目</h3><ul>
-<li><p>cargo new hello_cargo<br>  cd hello_cargo</p>
-</li>
-<li><p>下边是项目目录<br><img src="/../images/project.jpg"></p>
-<ul>
-<li><p>src目录用于存放rust源码文件。rust项目的代码都存放在这里。<br>  <img src="/../images/main.jpg"></p>
-</li>
-<li><p>target目录: cargo编译代码时生成的文件都会存放在此目录中，其中包含中间文件、可执行文件等。<br>  <img src="/../images/target.jpg"></p>
-</li>
-<li><p>Cargo.toml文件: 此文件是项目的配置文件，管理项目等元数据、依赖和编译选项。<br>  <img src="/../images/toml.jpg"></p>
-<ul>
-<li>pakage: 定义包的基本信息，如名称、版本和Rust版本</li>
-<li>dependencies: 累出所需的依赖包及其版本，cargo会根据这些配置自动下载依赖项。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="5-使用cargo编译运行rust项目"><a href="#5-使用cargo编译运行rust项目" class="headerlink" title="5. 使用cargo编译运行rust项目"></a>5. 使用cargo编译运行rust项目</h3><ul>
-<li><code>cargo run: </code> 此命令会在target&#x2F;debug目录下生成可执行文件<br>  <img src="/../images/run.jpg"></li>
-<li><code>cargo run/build --debug/--release</code>: <ul>
-<li><code>debug</code>模式: debug为默认模式, 生成的文件会包含调试信息，便于调试和错误追踪，使用debug进行编译未进行优化，编译速度快，但是运行速度慢。 生成的文件位于target&#x2F;debug下。<br>  <img src="/../images/debug.jpg"><br>  <strong>默认使用debug模式，所以会报错，不需要加–debug</strong></li>
-<li><code>release</code>模式: release模式会启用编译起优化, 生成更小且更快的可执行文件，因为编译过程中编译起对其进行了优化，所以编译速度比较慢。生成的文件位于targer&#x2F;release下。<br>  <img src="/../images/release.jpg"></li>
-</ul>
-</li>
-</ul>
-<h3 id="6-cargo配置toml源"><a href="#6-cargo配置toml源" class="headerlink" title="6. cargo配置toml源"></a>6. cargo配置toml源</h3><ul>
-<li>文件位于 ~&#x2F;.cargo&#x2F;config.toml<br><img src="/../images/cargoconfig.jpg"><ul>
-<li></li>
-<li>[source.ustc]: 指定USTC的镜像地址，其中sparse+的意思表示使用Sparse Protocol是crates.io推出的协议。</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -670,10 +459,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -681,6 +471,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -701,8 +495,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -744,6 +547,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text"> Rust基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E9%87%8F%E5%92%8C%E4%B8%8D%E5%8F%AF%E5%8F%98%E9%87%8F"><span class="nav-number">1.1.</span> <span class="nav-text">可变量和不可变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E5%8F%98%E9%87%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text">不可变量:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E5%8F%98%E9%87%8F"><span class="nav-number">1.1.2.</span> <span class="nav-text">可变变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F"><span class="nav-number">1.2.</span> <span class="nav-text">常量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F%E7%9A%84%E5%A3%B0%E6%98%8E"><span class="nav-number">1.2.1.</span> <span class="nav-text">常量的声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">1.2.2.</span> <span class="nav-text">常量的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.2.3.</span> <span class="nav-text">常量的使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F"><span class="nav-number">1.3.</span> <span class="nav-text">静态变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E7%9A%84%E5%A3%B0%E6%98%8E"><span class="nav-number">1.3.1.</span> <span class="nav-text">静态变量的声明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E5%8F%98%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">不可变静态变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">可变静态变量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">1.3.2.</span> <span class="nav-text">静态变量的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%8E%9F%E5%AD%90%E7%B1%BB%E5%9E%8B%E6%8F%90%E9%AB%98%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">1.3.3.</span> <span class="nav-text">使用原子类型提高线程安全性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rust%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%92%8C%E9%81%AE%E8%94%BD%E6%A6%82%E5%BF%B5"><span class="nav-number">1.4.</span> <span class="nav-text">Rust中的作用域和遮蔽概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">1.4.1.</span> <span class="nav-text">作用域</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%AE%E8%94%BD"><span class="nav-number">1.5.</span> <span class="nav-text">遮蔽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%93%E5%B1%95"><span class="nav-number">1.6.</span> <span class="nav-text">拓展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AtomicUsize%E6%98%AF%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E6%95%B0%E6%8D%AE%E7%AB%9E%E4%BA%89%E9%97%AE%E9%A2%98%E7%9A%84%EF%BC%9F"><span class="nav-number">1.6.1.</span> <span class="nav-text">AtomicUsize是如何解决数据竞争问题的？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.7.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -877,6 +696,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
