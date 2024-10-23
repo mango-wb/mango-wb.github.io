@@ -332,6 +332,7 @@
           
             <h1 style="text-align: center"> Rust基础</h1>
 
+<p>*目录<br>{:toc}</p>
 <h2 id="可变量和不可变量"><a href="#可变量和不可变量" class="headerlink" title="可变量和不可变量"></a>可变量和不可变量</h2><h3 id="不可变量"><a href="#不可变量" class="headerlink" title="不可变量:"></a>不可变量:</h3><ul>
 <li>默认情况下，变量是不可变的。一旦赋值就不能再改变该变量的值。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fn immutable() &#123;</span><br><span class="line">    let x : i32 = 5;</span><br><span class="line">    println!(&quot;The value is: &#123;&#125;&quot;, x);</span><br><span class="line">    x = 1;  //cannot mutate immutable variable `x`</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li>特点: 不可变变量的使用可以保证数据不会在程序运行中被意外改变，提高了代码的可靠性和线程安全性。</li>
