@@ -259,7 +259,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/24/rust_basic04/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/24/rust_basic03/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -278,7 +278,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2024/10/24/rust_basic04/" itemprop="url">Rust所有权</a></h1>
+                <a class="post-title-link" href="/2024/10/24/rust_basic03/" itemprop="url">Rust基础类型</a></h1>
         
 
         <div class="post-meta">
@@ -330,43 +330,36 @@
       
         
           
-            <h1 style="text-align: center"><span id="rust所有权">Rust所有权</span></h1>
+            <h1 style="text-align: center"><span id="rust基础类型">Rust基础类型</span></h1>
 
 <h3><span id="目录">目录:</span></h3>
 
 <!-- toc -->
 
 <ul>
-<li><a href="#%E6%A6%82%E5%BF%B5">概念</a><ul>
-<li><a href="#%E6%89%80%E6%9C%89%E6%9D%83%E6%A6%82%E5%BF%B5">所有权概念</a></li>
-<li><a href="#%E5%BC%95%E7%94%A8%E5%92%8C%E5%80%9F%E7%94%A8">引用和借用</a></li>
-</ul>
-</li>
+<li><a href="#%E6%95%B4%E5%9E%8B">整型</a></li>
+<li><a href="#%E6%B5%AE%E7%82%B9%E5%9E%8B">浮点型</a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6">字符</a></li>
+<li><a href="#%E5%BA%8F%E5%88%97">序列</a></li>
+<li><a href="#%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2">强制类型转换</a></li>
 <li><a href="#%E7%BB%83%E4%B9%A0%E9%A2%98">练习题</a></li>
 </ul>
 <!-- tocstop -->
 
-<h2><span id="概念">概念</span></h2><h3><span id="所有权概念">所有权概念</span></h3><ul>
-<li>每一个值都会有一个所有者，该所有者是唯一的。所有者的生命周期决定了该值的生命周期。</li>
-<li>当所有者离开作用域，值会被自动释放(drop)。</li>
+<h2><span id="整型">整型</span></h2><ul>
+<li>各种进制<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">fn main() &#123;</span><br><span class="line">    print_int_show();</span><br><span class="line">&#125;</span><br><span class="line">fn print_int_show() &#123;</span><br><span class="line">    let _i = 98;</span><br><span class="line">    let _i = 98_222;        //十进制 等于98222</span><br><span class="line">    let _i = 0xff;          //十六进制</span><br><span class="line">    let _i = 0o77;          //八进制</span><br><span class="line">    let i = 0b1111_0000;    //二进制</span><br><span class="line">    let i = b&#x27;A&#x27;;           //u8</span><br><span class="line">    println!(&quot;The value of i &#123;&#125;&quot;, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h3><span id="引用和借用">引用和借用</span></h3><ul>
-<li>引用: 引用是对某一个值的引用，用于在不获取其所有权的情况下对值进行访问。<ul>
-<li>可变引用: 允许您改数据，但在可变借用期间，不能有其他的不可变引用或可变引用。</li>
-<li>不可变引用: 允许读取数据，不允许修改数据。</li>
-</ul>
-</li>
-<li>借用: 借用是指通过引用的方式获取对某个值的访问权限。借用可以是可变的或不可变的，具体取决于您所使用的引用类型。<ul>
-<li>核心思想: 借用的核心思想是允许在不转移所有权的情况下使用值，确保数据的安全性和一致性。</li>
-</ul>
-</li>
-<li>区别: <ul>
-<li>引用是一种类型（&amp;T 或 &amp;mut T），表示对数据的访问。</li>
-<li>借用是一种行为，指的是使用引用来访问数据，而不是转移所有权。</li>
-</ul>
-</li>
-</ul>
-<h2><span id="练习题">练习题</span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">fn main() &#123;</span><br><span class="line">    let s1 = String::from(&quot;hello&quot;);</span><br><span class="line">    let s2 = _take_ownership2(&amp;s1);</span><br><span class="line">    println!(&quot;s1: &#123;&#125;&quot;, s1);</span><br><span class="line">    println!(&quot;s2: &#123;&#125;&quot;, s2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn _take_ownership1(s : &amp;String) -&gt; String &#123;</span><br><span class="line">    s.clone()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn _take_ownership2(s : &amp;String) -&gt; &amp;String &#123;</span><br><span class="line">    s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="浮点型">浮点型</span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fn print_show_f() &#123;</span><br><span class="line">    let f = 2.0;</span><br><span class="line">    let y : f32 = 3.0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id></span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fn nan() &#123;</span><br><span class="line">    println!(&quot;\n***** nan(): *****&quot;);</span><br><span class="line">    //会返回NaN，负数开平方根会报NaN</span><br><span class="line">    let y = (-1.1_f64).sqrt();</span><br><span class="line">    // println!(&quot;y: &#123;&#125;&quot;, y);</span><br><span class="line">    if y.is_nan() &#123;</span><br><span class="line">        println!(&quot;y is nan&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="字符">字符</span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fn char_show() &#123;</span><br><span class="line">    println!(&quot;\n***** char_show(): *****&quot;);</span><br><span class="line"></span><br><span class="line">    let x = &#x27;中&#x27;;</span><br><span class="line">    let y = &#x27;⏰&#x27;;</span><br><span class="line"></span><br><span class="line">    println!(&quot;x: &#123;&#125;, y: &#123;&#125;&quot;, x, y);</span><br><span class="line">    println!(&quot;字符占用大小&#123;&#125;&quot;, std::mem::size_of_val(&amp;x));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="序列">序列</span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fn sequence() &#123;</span><br><span class="line">    println!(&quot;\n***** sequence(): *****&quot;);</span><br><span class="line">    for i in  1..5 &#123;</span><br><span class="line">        println!(&quot;i: &#123;&#125;&quot;, i);</span><br><span class="line">    &#125;</span><br><span class="line">    for j in &#x27;a&#x27;..=&#x27;z&#x27; &#123;</span><br><span class="line">        println!(&quot;j:&#123;&#125;&quot;, j);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="强制类型转换">强制类型转换</span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fn convert() &#123;</span><br><span class="line">    println!(&quot;\n***** convert(): *****&quot;);</span><br><span class="line"></span><br><span class="line">    let i = 5;</span><br><span class="line">    let f = i as f32;</span><br><span class="line"></span><br><span class="line">    println!(&quot;i: &#123;&#125;&quot;, i);</span><br><span class="line">    println!(&quot;f: &#123;&#125;&quot;, f);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="练习题">练习题</span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 填空，并解决错误</span><br><span class="line">fn main() &#123;</span><br><span class="line">    // 整数加法</span><br><span class="line">    assert!(1u32 + 2 == 3);</span><br><span class="line"></span><br><span class="line">    // 整数减法</span><br><span class="line">    assert!(1i32 - 2 == -1);</span><br><span class="line">    //使用安全的减法，如果发生溢出返回0</span><br><span class="line">    assert!(1u8.checked_sub(2).unwrap_or(0) == 0);</span><br><span class="line">    </span><br><span class="line">    assert!(3 * 50 == 150);</span><br><span class="line"></span><br><span class="line">    assert!((9.6f64 / 3.2f64 - 3.0f64) &lt; 1e-10); </span><br><span class="line"></span><br><span class="line">    assert!(24 % 5 == 4);</span><br><span class="line">    </span><br><span class="line">    // 逻辑与或非操作</span><br><span class="line">    assert!(true &amp;&amp; false == false);</span><br><span class="line">    assert!(true || false == true);</span><br><span class="line">    assert!(!true == false);</span><br><span class="line"></span><br><span class="line">    // 位操作</span><br><span class="line">    println!(&quot;0011 AND 0101 is &#123;:04b&#125;&quot;, 0b0011u32 &amp; 0b0101);</span><br><span class="line">    println!(&quot;0011 OR 0101 is &#123;:04b&#125;&quot;, 0b0011u32 | 0b0101);</span><br><span class="line">    println!(&quot;0011 XOR 0101 is &#123;:04b&#125;&quot;, 0b0011u32 ^ 0b0101);</span><br><span class="line">    println!(&quot;1 &lt;&lt; 5 is &#123;&#125;&quot;, 1u32 &lt;&lt; 5);</span><br><span class="line">    println!(&quot;0x80 &gt;&gt; 2 is 0x&#123;:x&#125;&quot;, 0x80u32 &gt;&gt; 2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
