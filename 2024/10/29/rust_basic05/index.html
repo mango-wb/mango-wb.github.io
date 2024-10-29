@@ -79,11 +79,15 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+<meta name="description" content="Rust数组与切片  目录:     数组 将数组作为值和引用进行传递   切片 支持切片的类型: 字符串、数组、切片 课后练习题      数组将数组作为值和引用进行传递 值传递: 函数会copy一份数组进行操作，此数组只在函数内发生改变，不会影响原始值，在函数结束后会销毁123456789101112131415    fn main() &#123;        &#x2F;&#x2F;_arr();">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust数组与切片">
+<meta property="og:url" content="http://example.com/2024/10/29/rust_basic05/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Rust数组与切片  目录:     数组 将数组作为值和引用进行传递   切片 支持切片的类型: 字符串、数组、切片 课后练习题      数组将数组作为值和引用进行传递 值传递: 函数会copy一份数组进行操作，此数组只在函数内发生改变，不会影响原始值，在函数结束后会销毁123456789101112131415    fn main() &#123;        &#x2F;&#x2F;_arr();">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-10-29T08:55:19.642Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/"/>
+  <link rel="canonical" href="http://example.com/2024/10/29/rust_basic05/"/>
 
 
 
 
 
-  <title>Hexo</title>
+  <title>Rust数组与切片 | Hexo</title>
   
 
 
@@ -140,8 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -244,9 +247,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -276,9 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/10/29/rust_basic05/" itemprop="url">Rust数组与切片</a></h1>
+          <h1 class="post-title" itemprop="name headline">Rust数组与切片</h1>
         
 
         <div class="post-meta">
@@ -328,9 +329,7 @@
       
 
       
-        
-          
-            <h1 style="text-align: center"><span id="rust数组与切片">Rust数组与切片</span></h1>
+        <h1 style="text-align: center"><span id="rust数组与切片">Rust数组与切片</span></h1>
 
 <h3><span id="目录">目录:</span></h3>
 
@@ -367,8 +366,6 @@
 </li>
 </ul>
 
-          
-        
       
     </div>
     
@@ -385,12 +382,28 @@
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/10/24/rust_basic03/" rel="next" title="Rust基础类型">
+                <i class="fa fa-chevron-left"></i> Rust基础类型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -400,14 +413,11 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -415,6 +425,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -435,8 +449,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -478,6 +501,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Rust数组与切片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.1.</span> <span class="nav-text">目录:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text">数组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.1.</span> <span class="nav-text">将数组作为值和引用进行传递</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.2.</span> <span class="nav-text">切片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.2.1.</span> <span class="nav-text">支持切片的类型: 字符串、数组、切片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.2.2.</span> <span class="nav-text">课后练习题</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -611,6 +650,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
