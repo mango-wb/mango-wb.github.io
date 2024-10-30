@@ -259,7 +259,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/23/rust_basic01/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/24/rust_basic03/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -278,7 +278,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2024/10/23/rust_basic01/" itemprop="url">Rust基础</a></h1>
+                <a class="post-title-link" href="/2024/10/24/rust_basic03/" itemprop="url">Rust基础类型</a></h1>
         
 
         <div class="post-meta">
@@ -290,8 +290,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-23T00:00:00+08:00">
-                2024-10-23
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-24T00:00:00+08:00">
+                2024-10-24
               </time>
             
 
@@ -330,127 +330,36 @@
       
         
           
-            <h1 style="text-align: center"><span id="rust基础"> Rust基础</span></h1>
+            <h1 style="text-align: center"><span id="rust基础类型">Rust基础类型</span></h1>
+
 <h3><span id="目录">目录:</span></h3>
 
 <!-- toc -->
 
 <ul>
-<li><a href="#%E5%8F%AF%E5%8F%98%E9%87%8F%E5%92%8C%E4%B8%8D%E5%8F%AF%E5%8F%98%E9%87%8F">可变量和不可变量</a><ul>
-<li><a href="#%E4%B8%8D%E5%8F%AF%E5%8F%98%E9%87%8F">不可变量:</a></li>
-<li><a href="#%E5%8F%AF%E5%8F%98%E5%8F%98%E9%87%8F">可变变量</a></li>
-</ul>
-</li>
-<li><a href="#%E5%B8%B8%E9%87%8F">常量</a><ul>
-<li><a href="#%E5%B8%B8%E9%87%8F%E7%9A%84%E5%A3%B0%E6%98%8E">常量的声明</a></li>
-<li><a href="#%E5%B8%B8%E9%87%8F%E7%9A%84%E7%89%B9%E7%82%B9">常量的特点</a></li>
-<li><a href="#%E5%B8%B8%E9%87%8F%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF">常量的使用场景</a></li>
-</ul>
-</li>
-<li><a href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F">静态变量</a><ul>
-<li><a href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E7%9A%84%E5%A3%B0%E6%98%8E">静态变量的声明</a><ul>
-<li><a href="#%E4%B8%8D%E5%8F%AF%E5%8F%98%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F">不可变静态变量</a></li>
-<li><a href="#%E5%8F%AF%E5%8F%98%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F">可变静态变量</a></li>
-</ul>
-</li>
-<li><a href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E7%9A%84%E7%89%B9%E7%82%B9">静态变量的特点</a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8%E5%8E%9F%E5%AD%90%E7%B1%BB%E5%9E%8B%E6%8F%90%E9%AB%98%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7">使用原子类型提高线程安全性</a></li>
-</ul>
-</li>
-<li><a href="#rust%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%92%8C%E9%81%AE%E8%94%BD%E6%A6%82%E5%BF%B5">Rust中的作用域和遮蔽概念</a><ul>
-<li><a href="#%E4%BD%9C%E7%94%A8%E5%9F%9F">作用域</a></li>
-</ul>
-</li>
-<li><a href="#%E9%81%AE%E8%94%BD">遮蔽</a></li>
-<li><a href="#%E6%8B%93%E5%B1%95">拓展</a><ul>
-<li><a href="#atomicusize%E6%98%AF%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E6%95%B0%E6%8D%AE%E7%AB%9E%E4%BA%89%E9%97%AE%E9%A2%98%E7%9A%84">AtomicUsize是如何解决数据竞争问题的？</a></li>
-</ul>
-</li>
-<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+<li><a href="#%E6%95%B4%E5%9E%8B">整型</a></li>
+<li><a href="#%E6%B5%AE%E7%82%B9%E5%9E%8B">浮点型</a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6">字符</a></li>
+<li><a href="#%E5%BA%8F%E5%88%97">序列</a></li>
+<li><a href="#%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2">强制类型转换</a></li>
+<li><a href="#%E7%BB%83%E4%B9%A0%E9%A2%98">练习题</a></li>
 </ul>
 <!-- tocstop -->
 
-<h2><span id="可变量和不可变量">可变量和不可变量</span></h2><h3><span id="不可变量">不可变量:</span></h3><ul>
-<li>默认情况下，变量是不可变的。一旦赋值就不能再改变该变量的值。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fn immutable() &#123;</span><br><span class="line">    let x : i32 = 5;</span><br><span class="line">    println!(&quot;The value is: &#123;&#125;&quot;, x);</span><br><span class="line">    x = 1;  //cannot mutate immutable variable `x`</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>特点: 不可变变量的使用可以保证数据不会在程序运行中被意外改变，提高了代码的可靠性和线程安全性。</li>
+<h2><span id="整型">整型</span></h2><ul>
+<li>各种进制<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">fn main() &#123;</span><br><span class="line">    print_int_show();</span><br><span class="line">&#125;</span><br><span class="line">fn print_int_show() &#123;</span><br><span class="line">    let _i = 98;</span><br><span class="line">    let _i = 98_222;        //十进制 等于98222</span><br><span class="line">    let _i = 0xff;          //十六进制</span><br><span class="line">    let _i = 0o77;          //八进制</span><br><span class="line">    let i = 0b1111_0000;    //二进制</span><br><span class="line">    let i = b&#x27;A&#x27;;           //u8</span><br><span class="line">    println!(&quot;The value of i &#123;&#125;&quot;, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h3><span id="可变变量">可变变量</span></h3><ul>
-<li>使用mut关键字声明变量为可变。可变变量的值可以在程序的不同地方被修改。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    fn mutable() &#123;</span><br><span class="line">    let mut x : i32 = 5;        //mut关键字: 可变变量</span><br><span class="line">    println!(&quot;The value is: &#123;&#125;&quot;, x);</span><br><span class="line">    x = 6;</span><br><span class="line">    println!(&quot;The value is: &#123;&#125;&quot;, x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2><span id="常量">常量</span></h2><h3><span id="常量的声明">常量的声明</span></h3><ul>
-<li>使用const关键字</li>
-<li>必须显示标注类型</li>
-<li>常量的名称通常用全大写字母，以蛇形命名(SNAKE_CASE)为惯例<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const NUM : i32 = 5;</span><br><span class="line">const THREE_HOURS : i32 = 60 * 60 * 3;</span><br><span class="line">fn fmt_const() &#123;</span><br><span class="line">    println!(&quot;The const is: &#123;&#125;&quot;, NUM);</span><br><span class="line">    println!(&quot;The const is: &#123;&#125;&quot;, THREE_HOURS);</span><br><span class="line">    //THREE_HOURS = 100;    //不可以被修改 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3><span id="常量的特点">常量的特点</span></h3><ul>
-<li>不可变: 常量的值一旦声明，永远不会改变。</li>
-<li>全局可用: 常量可以声明在函数外部，在整个程序范围内使用。</li>
-<li>编译时计算: 常量的值必须在编译时确定，不能在运行时计算。</li>
-<li>存储在程序的二进制文件: 常量通常被内嵌到代码中，因此访问速度非常快。</li>
-</ul>
-<h3><span id="常量的使用场景">常量的使用场景</span></h3><ul>
-<li>定义不会改变的值，如数学常量PI，物理常数等。</li>
-<li>配置项或限制条件，如最大连接数、缓存大小。</li>
-</ul>
-<h2><span id="静态变量">静态变量</span></h2><h3><span id="静态变量的声明">静态变量的声明</span></h3><ul>
-<li>使用static关键字声明静态变量。</li>
-<li>必须显示标注类型。</li>
-<li>静态变量在程序的整个生命周期内存在。</li>
-<li>可声明为不可变或可变(用static)，但可变的静态变量需要借助不安全代码块进行访问。</li>
-</ul>
-<h4><span id="不可变静态变量">不可变静态变量</span></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">static GREETING: &amp;str = &quot;Hello, Rust!&quot;;</span><br><span class="line"></span><br><span class="line">fn main() &#123;</span><br><span class="line">    println!(&quot;&#123;&#125;&quot;, GREETING);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2><span id="浮点型">浮点型</span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fn print_show_f() &#123;</span><br><span class="line">    let f = 2.0;</span><br><span class="line">    let y : f32 = 3.0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4><span id="可变静态变量">可变静态变量</span></h4><ul>
-<li>使用static mut声明可变静态变量，但需要在访问它时使用不安全块(unsafe)，因为可变的全局变量可能引发数据竞争。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">static mut COUNTER: i32 = 0;</span><br><span class="line"></span><br><span class="line">fn increment_counter() &#123;</span><br><span class="line">    unsafe &#123;</span><br><span class="line">        COUNTER += 1;</span><br><span class="line">        println!(&quot;计数器的值: &#123;&#125;&quot;, COUNTER);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn main() &#123;</span><br><span class="line">    increment_counter();</span><br><span class="line">    increment_counter();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3><span id="静态变量的特点">静态变量的特点</span></h3><ul>
-<li>生命周期: 静态变量在程序的整个生命周期内一直存在。</li>
-<li>初始化: 静态变量的初始化必须在编译时完成(类似于常量)。</li>
-<li>线程安全:<ul>
-<li>不可变的静态变量是线程安全的，因为它们不会被修改。</li>
-<li>可变的静态变量需要使用unsafe访问，且需要确保没有数据竞争(可以使用原子类型或同步机制来避免问题)。</li>
-</ul>
-</li>
-</ul>
-<h3><span id="使用原子类型提高线程安全性">使用原子类型提高线程安全性</span></h3><ul>
-<li>当我们需要在多线程环境中使用可变的静态变量时，可以使用原子类型(如<code>AtomicUsize</code>)来避免数据竞争。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">use std::sync::atomic::&#123;AtomicUsize, Ordering&#125;;</span><br><span class="line">//使用AtomicUsize来保证变量的原子性</span><br><span class="line">static COUNTER: AtomicUsize = AtomicUsize:new(0);</span><br><span class="line"></span><br><span class="line">fn increment_counter() &#123;</span><br><span class="line">    //对COUNTER加一，使用Ordering::SeqCst来保证所有线程对所有原子操作的顺序一致</span><br><span class="line">    COUNTER.fetch_add(1, Ordering::SeqCst);</span><br><span class="line">    println!(&quot;计数器的值: &#123;&#125;&quot;, COUNTER.load(Ordering:SeqCst));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn main() &#123;</span><br><span class="line">    //模拟可能会发生数据竞争</span><br><span class="line">    //正常是多线程，即使没有用AtomicUszie，这里也不会发生条件竞争</span><br><span class="line">    increment_counter();</span><br><span class="line">    increment_counter();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2><span id="rust中的作用域和遮蔽概念">Rust中的作用域和遮蔽概念</span></h2><h3><span id="作用域">作用域</span></h3><ul>
-<li>在Rust中，作用域通常由大括号<code>&#123;&#125;</code>定义，变量在其声明的作用域内是可用的，而在其作用域之外则不可用。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">    fn main() &#123;</span><br><span class="line">    let x = 5; // x 在这里开始作用</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        let y = 10; // y 在这个块中有效</span><br><span class="line">        println!(&quot;x: &#123;&#125;, y: &#123;&#125;&quot;, x, y); // 可以访问 x 和 y</span><br><span class="line">    &#125; // y 的作用域结束</span><br><span class="line"></span><br><span class="line">    // println!(&quot;y: &#123;&#125;&quot;, y); // 这里会报错，因为 y 不再有效</span><br><span class="line">    println!(&quot;x: &#123;&#125;&quot;, x); // 可以访问 x</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2><span id="遮蔽">遮蔽</span></h2><ul>
-<li>遮蔽是指在同一作用域内定义一个与之前变量同名的变量，新的变量将会遮蔽之前的变量，直到新的变量作用域结束。</li>
-<li>遮蔽特性:<ul>
-<li>同名变量: 在同一作用域内，可以使用相同的名称来定义新变量，这将会遮蔽之前的变量。</li>
-<li>类型变更: 遮蔽允许改变同一名称变量的类型。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">fn binding() &#123;</span><br><span class="line">    let long_lived_binding: i32 = 1;</span><br><span class="line">    &#123;</span><br><span class="line">        let short_lived_binding :i32 = 2;</span><br><span class="line">        println!(&quot;short lived binding: &#123;&#125;&quot;, short_lived_binding);</span><br><span class="line"></span><br><span class="line">        //遮蔽</span><br><span class="line">        let short_lived_binding = 5_f32;</span><br><span class="line">        println!(&quot;short lived binding: &#123;&#125;&quot;, short_lived_binding);</span><br><span class="line">    &#125;</span><br><span class="line">    //遮蔽</span><br><span class="line">    let long_lived_binding = 2_f32;</span><br><span class="line">    println!(&quot;long lived binging: &#123;&#125;&quot;, long_lived_binding);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-</ul>
-<h2><span id="拓展">拓展</span></h2><h3><span id="atomicusize是如何解决数据竞争问题的">AtomicUsize是如何解决数据竞争问题的？</span></h3><ul>
-<li><p>定义:</p>
-<ul>
-<li>AtomicUsize是Rust标准库中用于实现原子操作的一个类型，位于<code>std::sync::atomic</code>模块下，它主要用于在多线程环境中使用无锁的机制来安全的访问和修改无符号整数。</li>
-</ul>
-</li>
-<li><p>解决数据竞争的实现:</p>
-<ul>
-<li>原子性: AtomicUsize底层实现是有cpu的原子操作指令实现的，原子操作是指在执行期间不会被中断的操作。这意味着，无论有多少个线程同时访问同一个AtomicUsize实例，他们的读写操作都是安全的，不会导致数据竞争。</li>
-</ul>
-</li>
-<li><p>接下来，我们使用一个示例来解释:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">use std::sync::atomic::&#123;AtomicUsize, Ordering&#125;;</span><br><span class="line">use std::thread;</span><br><span class="line"></span><br><span class="line">static COUNTER: AtomicUsize = AtomicUsize::new(0);</span><br><span class="line"></span><br><span class="line">fn main() &#123;</span><br><span class="line">    let handles: Vec&lt;_&gt; = (0..10).map(|_| &#123;</span><br><span class="line">        thread::spawn(|| &#123;</span><br><span class="line">            for _ in 0..10 &#123;</span><br><span class="line">                // 原子地增加计数器的值</span><br><span class="line">                COUNTER.fetch_add(1, Ordering::SeqCst);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;).collect();</span><br><span class="line"></span><br><span class="line">    for handle in handles &#123;</span><br><span class="line">        handle.join().unwrap();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    println!(&quot;计数器的值: &#123;&#125;&quot;, COUNTER.load(Ordering::SeqCst));</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在x86-64架构中，fetch_add的部分底层实现可能如下:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; 将COUNTER的地址存储在某个寄存器中</span><br><span class="line">movq $COUNTER, %rdi </span><br><span class="line">movq $1, %rsi  ; 将1存储在寄存器中</span><br><span class="line">lock; addq %rsi, (%rdi) ; 执行原子加法</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-<li><p>上述实现中，能够确保数据竞争不会出现的关键所在就是lock指令，当cpu执行到<code>lock; addq %rsi, (%rdi) </code>这条指令时，就表示在这条指令执行到过程中，其他处理器将无法访问该内存地址，确保操作是原子性的。这保证了同一时间，只可能有一个线程能够对此静态变量进行访问。</p>
-</li>
-<li><p>当然，Rust还有其他类型的原子类型，此次只是恰巧用到了AtomicUsize，才浅研究了一下。</p>
-</li>
-</ul>
-<h2><span id="总结">总结</span></h2><ul>
-<li>此次学习了解了Rust可变量、不可变量、常量、静态变量以及Rust作用域、遮蔽等概念，还学习到了AtomicUsize防止数据竞争的关键所在。</li>
-</ul>
+<h2><span id></span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fn nan() &#123;</span><br><span class="line">    println!(&quot;\n***** nan(): *****&quot;);</span><br><span class="line">    //会返回NaN，负数开平方根会报NaN</span><br><span class="line">    let y = (-1.1_f64).sqrt();</span><br><span class="line">    // println!(&quot;y: &#123;&#125;&quot;, y);</span><br><span class="line">    if y.is_nan() &#123;</span><br><span class="line">        println!(&quot;y is nan&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h2><span id="字符">字符</span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fn char_show() &#123;</span><br><span class="line">    println!(&quot;\n***** char_show(): *****&quot;);</span><br><span class="line"></span><br><span class="line">    let x = &#x27;中&#x27;;</span><br><span class="line">    let y = &#x27;⏰&#x27;;</span><br><span class="line"></span><br><span class="line">    println!(&quot;x: &#123;&#125;, y: &#123;&#125;&quot;, x, y);</span><br><span class="line">    println!(&quot;字符占用大小&#123;&#125;&quot;, std::mem::size_of_val(&amp;x));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="序列">序列</span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fn sequence() &#123;</span><br><span class="line">    println!(&quot;\n***** sequence(): *****&quot;);</span><br><span class="line">    for i in  1..5 &#123;</span><br><span class="line">        println!(&quot;i: &#123;&#125;&quot;, i);</span><br><span class="line">    &#125;</span><br><span class="line">    for j in &#x27;a&#x27;..=&#x27;z&#x27; &#123;</span><br><span class="line">        println!(&quot;j:&#123;&#125;&quot;, j);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="强制类型转换">强制类型转换</span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fn convert() &#123;</span><br><span class="line">    println!(&quot;\n***** convert(): *****&quot;);</span><br><span class="line"></span><br><span class="line">    let i = 5;</span><br><span class="line">    let f = i as f32;</span><br><span class="line"></span><br><span class="line">    println!(&quot;i: &#123;&#125;&quot;, i);</span><br><span class="line">    println!(&quot;f: &#123;&#125;&quot;, f);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="练习题">练习题</span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 填空，并解决错误</span><br><span class="line">fn main() &#123;</span><br><span class="line">    // 整数加法</span><br><span class="line">    assert!(1u32 + 2 == 3);</span><br><span class="line"></span><br><span class="line">    // 整数减法</span><br><span class="line">    assert!(1i32 - 2 == -1);</span><br><span class="line">    //使用安全的减法，如果发生溢出返回0</span><br><span class="line">    assert!(1u8.checked_sub(2).unwrap_or(0) == 0);</span><br><span class="line">    </span><br><span class="line">    assert!(3 * 50 == 150);</span><br><span class="line"></span><br><span class="line">    assert!((9.6f64 / 3.2f64 - 3.0f64) &lt; 1e-10); </span><br><span class="line"></span><br><span class="line">    assert!(24 % 5 == 4);</span><br><span class="line">    </span><br><span class="line">    // 逻辑与或非操作</span><br><span class="line">    assert!(true &amp;&amp; false == false);</span><br><span class="line">    assert!(true || false == true);</span><br><span class="line">    assert!(!true == false);</span><br><span class="line"></span><br><span class="line">    // 位操作</span><br><span class="line">    println!(&quot;0011 AND 0101 is &#123;:04b&#125;&quot;, 0b0011u32 &amp; 0b0101);</span><br><span class="line">    println!(&quot;0011 OR 0101 is &#123;:04b&#125;&quot;, 0b0011u32 | 0b0101);</span><br><span class="line">    println!(&quot;0011 XOR 0101 is &#123;:04b&#125;&quot;, 0b0011u32 ^ 0b0101);</span><br><span class="line">    println!(&quot;1 &lt;&lt; 5 is &#123;&#125;&quot;, 1u32 &lt;&lt; 5);</span><br><span class="line">    println!(&quot;0x80 &gt;&gt; 2 is 0x&#123;:x&#125;&quot;, 0x80u32 &gt;&gt; 2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -489,7 +398,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -535,7 +444,7 @@
               
                 <a href="/archives%7C%7Carchive">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
