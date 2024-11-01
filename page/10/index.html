@@ -81,7 +81,7 @@
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/2024/10/index.html">
+<meta property="og:url" content="http://example.com/page/10/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="John Doe">
@@ -115,13 +115,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/archives/2024/10/"/>
+  <link rel="canonical" href="http://example.com/page/10/"/>
 
 
 
 
 
-  <title>Archive | Hexo</title>
+  <title>Hexo</title>
   
 
 
@@ -140,7 +140,8 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -243,370 +244,251 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
 
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      <span class="archive-page-counter">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/21/rust_firstday/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/10/21/rust_firstday/" itemprop="url">环境搭建</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-21T00:00:00+08:00">
+                2024-10-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
           
-        
-        Um..! 10 posts in total. Keep on posting.
-      </span>
+            <h1 style="text-align: center"><span id="环境搭建">环境搭建</span></h1>
+<h3><span id="目录">目录:</span></h3>
 
-      
+<!-- toc -->
 
-        
-        
-        
+<ul>
+<li><a href="#1-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85">1. 环境安装</a></li>
+<li><a href="#2-%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4">2. 常见命令</a></li>
+<li><a href="#3-cargo%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4">3. cargo常见命令</a></li>
+<li><a href="#4-%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AArust%E9%A1%B9%E7%9B%AE">4. 创建第一个rust项目</a></li>
+<li><a href="#5-%E4%BD%BF%E7%94%A8cargo%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8Crust%E9%A1%B9%E7%9B%AE">5. 使用cargo编译运行rust项目</a></li>
+<li><a href="#6-cargo%E9%85%8D%E7%BD%AEtoml%E6%BA%90">6. cargo配置toml源</a></li>
+</ul>
+<!-- tocstop -->
 
-        
+<h3><span id="1-环境安装">1. 环境安装</span></h3><p>Rust环境安装比较简单。在terminal输入:</p>
+<ul>
+<li><code>$curl --proto &#39;=https&#39; --tlsv1.2 https://sh.rustup.rs -sSf | sh</code></li>
+<li>这条命令用户安装Rust的管理工具rustup。</li>
+<li>安装成功会提示：<code>Rust is installed now. Greate!</code></li>
+</ul>
+<h3><span id="2-常见命令">2. 常见命令</span></h3><ul>
+<li>更新Rust:<ul>
+<li><code>rustup update</code></li>
+</ul>
+</li>
+<li>查看已经按咋混改的工具链:<ul>
+<li><code>rustup toolchain list</code></li>
+</ul>
+</li>
+<li>安装特定版本的工具链:<ul>
+<li>rustup toolchain install nightly # 安装nightly版本<br>  rustup toolchain install 1.58.0  # 安装指定版本</li>
+</ul>
+</li>
+<li>切换到特定工具链:<ul>
+<li>rustup default nightly # 设置默认nightly版本<br>  rustup default 1.58.0  # 设置默认特定版本</li>
+</ul>
+</li>
+<li>查看已经安装的组件:<ul>
+<li>rustup component list –installed</li>
+</ul>
+</li>
+<li>安装Rust组件:<ul>
+<li>rustup component add rustfmt<br>  rustup component add clippy</li>
+</ul>
+</li>
+<li>卸载Rust组件:<ul>
+<li>rustup component remove rustfmt</li>
+</ul>
+</li>
+<li>创建新项目:<ul>
+<li>cargo new xxx</li>
+</ul>
+</li>
+<li>构建项目:<ul>
+<li>cd xxx<br>  cargo build</li>
+</ul>
+</li>
+<li>运行项目<ul>
+<li>cargo run</li>
+</ul>
+</li>
+<li>运行测试：<ul>
+<li>cargo test</li>
+</ul>
+</li>
+<li>发布项目<ul>
+<li>cargo publish</li>
+</ul>
+</li>
+</ul>
+<h3><span id="3-cargo常见命令">3. cargo常见命令</span></h3><ul>
+<li>更新依赖项<ul>
+<li>cargo update</li>
+</ul>
+</li>
+<li>检查项目：<ul>
+<li>cargo check</li>
+</ul>
+</li>
+<li>生成文档：<ul>
+<li>cargo doc –open # 生成并打开文档</li>
+</ul>
+</li>
+</ul>
+<h3><span id="4-创建第一个rust项目">4. 创建第一个rust项目</span></h3><ul>
+<li><p>cargo new hello_cargo<br>  cd hello_cargo</p>
+</li>
+<li><p>下边是项目目录<br><img src="/../images/project.jpg"></p>
+<ul>
+<li><p>src目录用于存放rust源码文件。rust项目的代码都存放在这里。<br>  <img src="/../images/main.jpg"></p>
+</li>
+<li><p>target目录: cargo编译代码时生成的文件都会存放在此目录中，其中包含中间文件、可执行文件等。<br>  <img src="/../images/target.jpg"></p>
+</li>
+<li><p>Cargo.toml文件: 此文件是项目的配置文件，管理项目等元数据、依赖和编译选项。<br>  <img src="/../images/toml.jpg"></p>
+<ul>
+<li>pakage: 定义包的基本信息，如名称、版本和Rust版本</li>
+<li>dependencies: 累出所需的依赖包及其版本，cargo会根据这些配置自动下载依赖项。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3><span id="5-使用cargo编译运行rust项目">5. 使用cargo编译运行rust项目</span></h3><ul>
+<li><code>cargo run: </code> 此命令会在target&#x2F;debug目录下生成可执行文件<br>  <img src="/../images/run.jpg"></li>
+<li><code>cargo run/build --debug/--release</code>: <ul>
+<li><code>debug</code>模式: debug为默认模式, 生成的文件会包含调试信息，便于调试和错误追踪，使用debug进行编译未进行优化，编译速度快，但是运行速度慢。 生成的文件位于target&#x2F;debug下。<br>  <img src="/../images/debug.jpg"><br>  <strong>默认使用debug模式，所以会报错，不需要加–debug</strong></li>
+<li><code>release</code>模式: release模式会启用编译起优化, 生成更小且更快的可执行文件，因为编译过程中编译起对其进行了优化，所以编译速度比较慢。生成的文件位于targer&#x2F;release下。<br>  <img src="/../images/release.jpg"></li>
+</ul>
+</li>
+</ul>
+<h3><span id="6-cargo配置toml源">6. cargo配置toml源</span></h3><ul>
+<li>文件位于 ~&#x2F;.cargo&#x2F;config.toml<br><img src="/../images/cargoconfig.jpg"><ul>
+<li></li>
+<li>[source.ustc]: 指定USTC的镜像地址，其中sparse+的意思表示使用Sparse Protocol是crates.io推出的协议。</li>
+</ul>
+</li>
+</ul>
+
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2024">2024</h1>
-          </div>
         
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2024/10/31/rust_basic08/" itemprop="url">
-              
-                <span itemprop="name">Rust结构体</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2024-10-31T00:00:00+08:00"
-              content="2024-10-31" >
-          10-31
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2024/10/30/rust_basic06/" itemprop="url">
-              
-                <span itemprop="name">Rust字符串</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2024-10-30T00:00:00+08:00"
-              content="2024-10-30" >
-          10-30
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2024/10/30/rust_basic07/" itemprop="url">
-              
-                <span itemprop="name">Rust枚举</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2024-10-30T00:00:00+08:00"
-              content="2024-10-30" >
-          10-30
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2024/10/29/rust_basic05/" itemprop="url">
-              
-                <span itemprop="name">Rust数组与切片</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2024-10-29T00:00:00+08:00"
-              content="2024-10-29" >
-          10-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2024/10/24/rust_basic02/" itemprop="url">
-              
-                <span itemprop="name">Rust流程控制</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2024-10-24T00:00:00+08:00"
-              content="2024-10-24" >
-          10-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2024/10/24/rust_basic04/" itemprop="url">
-              
-                <span itemprop="name">Rust所有权</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2024-10-24T00:00:00+08:00"
-              content="2024-10-24" >
-          10-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2024/10/24/rust_basic03/" itemprop="url">
-              
-                <span itemprop="name">Rust基础类型</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2024-10-24T00:00:00+08:00"
-              content="2024-10-24" >
-          10-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2024/10/23/rust_basic01/" itemprop="url">
-              
-                <span itemprop="name">Rust基础</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2024-10-23T00:00:00+08:00"
-              content="2024-10-23" >
-          10-23
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2024/10/21/rust_firstday/" itemprop="url">
-              
-                <span itemprop="name">环境搭建</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2024-10-21T00:00:00+08:00"
-              content="2024-10-21" >
-          10-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
   </div>
   
   
   
+  </article>
+
+
+    
+  </section>
 
   
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span>
+  </nav>
 
 
 
