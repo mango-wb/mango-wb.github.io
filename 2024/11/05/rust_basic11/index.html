@@ -79,11 +79,15 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+<meta name="description" content="Rust返回值与错误处理  目录     Option Option常用函数 unwrap、get、unwrap_or   Result 返回Result类型 处理文件操作相关错误 课后练习      OptionOption常用函数 unwrap、get、unwrap_or12345678910111213141516171819202122fn option_func() &#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust返回值与错误处理">
+<meta property="og:url" content="http://example.com/2024/11/05/rust_basic11/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Rust返回值与错误处理  目录     Option Option常用函数 unwrap、get、unwrap_or   Result 返回Result类型 处理文件操作相关错误 课后练习      OptionOption常用函数 unwrap、get、unwrap_or12345678910111213141516171819202122fn option_func() &#123;">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-11-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-11-05T03:16:13.580Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/"/>
+  <link rel="canonical" href="http://example.com/2024/11/05/rust_basic11/"/>
 
 
 
 
 
-  <title>Hexo</title>
+  <title>Rust返回值与错误处理 | Hexo</title>
   
 
 
@@ -140,8 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -244,9 +247,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -276,9 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/11/05/rust_basic11/" itemprop="url">Rust返回值与错误处理</a></h1>
+          <h1 class="post-title" itemprop="name headline">Rust返回值与错误处理</h1>
         
 
         <div class="post-meta">
@@ -328,9 +329,7 @@
       
 
       
-        
-          
-            <h1 style="align-text: center"><span id="rust返回值与错误处理">Rust返回值与错误处理</span></h1>
+        <h1 style="align-text: center"><span id="rust返回值与错误处理">Rust返回值与错误处理</span></h1>
 
 <h3><span id="目录">目录</span></h3>
 
@@ -357,8 +356,6 @@
 <h3><span id="处理文件操作相关错误">处理文件操作相关错误</span></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">fn res_file() &#123;</span><br><span class="line">    let f = File::open(&quot;hello.txt&quot;);</span><br><span class="line">    let f = match f &#123;</span><br><span class="line">        Ok(file) =&gt; file,</span><br><span class="line">        Err(error) =&gt; match error.kind() &#123;</span><br><span class="line">            ErrorKind::NotFound =&gt; match File::create(&quot;hello.txt&quot;) &#123;</span><br><span class="line">                Ok(fc) =&gt; fc,</span><br><span class="line">                Err(err) =&gt; panic!(&quot;createing file failed: &#123;&#125;&quot;, err),</span><br><span class="line">            &#125;,</span><br><span class="line">            other_err =&gt; panic!(&quot;opening file failed: &#123;&#125;&quot;, other_err),</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3><span id="课后练习">课后练习</span></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">fn call(a: i32, b: i32) -&gt;Result&lt;f64, String&gt; &#123;</span><br><span class="line">    let value = match _divide(a, b) &#123;</span><br><span class="line">        Some(val) =&gt; val,</span><br><span class="line">        None =&gt; return Err(&quot;Division by zero&quot;.to_string()),</span><br><span class="line">    &#125;;</span><br><span class="line">    _sqrt(value).map_err(|e|e.to_string())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn _divide(a: i32, b: i32) -&gt; Option&lt;f64&gt; &#123;</span><br><span class="line">    if b != 0 &#123;</span><br><span class="line">        Some(a as f64 / b as f64)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        None</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#[derive(Debug)]</span><br><span class="line">pub enum MathError &#123;</span><br><span class="line">    DivideByZero,</span><br><span class="line">    NegativeSquareRoot,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">impl std::fmt::Display for MathError &#123;</span><br><span class="line">    fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;&#x27;_&gt;) -&gt; std::fmt::Result &#123;</span><br><span class="line">        match self &#123;</span><br><span class="line">            MathError::DivideByZero =&gt; write!(f, &quot;Division by zero&quot;),</span><br><span class="line">            MathError::NegativeSquareRoot =&gt; write!(f, &quot;Negative square root&quot;),</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn _sqrt(x: f64) -&gt; Result&lt;f64, MathError&gt; &#123;</span><br><span class="line">    if x &lt; 0.0 &#123;</span><br><span class="line">        Err(MathError::NegativeSquareRoot)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        Ok(x.sqrt())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
       
     </div>
     
@@ -375,12 +372,28 @@
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/11/04/rust_basic10/" rel="next" title="Rust常见集合">
+                <i class="fa fa-chevron-left"></i> Rust常见集合
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -390,14 +403,11 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -405,6 +415,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -425,8 +439,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -468,6 +491,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Rust返回值与错误处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.1.</span> <span class="nav-text">目录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text">Option</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.1.</span> <span class="nav-text">Option常用函数 unwrap、get、unwrap_or</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.2.</span> <span class="nav-text">Result</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.2.1.</span> <span class="nav-text">返回Result类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.2.2.</span> <span class="nav-text">处理文件操作相关错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.2.3.</span> <span class="nav-text">课后练习</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -601,6 +640,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
