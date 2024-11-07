@@ -79,26 +79,17 @@
 
 
 
-<meta name="description" content="环境搭建 目录:     1. 环境安装 2. 常见命令 3. cargo常见命令 4. 创建第一个rust项目 5. 使用cargo编译运行rust项目 6. cargo配置toml源    1. 环境安装Rust环境安装比较简单。在terminal输入:  $curl --proto &#39;&#x3D;https&#39; --tlsv1.2 https:&#x2F;&#x2F;sh.rustup.rs -sSf |">
+<meta name="description" content="Rust生命周期  目录     生命周期的基本概念 生命周期标注的基本用法 函数中的生命周期标注 结构体中的生命周期   生命周期省略规则 练习    生命周期的基本概念 Rust的生命周期是一种编译时检查机制，用来保证引用的有效性，防止悬垂指针等内存安全问题。Rust使用生命周期标注来追踪引用的生存时间，从而确保在访问引用时它们指向的数据是有效的。  生命周期标注的基本用法函数中的生命周期标注">
 <meta property="og:type" content="article">
-<meta property="og:title" content="环境搭建">
-<meta property="og:url" content="http://example.com/2024/10/21/rust_firstday/index.html">
+<meta property="og:title" content="Rust生命周期">
+<meta property="og:url" content="http://example.com/2024/11/07/rust_advanced02/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="环境搭建 目录:     1. 环境安装 2. 常见命令 3. cargo常见命令 4. 创建第一个rust项目 5. 使用cargo编译运行rust项目 6. cargo配置toml源    1. 环境安装Rust环境安装比较简单。在terminal输入:  $curl --proto &#39;&#x3D;https&#39; --tlsv1.2 https:&#x2F;&#x2F;sh.rustup.rs -sSf |">
+<meta property="og:description" content="Rust生命周期  目录     生命周期的基本概念 生命周期标注的基本用法 函数中的生命周期标注 结构体中的生命周期   生命周期省略规则 练习    生命周期的基本概念 Rust的生命周期是一种编译时检查机制，用来保证引用的有效性，防止悬垂指针等内存安全问题。Rust使用生命周期标注来追踪引用的生存时间，从而确保在访问引用时它们指向的数据是有效的。  生命周期标注的基本用法函数中的生命周期标注">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/images/project.jpg">
-<meta property="og:image" content="http://example.com/images/main.jpg">
-<meta property="og:image" content="http://example.com/images/target.jpg">
-<meta property="og:image" content="http://example.com/images/toml.jpg">
-<meta property="og:image" content="http://example.com/images/run.jpg">
-<meta property="og:image" content="http://example.com/images/debug.jpg">
-<meta property="og:image" content="http://example.com/images/release.jpg">
-<meta property="og:image" content="http://example.com/images/cargoconfig.jpg">
-<meta property="article:published_time" content="2024-10-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-10-23T04:27:11.000Z">
+<meta property="article:published_time" content="2024-11-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-11-07T02:44:58.939Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/project.jpg">
 
 
 
@@ -128,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/2024/10/21/rust_firstday/"/>
+  <link rel="canonical" href="http://example.com/2024/11/07/rust_advanced02/"/>
 
 
 
 
 
-  <title>环境搭建 | Hexo</title>
+  <title>Rust生命周期 | Hexo</title>
   
 
 
@@ -271,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/21/rust_firstday/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/07/rust_advanced02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -288,7 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">环境搭建</h1>
+          <h1 class="post-title" itemprop="name headline">Rust生命周期</h1>
         
 
         <div class="post-meta">
@@ -300,8 +291,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-21T00:00:00+08:00">
-                2024-10-21
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-11-07T00:00:00+08:00">
+                2024-11-07
               </time>
             
 
@@ -338,123 +329,50 @@
       
 
       
-        <h1 style="text-align: center"><span id="环境搭建">环境搭建</span></h1>
-<h3><span id="目录">目录:</span></h3>
+        <h1 style="align-text: center"><span id="rust生命周期">Rust生命周期</span></h1>
+
+<h3><span id="目录">目录</span></h3>
 
 <!-- toc -->
 
 <ul>
-<li><a href="#1-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85">1. 环境安装</a></li>
-<li><a href="#2-%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4">2. 常见命令</a></li>
-<li><a href="#3-cargo%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4">3. cargo常见命令</a></li>
-<li><a href="#4-%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AArust%E9%A1%B9%E7%9B%AE">4. 创建第一个rust项目</a></li>
-<li><a href="#5-%E4%BD%BF%E7%94%A8cargo%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8Crust%E9%A1%B9%E7%9B%AE">5. 使用cargo编译运行rust项目</a></li>
-<li><a href="#6-cargo%E9%85%8D%E7%BD%AEtoml%E6%BA%90">6. cargo配置toml源</a></li>
+<li><a href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5">生命周期的基本概念</a></li>
+<li><a href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A0%87%E6%B3%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95">生命周期标注的基本用法</a><ul>
+<li><a href="#%E5%87%BD%E6%95%B0%E4%B8%AD%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A0%87%E6%B3%A8">函数中的生命周期标注</a></li>
+<li><a href="#%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F">结构体中的生命周期</a></li>
+</ul>
+</li>
+<li><a href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9C%81%E7%95%A5%E8%A7%84%E5%88%99">生命周期省略规则</a></li>
+<li><a href="#%E7%BB%83%E4%B9%A0">练习</a></li>
 </ul>
 <!-- tocstop -->
 
-<h3><span id="1-环境安装">1. 环境安装</span></h3><p>Rust环境安装比较简单。在terminal输入:</p>
-<ul>
-<li><code>$curl --proto &#39;=https&#39; --tlsv1.2 https://sh.rustup.rs -sSf | sh</code></li>
-<li>这条命令用户安装Rust的管理工具rustup。</li>
-<li>安装成功会提示：<code>Rust is installed now. Greate!</code></li>
+<h2><span id="生命周期的基本概念">生命周期的基本概念</span></h2><ul>
+<li>Rust的生命周期是一种编译时检查机制，用来保证引用的有效性，防止悬垂指针等内存安全问题。Rust使用生命周期标注来追踪引用的生存时间，从而确保在访问引用时它们指向的数据是有效的。</li>
 </ul>
-<h3><span id="2-常见命令">2. 常见命令</span></h3><ul>
-<li>更新Rust:<ul>
-<li><code>rustup update</code></li>
-</ul>
-</li>
-<li>查看已经按咋混改的工具链:<ul>
-<li><code>rustup toolchain list</code></li>
-</ul>
-</li>
-<li>安装特定版本的工具链:<ul>
-<li>rustup toolchain install nightly # 安装nightly版本<br>  rustup toolchain install 1.58.0  # 安装指定版本</li>
-</ul>
-</li>
-<li>切换到特定工具链:<ul>
-<li>rustup default nightly # 设置默认nightly版本<br>  rustup default 1.58.0  # 设置默认特定版本</li>
-</ul>
-</li>
-<li>查看已经安装的组件:<ul>
-<li>rustup component list –installed</li>
-</ul>
-</li>
-<li>安装Rust组件:<ul>
-<li>rustup component add rustfmt<br>  rustup component add clippy</li>
-</ul>
-</li>
-<li>卸载Rust组件:<ul>
-<li>rustup component remove rustfmt</li>
-</ul>
-</li>
-<li>创建新项目:<ul>
-<li>cargo new xxx</li>
-</ul>
-</li>
-<li>构建项目:<ul>
-<li>cd xxx<br>  cargo build</li>
-</ul>
-</li>
-<li>运行项目<ul>
-<li>cargo run</li>
-</ul>
-</li>
-<li>运行测试：<ul>
-<li>cargo test</li>
-</ul>
-</li>
-<li>发布项目<ul>
-<li>cargo publish</li>
+<h2><span id="生命周期标注的基本用法">生命周期标注的基本用法</span></h2><h3><span id="函数中的生命周期标注">函数中的生命周期标注</span></h3><ul>
+<li>如果一个函数接受多个引用作为参数并返回一个引用，Rust需要知道返回的引用与哪个参数生命周期关联。<ul>
+<li>下边longest函数中, ‘a标记了输入和返回值的生命周期, 表示返回的引用至少和x和y中生命周期较短的哪个相同。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fn longest&lt;&#x27;a&gt;(x: &amp;&#x27;a str, y: &amp;&#x27;a str) -&gt; &amp;&#x27;a str &#123;</span><br><span class="line">    if x.len() &gt; y.len &#123;</span><br><span class="line">        x</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 </ul>
-<h3><span id="3-cargo常见命令">3. cargo常见命令</span></h3><ul>
-<li>更新依赖项<ul>
-<li>cargo update</li>
-</ul>
-</li>
-<li>检查项目：<ul>
-<li>cargo check</li>
-</ul>
-</li>
-<li>生成文档：<ul>
-<li>cargo doc –open # 生成并打开文档</li>
+<h3><span id="结构体中的生命周期">结构体中的生命周期</span></h3><ul>
+<li>当结构体包含引用时, 也需要使用生命周期标注<ul>
+<li>下边结构体ImportantExcept存在一个引用成员part, 它的生命周期由’a标注。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">struct ImportantExcept&lt;&#x27;a&gt; &#123;</span><br><span class="line">    part: &amp;&#x27;a str,</span><br><span class="line">&#125;</span><br><span class="line">impl&lt;&#x27;a&gt; ImportantExcept&lt;&#x27;a&gt; &#123;</span><br><span class="line">    fn level(&amp;self) -&gt; i32 &#123;</span><br><span class="line">        3</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 </ul>
-<h3><span id="4-创建第一个rust项目">4. 创建第一个rust项目</span></h3><ul>
-<li><p>cargo new hello_cargo<br>  cd hello_cargo</p>
-</li>
-<li><p>下边是项目目录<br><img src="/../images/project.jpg"></p>
-<ul>
-<li><p>src目录用于存放rust源码文件。rust项目的代码都存放在这里。<br>  <img src="/../images/main.jpg"></p>
-</li>
-<li><p>target目录: cargo编译代码时生成的文件都会存放在此目录中，其中包含中间文件、可执行文件等。<br>  <img src="/../images/target.jpg"></p>
-</li>
-<li><p>Cargo.toml文件: 此文件是项目的配置文件，管理项目等元数据、依赖和编译选项。<br>  <img src="/../images/toml.jpg"></p>
-<ul>
-<li>pakage: 定义包的基本信息，如名称、版本和Rust版本</li>
-<li>dependencies: 累出所需的依赖包及其版本，cargo会根据这些配置自动下载依赖项。</li>
+<h2><span id="生命周期省略规则">生命周期省略规则</span></h2><ul>
+<li>Rust引入了生命周期省略规则,让编译器能推断一些生命周期, 而不需要手动标注。常见的省略规则包括:<ul>
+<li>每一个引用参数都有它独立的生命周期</li>
+<li>如果只有一个引用参数, 那么返回值的生命周期等于该参数的生命周期</li>
+<li>如果有多个引用红参数且其中一个是&amp;self或&amp;mut self, 返回值的生命周期等于self的生命周期</li>
 </ul>
 </li>
+<li>例如: 下边例子中, 由于只有一个引用参数&amp;str, 返回值的生命周期会自动与s相同, 无需显示标注。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fn first_word(s: &amp;str) -&gt; &amp;str &#123;</span><br><span class="line">    &amp;s[..]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
-</li>
-</ul>
-<h3><span id="5-使用cargo编译运行rust项目">5. 使用cargo编译运行rust项目</span></h3><ul>
-<li><code>cargo run: </code> 此命令会在target&#x2F;debug目录下生成可执行文件<br>  <img src="/../images/run.jpg"></li>
-<li><code>cargo run/build --debug/--release</code>: <ul>
-<li><code>debug</code>模式: debug为默认模式, 生成的文件会包含调试信息，便于调试和错误追踪，使用debug进行编译未进行优化，编译速度快，但是运行速度慢。 生成的文件位于target&#x2F;debug下。<br>  <img src="/../images/debug.jpg"><br>  <strong>默认使用debug模式，所以会报错，不需要加–debug</strong></li>
-<li><code>release</code>模式: release模式会启用编译起优化, 生成更小且更快的可执行文件，因为编译过程中编译起对其进行了优化，所以编译速度比较慢。生成的文件位于targer&#x2F;release下。<br>  <img src="/../images/release.jpg"></li>
-</ul>
-</li>
-</ul>
-<h3><span id="6-cargo配置toml源">6. cargo配置toml源</span></h3><ul>
-<li>文件位于 ~&#x2F;.cargo&#x2F;config.toml<br><img src="/../images/cargoconfig.jpg"><ul>
-<li></li>
-<li>[source.ustc]: 指定USTC的镜像地址，其中sparse+的意思表示使用Sparse Protocol是crates.io推出的协议。</li>
-</ul>
-</li>
+<h2><span id="练习">练习</span></h2><ul>
+<li>insert_value函数&lt;’a ‘b: ‘a&gt;标注的生命周期要求’b的生命周期至少包含’a的生命周期, 这样value才能确保被插入<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">fn _test_lifetime_mut() &#123;</span><br><span class="line">    fn insert_value&lt;&#x27;a, &#x27;b: &#x27;a&gt;(myvec: &amp;mut Vec&lt;&amp;&#x27;a i32&gt;, value: &amp;&#x27;b i32) &#123;</span><br><span class="line">        myvec.push(value);</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">        let x = 1;</span><br><span class="line">        let mut my_vec = vec![&amp;x];</span><br><span class="line">        let y = 2;</span><br><span class="line">        insert_value(&amp;mut my_vec, &amp;y);</span><br><span class="line">        println!(&quot;&#123;my_vec:?&#125;&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
 </ul>
 
       
@@ -480,15 +398,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2024/11/06/rust_advance01/" rel="next" title="Rust智能指针">
+                <i class="fa fa-chevron-left"></i> Rust智能指针
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2024/10/23/rust_basic01/" rel="prev" title="Rust基础">
-                Rust基础 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -602,7 +520,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.1.</span> <span class="nav-text">目录:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.2.</span> <span class="nav-text">1. 环境安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.3.</span> <span class="nav-text">2. 常见命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.4.</span> <span class="nav-text">3. cargo常见命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.5.</span> <span class="nav-text">4. 创建第一个rust项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.6.</span> <span class="nav-text">5. 使用cargo编译运行rust项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.7.</span> <span class="nav-text">6. cargo配置toml源</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Rust生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.1.</span> <span class="nav-text">目录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text">生命周期的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.2.</span> <span class="nav-text">生命周期标注的基本用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.2.1.</span> <span class="nav-text">函数中的生命周期标注</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.2.2.</span> <span class="nav-text">结构体中的生命周期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.3.</span> <span class="nav-text">生命周期省略规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.4.</span> <span class="nav-text">练习</span></a></li></ol></li></ol></div>
             
 
           </div>

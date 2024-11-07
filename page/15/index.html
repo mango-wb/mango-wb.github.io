@@ -79,26 +79,13 @@
 
 
 
-<meta name="description" content="环境搭建 目录:     1. 环境安装 2. 常见命令 3. cargo常见命令 4. 创建第一个rust项目 5. 使用cargo编译运行rust项目 6. cargo配置toml源    1. 环境安装Rust环境安装比较简单。在terminal输入:  $curl --proto &#39;&#x3D;https&#39; --tlsv1.2 https:&#x2F;&#x2F;sh.rustup.rs -sSf |">
-<meta property="og:type" content="article">
-<meta property="og:title" content="环境搭建">
-<meta property="og:url" content="http://example.com/2024/10/21/rust_firstday/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/15/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="环境搭建 目录:     1. 环境安装 2. 常见命令 3. cargo常见命令 4. 创建第一个rust项目 5. 使用cargo编译运行rust项目 6. cargo配置toml源    1. 环境安装Rust环境安装比较简单。在terminal输入:  $curl --proto &#39;&#x3D;https&#39; --tlsv1.2 https:&#x2F;&#x2F;sh.rustup.rs -sSf |">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/images/project.jpg">
-<meta property="og:image" content="http://example.com/images/main.jpg">
-<meta property="og:image" content="http://example.com/images/target.jpg">
-<meta property="og:image" content="http://example.com/images/toml.jpg">
-<meta property="og:image" content="http://example.com/images/run.jpg">
-<meta property="og:image" content="http://example.com/images/debug.jpg">
-<meta property="og:image" content="http://example.com/images/release.jpg">
-<meta property="og:image" content="http://example.com/images/cargoconfig.jpg">
-<meta property="article:published_time" content="2024-10-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-10-23T04:27:11.000Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/project.jpg">
 
 
 
@@ -128,13 +115,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/2024/10/21/rust_firstday/"/>
+  <link rel="canonical" href="http://example.com/page/15/"/>
 
 
 
 
 
-  <title>环境搭建 | Hexo</title>
+  <title>Hexo</title>
   
 
 
@@ -153,7 +140,8 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -256,9 +244,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -288,7 +276,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">环境搭建</h1>
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/10/21/rust_firstday/" itemprop="url">环境搭建</a></h1>
         
 
         <div class="post-meta">
@@ -338,7 +328,9 @@
       
 
       
-        <h1 style="text-align: center"><span id="环境搭建">环境搭建</span></h1>
+        
+          
+            <h1 style="text-align: center"><span id="环境搭建">环境搭建</span></h1>
 <h3><span id="目录">目录:</span></h3>
 
 <!-- toc -->
@@ -457,6 +449,8 @@
 </li>
 </ul>
 
+          
+        
       
     </div>
     
@@ -473,28 +467,12 @@
       
 
       
-      
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2024/10/23/rust_basic01/" rel="prev" title="Rust基础">
-                Rust基础 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -504,11 +482,14 @@
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span>
+  </nav>
+
 
 
           </div>
@@ -516,10 +497,6 @@
 
 
           
-
-  
-
-
 
         </div>
         
@@ -540,17 +517,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -592,22 +560,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.1.</span> <span class="nav-text">目录:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.2.</span> <span class="nav-text">1. 环境安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.3.</span> <span class="nav-text">2. 常见命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.4.</span> <span class="nav-text">3. cargo常见命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.5.</span> <span class="nav-text">4. 创建第一个rust项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.6.</span> <span class="nav-text">5. 使用cargo编译运行rust项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.7.</span> <span class="nav-text">6. cargo配置toml源</span></a></li></ol></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -741,10 +693,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 
