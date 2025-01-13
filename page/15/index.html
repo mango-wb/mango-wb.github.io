@@ -259,7 +259,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/21/rust_firstday/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/24/rust_basic04/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -278,7 +278,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2024/10/21/rust_firstday/" itemprop="url">环境搭建</a></h1>
+                <a class="post-title-link" href="/2024/10/24/rust_basic04/" itemprop="url">Rust所有权</a></h1>
         
 
         <div class="post-meta">
@@ -290,8 +290,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-21T00:00:00+08:00">
-                2024-10-21
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-24T00:00:00+08:00">
+                2024-10-24
               </time>
             
 
@@ -330,125 +330,48 @@
       
         
           
-            <h1 style="text-align: center"><span id="环境搭建">环境搭建</span></h1>
+            <h1 style="text-align: center"><span id="rust所有权">Rust所有权</span></h1>
+
 <h3><span id="目录">目录:</span></h3>
 
 <!-- toc -->
 
 <ul>
-<li><a href="#1-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85">1. 环境安装</a></li>
-<li><a href="#2-%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4">2. 常见命令</a></li>
-<li><a href="#3-cargo%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4">3. cargo常见命令</a></li>
-<li><a href="#4-%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AArust%E9%A1%B9%E7%9B%AE">4. 创建第一个rust项目</a></li>
-<li><a href="#5-%E4%BD%BF%E7%94%A8cargo%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8Crust%E9%A1%B9%E7%9B%AE">5. 使用cargo编译运行rust项目</a></li>
-<li><a href="#6-cargo%E9%85%8D%E7%BD%AEtoml%E6%BA%90">6. cargo配置toml源</a></li>
+<li><a href="#%E6%A6%82%E5%BF%B5">概念</a><ul>
+<li><a href="#%E6%89%80%E6%9C%89%E6%9D%83%E6%A6%82%E5%BF%B5">所有权概念</a></li>
+<li><a href="#%E5%BC%95%E7%94%A8%E5%92%8C%E5%80%9F%E7%94%A8">引用和借用</a></li>
+</ul>
+</li>
+<li><a href="#%E7%BB%83%E4%B9%A0%E9%A2%98">练习题</a></li>
+<li><a href="#%E8%AF%BE%E5%90%8E%E7%BB%83%E4%B9%A0">课后练习</a></li>
 </ul>
 <!-- tocstop -->
 
-<h3><span id="1-环境安装">1. 环境安装</span></h3><p>Rust环境安装比较简单。在terminal输入:</p>
-<ul>
-<li><code>$curl --proto &#39;=https&#39; --tlsv1.2 https://sh.rustup.rs -sSf | sh</code></li>
-<li>这条命令用户安装Rust的管理工具rustup。</li>
-<li>安装成功会提示：<code>Rust is installed now. Greate!</code></li>
+<h2><span id="概念">概念</span></h2><h3><span id="所有权概念">所有权概念</span></h3><ul>
+<li>每一个值都会有一个所有者，该所有者是唯一的。所有者的生命周期决定了该值的生命周期。</li>
+<li>当所有者离开作用域，值会被自动释放(drop)。</li>
 </ul>
-<h3><span id="2-常见命令">2. 常见命令</span></h3><ul>
-<li>更新Rust:<ul>
-<li><code>rustup update</code></li>
-</ul>
-</li>
-<li>查看已经按咋混改的工具链:<ul>
-<li><code>rustup toolchain list</code></li>
+<h3><span id="引用和借用">引用和借用</span></h3><ul>
+<li>引用: 引用是对某一个值的引用，用于在不获取其所有权的情况下对值进行访问。<ul>
+<li>可变引用: 允许您改数据，但在可变借用期间，不能有其他的不可变引用或可变引用。</li>
+<li>不可变引用: 允许读取数据，不允许修改数据。</li>
 </ul>
 </li>
-<li>安装特定版本的工具链:<ul>
-<li>rustup toolchain install nightly # 安装nightly版本<br>  rustup toolchain install 1.58.0  # 安装指定版本</li>
+<li>借用: 借用是指通过引用的方式获取对某个值的访问权限。借用可以是可变的或不可变的，具体取决于所使用的引用类型。<ul>
+<li>核心思想: 借用的核心思想是允许在不转移所有权的情况下使用值，确保数据的安全性和一致性。</li>
 </ul>
 </li>
-<li>切换到特定工具链:<ul>
-<li>rustup default nightly # 设置默认nightly版本<br>  rustup default 1.58.0  # 设置默认特定版本</li>
-</ul>
-</li>
-<li>查看已经安装的组件:<ul>
-<li>rustup component list –installed</li>
-</ul>
-</li>
-<li>安装Rust组件:<ul>
-<li>rustup component add rustfmt<br>  rustup component add clippy</li>
-</ul>
-</li>
-<li>卸载Rust组件:<ul>
-<li>rustup component remove rustfmt</li>
-</ul>
-</li>
-<li>创建新项目:<ul>
-<li>cargo new xxx</li>
-</ul>
-</li>
-<li>构建项目:<ul>
-<li>cd xxx<br>  cargo build</li>
-</ul>
-</li>
-<li>运行项目<ul>
-<li>cargo run</li>
-</ul>
-</li>
-<li>运行测试：<ul>
-<li>cargo test</li>
-</ul>
-</li>
-<li>发布项目<ul>
-<li>cargo publish</li>
+<li>区别: <ul>
+<li>引用是一种类型（&amp;T 或 &amp;mut T），表示对数据的访问。</li>
+<li>借用是一种行为，指的是使用引用来访问数据，而不是转移所有权。</li>
 </ul>
 </li>
 </ul>
-<h3><span id="3-cargo常见命令">3. cargo常见命令</span></h3><ul>
-<li>更新依赖项<ul>
-<li>cargo update</li>
+<h2><span id="练习题">练习题</span></h2><ul>
+<li>两种方法实现如下代码<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">fn main() &#123;</span><br><span class="line">    let s1 = String::from(&quot;hello&quot;);</span><br><span class="line">    let s2 = _take_ownership2(&amp;s1);</span><br><span class="line">    println!(&quot;s1: &#123;&#125;&quot;, s1);</span><br><span class="line">    println!(&quot;s2: &#123;&#125;&quot;, s2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn _take_ownership1(s : &amp;String) -&gt; String &#123;</span><br><span class="line">    s.clone()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn _take_ownership2(s : &amp;String) -&gt; &amp;String &#123;</span><br><span class="line">    s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>实现<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">use std::&#123;cell::RefCell, rc::Rc&#125;;</span><br><span class="line"></span><br><span class="line">fn main() &#123;</span><br><span class="line">    let s1 = String::from(&quot;Hello&quot;);</span><br><span class="line">    let s2 = _test_ownership(&amp;s1);</span><br><span class="line"></span><br><span class="line">    println!(&quot;The value of s1: &#123;&#125; Address is &#123;:p&#125;&quot;, s1, &amp;s1);</span><br><span class="line">    println!(&quot;The value of s2: &#123;&#125; Address is &#123;:p&#125;&quot;, s2, &amp;s2);</span><br><span class="line"></span><br><span class="line">    let s3 = String::from(&quot;World&quot;);</span><br><span class="line">    let s4 = _test_ownership1(&amp;s3);</span><br><span class="line"></span><br><span class="line">    println!(&quot;The value of s3: &#123;&#125; Address is &#123;:p&#125;&quot;, s3, &amp;s3);</span><br><span class="line">    println!(&quot;The value of s4: &#123;&#125; Address is &#123;:p&#125;&quot;, s4, &amp;s4);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    let s5 = &quot;hello&quot;.to_string();</span><br><span class="line">    let mut s6 = &amp;s1;</span><br><span class="line">    println!(&quot;The value of s5 &#123;&#125;&quot;, s5);</span><br><span class="line">    println!(&quot;The value of s6 &#123;&#125;&quot;, s6);</span><br><span class="line">    let temp = &quot;hi&quot;.to_string();</span><br><span class="line">    s6 = &amp;temp;</span><br><span class="line">    println!(&quot;The value of s6: &#123;&#125;&quot;, s6);</span><br><span class="line">    println!(&quot;The value of s5: &#123;&#125;&quot;, s5);</span><br><span class="line">    //创建一个Rc&lt;RefCell&lt;String&gt;&gt;</span><br><span class="line">    let s7 = Rc::new(RefCell::new(String::from(&quot;hello&quot;)));</span><br><span class="line">    let s8 = Rc::clone(&amp;s7);</span><br><span class="line"></span><br><span class="line">    //修改s7的值</span><br><span class="line">    s7.borrow_mut().push_str(&quot;world&quot;);</span><br><span class="line">    //此时s7 s8的值是一样的</span><br><span class="line">    println!(&quot;The value of s7 &#123;&#125;&quot;, s7.borrow());</span><br><span class="line">    println!(&quot;The value of s8 &#123;&#125;&quot;, s8.borrow());</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//相当于将s的引用传递进来，返回一个s的深拷贝，两个变量分别占用一份内存空间</span><br><span class="line">fn _test_ownership(s: &amp;String) -&gt; String&#123;</span><br><span class="line">    s.clone()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//相当于将s的引用传递进来 ，返回一个新的引用地址，存放的是s的堆字符串地址</span><br><span class="line">fn _test_ownership1(s: &amp;String) -&gt; &amp;String &#123;</span><br><span class="line">    s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#[test]</span><br><span class="line">fn test_slice() &#123;</span><br><span class="line">    let a = [1, 2, 3];</span><br><span class="line">    let b = &amp;a[..];</span><br><span class="line">    assert_eq!(&amp;a, &amp;b);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#[test]</span><br><span class="line">fn test_dangling_pointer() &#123;</span><br><span class="line">    // let a = get_a();</span><br><span class="line">    // fn get_a() -&gt; String &#123;</span><br><span class="line">    //      &amp;&quot;a&quot;.to_string()</span><br><span class="line">    // &#125;</span><br><span class="line"></span><br><span class="line">    let mut s = &quot;a&quot;.to_string();</span><br><span class="line">    let a = get_a(&amp;mut s);</span><br><span class="line">    fn get_a(s: &amp;mut String) -&gt; &amp;String&#123;</span><br><span class="line">        s.push_str(&quot;b&quot;);</span><br><span class="line">        s</span><br><span class="line">    &#125;</span><br><span class="line">    println!(&quot;a is &#123;&#125; addr is &#123;:p&#125;&quot;, a, &amp;a);</span><br><span class="line">    println!(&quot;s is &#123;&#125; addr is &#123;:p&#125;&quot;, s, &amp;s);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#[test]</span><br><span class="line">fn test_lifetime() &#123;</span><br><span class="line">    fn longest_str&lt;&#x27;a&gt;(a: &amp;&#x27;a String, b: &amp;&#x27;a String) -&gt; &amp;&#x27;a String &#123;</span><br><span class="line">        if a.len() &gt; b.len() &#123;</span><br><span class="line">            a</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            b</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    let a = &quot;a&quot;.to_owned();</span><br><span class="line">    let b = &quot;b&quot;.to_owned();</span><br><span class="line">    let c = longest_str(&amp;a, &amp;b);</span><br><span class="line">    println!(&quot;c is &#123;c&#125;&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
 </ul>
-</li>
-<li>检查项目：<ul>
-<li>cargo check</li>
-</ul>
-</li>
-<li>生成文档：<ul>
-<li>cargo doc –open # 生成并打开文档</li>
-</ul>
-</li>
-</ul>
-<h3><span id="4-创建第一个rust项目">4. 创建第一个rust项目</span></h3><ul>
-<li><p>cargo new hello_cargo<br>  cd hello_cargo</p>
-</li>
-<li><p>下边是项目目录<br><img src="/../images/project.jpg"></p>
-<ul>
-<li><p>src目录用于存放rust源码文件。rust项目的代码都存放在这里。<br>  <img src="/../images/main.jpg"></p>
-</li>
-<li><p>target目录: cargo编译代码时生成的文件都会存放在此目录中，其中包含中间文件、可执行文件等。<br>  <img src="/../images/target.jpg"></p>
-</li>
-<li><p>Cargo.toml文件: 此文件是项目的配置文件，管理项目等元数据、依赖和编译选项。<br>  <img src="/../images/toml.jpg"></p>
-<ul>
-<li>pakage: 定义包的基本信息，如名称、版本和Rust版本</li>
-<li>dependencies: 累出所需的依赖包及其版本，cargo会根据这些配置自动下载依赖项。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3><span id="5-使用cargo编译运行rust项目">5. 使用cargo编译运行rust项目</span></h3><ul>
-<li><code>cargo run: </code> 此命令会在target&#x2F;debug目录下生成可执行文件<br>  <img src="/../images/run.jpg"></li>
-<li><code>cargo run/build --debug/--release</code>: <ul>
-<li><code>debug</code>模式: debug为默认模式, 生成的文件会包含调试信息，便于调试和错误追踪，使用debug进行编译未进行优化，编译速度快，但是运行速度慢。 生成的文件位于target&#x2F;debug下。<br>  <img src="/../images/debug.jpg"><br>  <strong>默认使用debug模式，所以会报错，不需要加–debug</strong></li>
-<li><code>release</code>模式: release模式会启用编译起优化, 生成更小且更快的可执行文件，因为编译过程中编译起对其进行了优化，所以编译速度比较慢。生成的文件位于targer&#x2F;release下。<br>  <img src="/../images/release.jpg"></li>
-</ul>
-</li>
-</ul>
-<h3><span id="6-cargo配置toml源">6. cargo配置toml源</span></h3><ul>
-<li>文件位于 ~&#x2F;.cargo&#x2F;config.toml<br><img src="/../images/cargoconfig.jpg"><ul>
-<li></li>
-<li>[source.ustc]: 指定USTC的镜像地址，其中sparse+的意思表示使用Sparse Protocol是crates.io推出的协议。</li>
-</ul>
-</li>
-</ul>
-
+<h2><span id="课后练习">课后练习</span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">fn test_lifetime1() &#123;</span><br><span class="line">    let a = &quot;a&quot;.to_owned();</span><br><span class="line">    let b = &quot;b&quot;.to_owned();</span><br><span class="line">    let large = longest(&amp;a, &amp;b);</span><br><span class="line">    println!(&quot;large one is &#123;large&#125;&quot;);</span><br><span class="line"></span><br><span class="line">    //限制生命周期</span><br><span class="line">    fn longest&lt;&#x27;aa&gt;(x: &amp;&#x27;aa String, y: &amp;&#x27;aa String) -&gt; &amp;&#x27;aa String &#123;</span><br><span class="line">        if x.len() &gt; y.len() &#123;</span><br><span class="line">            x</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            y</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -487,7 +410,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span>
+    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -533,7 +456,7 @@
               
                 <a href="/archives%7C%7Carchive">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -574,7 +497,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
