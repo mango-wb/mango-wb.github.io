@@ -79,11 +79,15 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+<meta name="description" content="Solana基础  目录   Sol的8大核心概念 历史证明（Proof of History, POH） 技术原理: 全局可验证时钟: 将时间编码为可验证的数据结构(sha256) 事件排序: 每个交易自带时间戳哈希，共识底层无需重复验证时序   解决的问题: 传统区块链的节点时钟同步难题(如比特币的10分钟区块间隔) 降低共识机制的时间协调开销     Tower BFT共识 技术原理: PB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Solana基础">
+<meta property="og:url" content="http://example.com/2025/02/12/solana_basic01/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Solana基础  目录   Sol的8大核心概念 历史证明（Proof of History, POH） 技术原理: 全局可验证时钟: 将时间编码为可验证的数据结构(sha256) 事件排序: 每个交易自带时间戳哈希，共识底层无需重复验证时序   解决的问题: 传统区块链的节点时钟同步难题(如比特币的10分钟区块间隔) 降低共识机制的时间协调开销     Tower BFT共识 技术原理: PB">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-02-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-02-17T01:56:34.206Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/"/>
+  <link rel="canonical" href="http://example.com/2025/02/12/solana_basic01/"/>
 
 
 
 
 
-  <title>Hexo</title>
+  <title>Solana基础 | Hexo</title>
   
 
 
@@ -140,8 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -244,9 +247,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -276,9 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2025/02/12/solana_basic01/" itemprop="url">Solana基础</a></h1>
+          <h1 class="post-title" itemprop="name headline">Solana基础</h1>
         
 
         <div class="post-meta">
@@ -328,9 +329,7 @@
       
 
       
-        
-          
-            <h1 style="align-text: center"><span id="solana基础">Solana基础</span></h1>
+        <h1 style="align-text: center"><span id="solana基础">Solana基础</span></h1>
 
 <h3><span id="目录">目录</span></h3>
 <!--  toc -->
@@ -592,8 +591,6 @@
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::<span class="type">str</span>::FromStr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> solana_client::rpc_client::RpcClient;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::pubkey::Pubkey;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::signature::read_keypair_file;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::signer::Signer;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::system_instruction;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::transaction::Transaction;</span><br><span class="line"></span><br><span class="line"><span class="comment">//U8WQ6Uxu2ndzuJ4ejhYDFXTdH9dADbH2Ry4FnAmzkBH</span></span><br><span class="line"><span class="comment">//5U6mAsQCw3sKuVY1JneCnJCbdg8GKxECyYv5NowEhmE2</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 创建Solana链接</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rpc_url</span> = <span class="string">&quot;http://127.0.0.1:8899&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">client</span> = RpcClient::<span class="title function_ invoke__">new</span>(rpc_url);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指定想要查询余额的账户</span></span><br><span class="line">    <span class="comment">// 发送端</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">sender</span> = <span class="title function_ invoke__">read_keypair_file</span>(<span class="string">&quot;/Users/dongkun/.config/solana/local1.json&quot;</span>).<span class="title function_ invoke__">expect</span>(<span class="string">&quot;read pubkey failed&quot;</span>);</span><br><span class="line">    <span class="comment">// 接收端</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">recipient_pubkey</span> = Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;5U6mAsQCw3sKuVY1JneCnJCbdg8GKxECyYv5NowEhmE2&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 接收数量</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">amount</span> = <span class="number">1</span> * <span class="number">1_000_000_000</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建转账指令</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">transfer_instruction</span> = system_instruction::<span class="title function_ invoke__">transfer</span>(</span><br><span class="line">        &amp;sender.<span class="title function_ invoke__">pubkey</span>(),</span><br><span class="line">        &amp;recipient_pubkey, </span><br><span class="line">        amount);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 获取最后一个区块</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">recent_blockhash</span> = client.<span class="title function_ invoke__">get_latest_blockhash</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建交易</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">transaction</span> = Transaction::<span class="title function_ invoke__">new_signed_with_payer</span>(</span><br><span class="line">        &amp;[transfer_instruction],</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(&amp;sender.<span class="title function_ invoke__">pubkey</span>()),</span><br><span class="line">        &amp;[&amp;sender],</span><br><span class="line">        recent_blockhash);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span> = client.<span class="title function_ invoke__">send_and_confirm_transaction</span>(&amp;transaction);</span><br><span class="line">    <span class="keyword">match</span> result &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(signature) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;转账成功，交易签名:&#123;&#125;&quot;</span>, signature),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;转账失败: &#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">match</span> client.<span class="title function_ invoke__">get_balance</span>(&amp;recipient_pubkey) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(balance) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;接收账户余额: &#123;&#125;&quot;</span>, balance),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;查询余额失败: &#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
 
-          
-        
       
     </div>
     
@@ -610,12 +607,28 @@
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2025/01/24/rust_homework/" rel="next" title="Rust作业">
+                <i class="fa fa-chevron-left"></i> Rust作业
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -625,14 +638,11 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -640,6 +650,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -660,8 +674,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -703,6 +726,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Solana基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.1.</span> <span class="nav-text">目录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text">Sol的8大核心概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.2.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.3.</span> <span class="nav-text">solana开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.4.</span> <span class="nav-text">Solana基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.4.1.</span> <span class="nav-text">账户</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">账户结构体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">程序派生账户(PDA)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link"><span class="nav-number">1.4.1.2.1.</span> <span class="nav-text">PDA应用场景</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.5.</span> <span class="nav-text">开发中用到的Rust库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.5.1.</span> <span class="nav-text">本地开发测试</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -836,6 +875,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
