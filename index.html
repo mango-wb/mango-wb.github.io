@@ -591,7 +591,125 @@
 <li><p>进行转账</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::<span class="type">str</span>::FromStr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> solana_client::rpc_client::RpcClient;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::pubkey::Pubkey;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::signature::read_keypair_file;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::signer::Signer;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::system_instruction;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::transaction::Transaction;</span><br><span class="line"></span><br><span class="line"><span class="comment">//U8WQ6Uxu2ndzuJ4ejhYDFXTdH9dADbH2Ry4FnAmzkBH</span></span><br><span class="line"><span class="comment">//5U6mAsQCw3sKuVY1JneCnJCbdg8GKxECyYv5NowEhmE2</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 创建Solana链接</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rpc_url</span> = <span class="string">&quot;http://127.0.0.1:8899&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">client</span> = RpcClient::<span class="title function_ invoke__">new</span>(rpc_url);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指定想要查询余额的账户</span></span><br><span class="line">    <span class="comment">// 发送端</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">sender</span> = <span class="title function_ invoke__">read_keypair_file</span>(<span class="string">&quot;/Users/dongkun/.config/solana/local1.json&quot;</span>).<span class="title function_ invoke__">expect</span>(<span class="string">&quot;read pubkey failed&quot;</span>);</span><br><span class="line">    <span class="comment">// 接收端</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">recipient_pubkey</span> = Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;5U6mAsQCw3sKuVY1JneCnJCbdg8GKxECyYv5NowEhmE2&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 接收数量</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">amount</span> = <span class="number">1</span> * <span class="number">1_000_000_000</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建转账指令</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">transfer_instruction</span> = system_instruction::<span class="title function_ invoke__">transfer</span>(</span><br><span class="line">        &amp;sender.<span class="title function_ invoke__">pubkey</span>(),</span><br><span class="line">        &amp;recipient_pubkey, </span><br><span class="line">        amount);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 获取最后一个区块</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">recent_blockhash</span> = client.<span class="title function_ invoke__">get_latest_blockhash</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建交易</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">transaction</span> = Transaction::<span class="title function_ invoke__">new_signed_with_payer</span>(</span><br><span class="line">        &amp;[transfer_instruction],</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(&amp;sender.<span class="title function_ invoke__">pubkey</span>()),</span><br><span class="line">        &amp;[&amp;sender],</span><br><span class="line">        recent_blockhash);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span> = client.<span class="title function_ invoke__">send_and_confirm_transaction</span>(&amp;transaction);</span><br><span class="line">    <span class="keyword">match</span> result &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(signature) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;转账成功，交易签名:&#123;&#125;&quot;</span>, signature),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;转账失败: &#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">match</span> client.<span class="title function_ invoke__">get_balance</span>(&amp;recipient_pubkey) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(balance) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;接收账户余额: &#123;&#125;&quot;</span>, balance),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;查询余额失败: &#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
-
+<h3><span id="solana-token解析">solana token解析</span></h3><h4><span id="solana上的代币">solana上的代币</span></h4><ul>
+<li><p>代币是代表对各种资产所有权的数字资产。代币化使得财产权的数字化成为可能，是管理可替代和不可替代资产的基本组成部分。</p>
+<ul>
+<li>可代替代币代表同类型和同价值的客户换和可分割资产(USDC)</li>
+<li>不可代替代币(NFT)代表不可分割资产的所有权(例如艺术品)</li>
+</ul>
+</li>
+<li><p>SPL(Solana Progranm Library)</p>
+<ul>
+<li>Token Program(代币程序): 它是SPL中的一个核心程序，用于创建和管理代币。<ul>
+<li>功能:<ul>
+<li>创建代币(Mint)</li>
+<li>转移代币</li>
+<li>冻结或解冻代币</li>
+<li>销毁代币</li>
+</ul>
+</li>
+<li>关键指令:<ul>
+<li>InitializeMint: 创建新的代币</li>
+<li>InitializeAccount: 创建代币账户</li>
+<li>Transfer: 转移代币</li>
+<li>MintTo: 铸造代币</li>
+<li>Burn: 销毁代币</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Mint Account(铸币账户): 它是代币的铸造账户，用于定义代币的属性和总量<ul>
+<li>作用:<ul>
+<li>定义代币的元数据(如名称、符号、小数点位数)</li>
+<li>控制代币的总供应量</li>
+<li>管理代币的铸造权限</li>
+</ul>
+</li>
+<li>关键字段:<ul>
+<li>supply: 当前代币的总供应量</li>
+<li>decimals: 代币的小数点位数</li>
+<li>mint_authority: 代币的铸造权限(可以铸造新代币的地址)</li>
+<li>freeze_authority: 代币的冻结权限(可以冻结代币账户的地址)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Token Account(代币账户): 它是代币的持有账户，用于存储某个用户持有的特定代币<ul>
+<li>作用:<ul>
+<li>存储用户持有的代币数量</li>
+<li>记录代币的转账和余额变化</li>
+</ul>
+</li>
+<li>关键字段:<ul>
+<li>mint: 关联的Mint Acount地址</li>
+<li>owner: 代币所有者地址</li>
+<li>amount: 当前代币的余额</li>
+<li>delegate: 代币的委托地址(允许其他地址操作代币)</li>
+<li>state: 账户状态(如是否被冻结)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Associated Token Account(关联代币账户): 它是一种特殊的Token Account，它于用户的公钥关联，用于简化代币管理<ul>
+<li>特点:<ul>
+<li>每个用户和Mint Account的组合对应一个唯一的Associated Token Account</li>
+<li>通过Associated Token Account Program自动创建和管理</li>
+</ul>
+</li>
+<li>作用:<ul>
+<li>简化代币账户的创建和查找</li>
+<li>确保每个用户对每种代币只有一个账户</li>
+</ul>
+</li>
+<li>创建方式:<ul>
+<li>使用 spl-token create-account 命令或调用 Associated Token Account Program创建</li>
+</ul>
+</li>
+<li>地址计算:<ul>
+<li>Associated Token Account的地址是通过用户公钥和Mint Account地址计算得出的，确保唯一性</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>创建代币</p>
+<ul>
+<li>创建mint account: spl-token create-token<br>  &#96;spl-token create-token<br>  Creating token E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp under program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA</li>
+</ul>
+<p>  Address:  E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  Decimals:  9</p>
+<p>  Signature: 24DCdMfZaJRvpDh7JGX9bi38vSYxeu2QmgwFEvfBVhddekJLExr6jcdh3v6eGPc9LKvtbSobSP2m9Xbmc1jChgkX&#96;</p>
+<ul>
+<li>查看账号信息: spl-token account info –address E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  &#96;spl-token account-info –address E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp</li>
+</ul>
+<p>  SPL Token Mint<br>  Address: E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  Program: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA<br>  Supply: 0<br>  Decimals: 9<br>  Mint authority: 8xZDVJj3xugYGTn4WRPgsa4BcZJSuam7RRpqbv1o51iH<br>  Freeze authority: (not set)&#96;</p>
+<ul>
+<li>创建token account: spl-token create-account E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp (默认创建ATA账户)<br>  &#96;spl-token create-account E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  Creating account HKDQ2SxG7FyP1NkdcpDuUZrsM8HHZ4a3qY1jwB4VBC1R</li>
+</ul>
+<p>  Signature: 5iL6hdGXPPoFoiZ2T9vVGaG86Whd8JGrouwRFaSRzfcLpUu87DxDGghyW1hTKuAYyWM9cefRut2FdnpVc7yQ4BCs&#96;</p>
+<ul>
+<li>创建token account: spl-token create-account E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp [keypair] (创建非ATA账户)<br>  &#96;spl-token create-account E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp .config&#x2F;solana&#x2F;t2.json<br>  Creating account 8a2rHLhLytTZGr5ZHr1o3doWyfDPbnnhMoyz4UtwvszW</li>
+</ul>
+<p>  Signature: 2NeAfdi73bt77CbZLxrsX25EsB4aNPq6eD9TG7GQJsvYhzAWUWFn6VidMnZP8oqjtzkwdTKgjTfsKxrSL8AEy1jN&#96;</p>
+<ul>
+<li><p>对ATA账户和非ATA账户进行空头</p>
+<ul>
+<li>ATA账户: spl-token mint E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp 100<br>  &#96;Minting 100 tokens<br>  Token: E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  Recipient: HKDQ2SxG7FyP1NkdcpDuUZrsM8HHZ4a3qY1jwB4VBC1R</li>
+</ul>
+<p>  Signature: 5MQZ7CVFmruBxoFrNzcqMXrtT28G2vdGJR4KcsURKcepTS7XD2RYVPxLNo1QSqqbxzZJ5dASiQ7J2x6oNBWs9z7j&#96;</p>
+<ul>
+<li>查看账号信息: spl-token account-info –address HKDQ2SxG7FyP1NkdcpDuUZrsM8HHZ4a3qY1jwB4VBC1R<br>  <code>SPL Token Account   Address: HKDQ2SxG7FyP1NkdcpDuUZrsM8HHZ4a3qY1jwB4VBC1R   Program: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA   Balance: 100   Decimals: 9   Mint: E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp   Owner: 8xZDVJj3xugYGTn4WRPgsa4BcZJSuam7RRpqbv1o51iH   State: Initialized   Delegation: (not set)   Close authority: (not set)</code></li>
+<li>非ATA账户: spl-token mint E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp 100 – 8a2rHLhLytTZGr5ZHr1o3doWyfDPbnnhMoyz4UtwvszW<br>  &#96;Minting 100 tokens<br>  Token: E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  Recipient: 8a2rHLhLytTZGr5ZHr1o3doWyfDPbnnhMoyz4UtwvszW</li>
+</ul>
+<p>  Signature: FRn7Kq9LWrqAp7FqPkaNK4RBAEHYoKWxYNoLQXdwyobANKMnEfjizQM2PAh4vUuqoQM7tRK2w7XLCj3FrSo7xWJ&#96;</p>
+<ul>
+<li>查看账户信息: spl-token account-info –address 8a2rHLhLytTZGr5ZHr1o3doWyfDPbnnhMoyz4UtwvszW<br>  <code>SPL Token Account   Address: 8a2rHLhLytTZGr5ZHr1o3doWyfDPbnnhMoyz4UtwvszW  (Aux*)   Program: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA   Balance: 100   Decimals: 9   Mint: E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp   Owner: 8xZDVJj3xugYGTn4WRPgsa4BcZJSuam7RRpqbv1o51iH   State: Initialized   Delegation: (not set)   Close authority: (not set)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5><span id="通过钱包地址和mint-account地址获取ata账户地址">通过钱包地址和mint account地址获取ATA账户地址</span></h5><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[package]</span><br><span class="line">name = <span class="string">&quot;sol&quot;</span></span><br><span class="line">version = <span class="string">&quot;0.1.0&quot;</span></span><br><span class="line">edition = <span class="string">&quot;2021&quot;</span></span><br><span class="line"></span><br><span class="line">[dependencies]</span><br><span class="line">solana-client = <span class="string">&quot;2.1.13&quot;</span></span><br><span class="line">solana-sdk = <span class="string">&quot;2.1.13&quot;</span></span><br><span class="line">spl-associated-token-account = <span class="string">&quot;6.0.0&quot;</span></span><br><span class="line">spl-token = <span class="string">&quot;7.0.0&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> std::<span class="type">str</span>::FromStr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> solana_sdk::pubkey::&#123;<span class="keyword">self</span>, Pubkey&#125;;</span><br><span class="line"><span class="keyword">use</span> spl_associated_token_account::get_associated_token_address;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 钱包地址</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">wallet_address</span> = Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;8xZDVJj3xugYGTn4WRPgsa4BcZJSuam7RRpqbv1o51iH&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// mint account地址</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">mint_address</span> = Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算Associated Token Account地址</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">associated_token_address</span> = <span class="title function_ invoke__">get_associated_token_address</span>(&amp;wallet_address, &amp;mint_address);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;associated token account: &#123;&#125;&quot;</span>, associated_token_address);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
