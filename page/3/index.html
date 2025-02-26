@@ -259,7 +259,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/01/24/rust_homework/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/02/12/solana_basic01/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -278,7 +278,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2025/01/24/rust_homework/" itemprop="url">Rust作业</a></h1>
+                <a class="post-title-link" href="/2025/02/12/solana_basic01/" itemprop="url">Solana基础</a></h1>
         
 
         <div class="post-meta">
@@ -290,8 +290,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2025-01-24T00:00:00+08:00">
-                2025-01-24
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2025-02-12T00:00:00+08:00">
+                2025-02-12
               </time>
             
 
@@ -330,19 +330,386 @@
       
         
           
-            <h1 style="align-text: center"><span id="实现简单的http-server">实现简单的HTTP Server</span></h1>
+            <h1 style="align-text: center"><span id="solana基础">Solana基础</span></h1>
 
 <h3><span id="目录">目录</span></h3>
 <!--  toc -->
 
-<h2><span id="单线程版本">单线程版本</span></h2><ul>
-<li>服务端<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">main.rs</span><br><span class="line"><span class="keyword">use</span> std::&#123;</span><br><span class="line">    env,</span><br><span class="line">    fs,</span><br><span class="line">    io::&#123;prelude::*, BufReader&#125;,</span><br><span class="line">    net::&#123;TcpListener, TcpStream&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">handle_connection</span>(<span class="keyword">mut</span> stream: TcpStream) &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">buf_reader</span> = BufReader::<span class="title function_ invoke__">new</span>(&amp;<span class="keyword">mut</span> stream);</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;received from connection: &#123;:#?&#125;&quot;</span>, buf_reader);</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">http_request</span>:<span class="type">Vec</span>&lt;_&gt; = buf_reader</span><br><span class="line">            .<span class="title function_ invoke__">by_ref</span>()</span><br><span class="line">            .<span class="title function_ invoke__">lines</span>()            <span class="comment">// lines会返回一个迭代器，每次迭返回一行数据，类型为Result&lt;String, std::io::Error&gt;</span></span><br><span class="line">            .<span class="title function_ invoke__">map</span>(|result| result.<span class="title function_ invoke__">unwrap</span>())<span class="comment">// map是一个迭代器方法，用于对每个元素进行转换。这里会将Result解包转为String</span></span><br><span class="line">            .<span class="title function_ invoke__">take_while</span>(|line| !line.<span class="title function_ invoke__">is_empty</span>())<span class="comment">// take_while会持续从迭代器中取出元素，直到闭包返回false</span></span><br><span class="line">            .<span class="title function_ invoke__">collect</span>();</span><br><span class="line"></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Request: &#123;:#?&#125;&quot;</span>, http_request);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> (status_line, file_name) = <span class="keyword">if</span> http_request[<span class="number">0</span>] ==<span class="string">&quot;GET / HTTP/1.1&quot;</span> &#123;</span><br><span class="line">            (<span class="string">&quot;HTTP/1.1 200 OK&quot;</span>, <span class="string">&quot;./src/hello.html&quot;</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            (<span class="string">&quot;HTTP/1.1 404 NOT FOUND&quot;</span>, <span class="string">&quot;./src/404.html&quot;</span>)</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">contents</span> = fs::<span class="title function_ invoke__">read_to_string</span>(file_name).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">length</span> = contents.<span class="title function_ invoke__">len</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">response</span> =</span><br><span class="line">            <span class="built_in">format!</span>(<span class="string">&quot;&#123;status_line&#125;\r\nContent-Length: &#123;length&#125;\r\n\r\n\n&#123;contents&#125;&quot;</span>);</span><br><span class="line">        stream.<span class="title function_ invoke__">write_all</span>(response.<span class="title function_ invoke__">as_bytes</span>()).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">match</span> env::<span class="title function_ invoke__">current_dir</span>() &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(path) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;The current directory is &#123;&#125;&quot;</span>, path.<span class="title function_ invoke__">display</span>()),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(_) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;Cannot access current directory.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">listener</span> = TcpListener::<span class="title function_ invoke__">bind</span>(<span class="string">&quot;127.0.0.1:7878&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// listener.incoming会阻塞线程来等待客户端连接</span></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">stream</span> <span class="keyword">in</span> listener.<span class="title function_ invoke__">incoming</span>() &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">_stream</span> = stream.<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">        <span class="title function_ invoke__">handle_connection</span>(_stream);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<h2><span id="sol的8大核心概念">Sol的8大核心概念</span></h2><ul>
+<li>历史证明（Proof of History, POH）<ul>
+<li>技术原理:<ul>
+<li>全局可验证时钟: 将时间编码为可验证的数据结构(sha256)</li>
+<li>事件排序: 每个交易自带时间戳哈希，共识底层无需重复验证时序</li>
 </ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">hello.html</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Hello!<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hi from Rust<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>解决的问题:<ul>
+<li>传统区块链的节点时钟同步难题(如比特币的10分钟区块间隔)</li>
+<li>降低共识机制的时间协调开销</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Tower BFT共识<ul>
+<li>技术原理:<ul>
+<li>PBFT优化版: 利用PoH作为可信时间源，减少通信轮次</li>
+<li>锁定检查点: 节点对特定的PoH高度达成共识后不可以回滚</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Gulf Stream协议<ul>
+<li>技术原理:<ul>
+<li>交易预推: 验证节点提前交易缓存至下游领导者</li>
+<li>零确认交易: 用户可立即发送交易至未来的8个领导节点</li>
+</ul>
+</li>
+<li>性能提升:<ul>
+<li>减少确认延迟: 交易在到达领导者前已开始处理</li>
+<li>网络负载均衡: 避免交易洪峰中冲击单个节点</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Turbine分块广播<ul>
+<li>技术原理:<ul>
+<li>UDP+分片传输: 将区块分解为多个小包进行传输</li>
+<li>树状拓扑传播: 每个节点负责向特定子节点组转发数据</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Sealevel并行智能合约环境<ul>
+<li>技术原理:<ul>
+<li>交易并行处理: 运行时根据状态依赖关系调度交易</li>
+<li>显示状态声明: 合约需预先声明访问的账户，避免资源竞争</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Cloudbreak水平扩展存储<ul>
+<li>技术原理:<ul>
+<li>内存映射文件: 将账户状态存储在随机访问内存中</li>
+<li>无锁写入: 通过内存地址偏移实现并行写入</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Archiver网络<ul>
+<li>技术原理:<ul>
+<li>去中心化存储: 历史数据分片存储于轻节点网络</li>
+<li>激励模型: 存储提供者通过质押获得网络奖励</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>本地化费用市场(Local Fee Markets)<ul>
+<li>技术原理:<ul>
+<li>资源隔离: 每个状态账户独立设置Gas费用</li>
+<li>拥堵控制: 高频访问自动提升交易费用门槛</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2><span id="环境搭建">环境搭建</span></h2><ul>
+<li><p>Rust环境配置</p>
 <ul>
-<li>客户端<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::&#123;io, io::&#123;Read, Write&#125;, net::TcpStream,time::Duration&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() <span class="punctuation">-&gt;</span> io::<span class="type">Result</span>&lt;()&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">stream</span> = TcpStream::<span class="title function_ invoke__">connect</span>(<span class="string">&quot;127.0.0.1:7878&quot;</span>)?;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Connected to server&quot;</span>);</span><br><span class="line"></span><br><span class="line">    stream.<span class="title function_ invoke__">set_read_timeout</span>(<span class="title function_ invoke__">Some</span>(Duration::<span class="title function_ invoke__">from_secs</span>(<span class="number">5</span>)))?;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">input</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">    <span class="keyword">loop</span> &#123;</span><br><span class="line">        input.<span class="title function_ invoke__">clear</span>();</span><br><span class="line">        <span class="built_in">print!</span>(<span class="string">&quot;Enter Message: &quot;</span>);</span><br><span class="line">        io::<span class="title function_ invoke__">stdout</span>().<span class="title function_ invoke__">flush</span>()?;</span><br><span class="line">        io::<span class="title function_ invoke__">stdin</span>().<span class="title function_ invoke__">read_line</span>(&amp;<span class="keyword">mut</span> input)?;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">message</span> = &amp;input.<span class="title function_ invoke__">trim</span>();</span><br><span class="line">        <span class="keyword">if</span> message.<span class="title function_ invoke__">trim</span>() == <span class="string">&quot;exit&quot;</span> &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;Exiting&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">http_request</span> = <span class="built_in">format!</span>(</span><br><span class="line">            <span class="string">&quot;GET / HTTP/1.1\r\nHost: 127.0.0.1:7878\r\n\r\n&#123;&#125;&quot;</span>,</span><br><span class="line">            message</span><br><span class="line">        );</span><br><span class="line">        <span class="comment">// 发送数据到服务端</span></span><br><span class="line">        stream.<span class="title function_ invoke__">write</span>(http_request.<span class="title function_ invoke__">as_bytes</span>())?;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 从服务端接收数据</span></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">response</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">        <span class="keyword">loop</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">buffer</span> = [<span class="number">0</span>;<span class="number">512</span>];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">match</span> stream.<span class="title function_ invoke__">read</span>(&amp;<span class="keyword">mut</span> buffer) &#123;</span><br><span class="line">                <span class="title function_ invoke__">Ok</span>(<span class="number">0</span>) =&gt; &#123;</span><br><span class="line">                    <span class="built_in">println!</span>(<span class="string">&quot;Server closed the connection&quot;</span>);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="title function_ invoke__">Ok</span>(bytes_read) =&gt; &#123;</span><br><span class="line">                    response.<span class="title function_ invoke__">extend_from_slice</span>(&amp;buffer[<span class="number">0</span>..bytes_read]);</span><br><span class="line">                    <span class="keyword">if</span> response.<span class="title function_ invoke__">ends_with</span>(<span class="string">b&quot;\n&quot;</span>) &#123;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="title function_ invoke__">Err</span>(e) <span class="keyword">if</span> e.<span class="title function_ invoke__">kind</span>() == io::ErrorKind::WouldBlock =&gt; &#123;</span><br><span class="line">                    <span class="built_in">println!</span>(<span class="string">&quot;Read timeout&quot;</span>);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="title function_ invoke__">Err</span>(e) =&gt; &#123;</span><br><span class="line">                    <span class="built_in">eprintln!</span>(<span class="string">&quot;Failed to read from server: &#123;&#125;&quot;</span>, e);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Server echoed: &#123;&#125;&quot;</span>, <span class="type">String</span>::<span class="title function_ invoke__">from_utf8_lossy</span>(&amp;response));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><code>curl --proto &#39;https&#39; --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y</code></li>
 </ul>
-<h2><span id="多线程版本">多线程版本</span></h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::io::&#123;Read, Write&#125;;</span><br><span class="line"><span class="keyword">use</span> std::net::&#123;TcpListener, TcpStream&#125;;</span><br><span class="line"><span class="keyword">use</span> std::sync::&#123;mpsc, Arc, Mutex&#125;;</span><br><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Job</span> = <span class="type">Box</span>&lt;<span class="keyword">dyn</span> <span class="title function_ invoke__">FnOnce</span>() + <span class="built_in">Send</span> + <span class="symbol">&#x27;static</span>&gt;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Worker</span> &#123;</span><br><span class="line">    id: <span class="type">usize</span>,</span><br><span class="line">    thread: <span class="type">Option</span>&lt;thread::JoinHandle&lt;()&gt;, &gt;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Worker</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">new</span>(id: <span class="type">usize</span>, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) <span class="punctuation">-&gt;</span> Worker &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">thread</span> = thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || <span class="keyword">loop</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="variable">job</span> = receiver.<span class="title function_ invoke__">lock</span>().<span class="title function_ invoke__">unwrap</span>().<span class="title function_ invoke__">recv</span>();</span><br><span class="line">            <span class="keyword">match</span> job &#123;</span><br><span class="line">                <span class="title function_ invoke__">Ok</span>(job) =&gt; &#123;</span><br><span class="line">                    <span class="built_in">println!</span>(<span class="string">&quot;Worker &#123;&#125; is executing.&quot;</span>, id);</span><br><span class="line">                    <span class="title function_ invoke__">job</span>();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="title function_ invoke__">Err</span>(_) =&gt; &#123;</span><br><span class="line">                    <span class="built_in">println!</span>(<span class="string">&quot;Worker &#123;&#125; is exiting.&quot;</span>, id);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        Worker &#123;id, thread: <span class="title function_ invoke__">Some</span>(thread)&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ThreadPool</span> &#123;</span><br><span class="line">    workers: <span class="type">Vec</span>&lt;Worker&gt;,</span><br><span class="line">    sender: <span class="type">Option</span>&lt;mpsc::Sender&lt;Job&gt;&gt;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">ThreadPool</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">new</span>(size: <span class="type">usize</span>) <span class="punctuation">-&gt;</span> ThreadPool &#123;</span><br><span class="line">        <span class="built_in">assert!</span>(size &gt; <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> (sender, receiver) = mpsc::<span class="title function_ invoke__">channel</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">receiver</span> = Arc::<span class="title function_ invoke__">new</span>(Mutex::<span class="title function_ invoke__">new</span>(receiver));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">workers</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">with_capacity</span>(size);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> <span class="variable">id</span> <span class="keyword">in</span> <span class="number">0</span>..size &#123;</span><br><span class="line">            workers.<span class="title function_ invoke__">push</span>(Worker::<span class="title function_ invoke__">new</span>(id, Arc::<span class="title function_ invoke__">clone</span>(&amp;receiver)));</span><br><span class="line">        &#125;</span><br><span class="line">        ThreadPool &#123;workers, sender: <span class="title function_ invoke__">Some</span>(sender)&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">execute</span>&lt;F&gt;(&amp;<span class="keyword">self</span>, f: F)</span><br><span class="line">    <span class="keyword">where</span> F: <span class="title function_ invoke__">FnOnce</span>() + <span class="built_in">Send</span> + <span class="symbol">&#x27;static</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">job</span> = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(f);</span><br><span class="line">        <span class="keyword">self</span>.sender.<span class="title function_ invoke__">as_ref</span>().<span class="title function_ invoke__">unwrap</span>().<span class="title function_ invoke__">send</span>(job).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Drop</span> <span class="keyword">for</span> <span class="title class_">ThreadPool</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">drop</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Dropping worker&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(sender) = <span class="keyword">self</span>.sender.<span class="title function_ invoke__">take</span>() &#123;</span><br><span class="line">            std::mem::<span class="title function_ invoke__">drop</span>(sender);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> <span class="variable">worker</span> <span class="keyword">in</span> &amp;<span class="keyword">mut</span> <span class="keyword">self</span>.workers &#123;</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(thread) = worker.thread.<span class="title function_ invoke__">take</span>() &#123;</span><br><span class="line">                thread.<span class="title function_ invoke__">join</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">handle_connection</span>(<span class="keyword">mut</span> stream: TcpStream) &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">buffer</span> = [<span class="number">0</span>; <span class="number">512</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Ok</span>(bytes_read) = stream.<span class="title function_ invoke__">read</span>(&amp;<span class="keyword">mut</span> buffer) &#123;</span><br><span class="line">        <span class="keyword">if</span> bytes_read &gt; <span class="number">0</span> &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;received request: &#123;&#125;&quot;</span>, <span class="type">String</span>::<span class="title function_ invoke__">from_utf8_lossy</span>(&amp;buffer[<span class="number">0</span>..bytes_read]));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">let</span> <span class="variable">response</span> = <span class="string">&quot;HTTP/1.1 200 OK\r\nContent-Length: 13\r\n\r\nHello, World&quot;</span>;</span><br><span class="line">            stream.<span class="title function_ invoke__">write</span>(response.<span class="title function_ invoke__">as_bytes</span>()).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">            stream.<span class="title function_ invoke__">flush</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">listener</span> = TcpListener::<span class="title function_ invoke__">bind</span>(<span class="string">&quot;127.0.0.1:7878&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">pool</span> =  ThreadPool::<span class="title function_ invoke__">new</span>(<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">stream</span> <span class="keyword">in</span> listener.<span class="title function_ invoke__">incoming</span>() &#123;</span><br><span class="line">        <span class="keyword">match</span> stream &#123;</span><br><span class="line">            <span class="title function_ invoke__">Ok</span>(stream) =&gt; &#123;</span><br><span class="line">                pool.<span class="title function_ invoke__">execute</span>(|| &#123;</span><br><span class="line">                    <span class="title function_ invoke__">handle_connection</span>(stream);</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="title function_ invoke__">Err</span>(_) =&gt; &#123;</span><br><span class="line">                <span class="built_in">eprintln!</span>(<span class="string">&quot;Accept error.&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Shutting down.&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Solana-cli</p>
+<ul>
+<li>sh -c “$(curl -sSfL <a target="_blank" rel="noopener" href="https://release.anza.xyz/stable/install">https://release.anza.xyz/stable/install</a>)”</li>
+<li>升级: agave-install udpate</li>
+<li>检查是否安装成功: <code>solana -V</code></li>
+</ul>
+</li>
+<li><p>Anchor开发框架</p>
+<ul>
+<li>cargo install –git <a target="_blank" rel="noopener" href="https://github.com/coral-xyz/anchor">https://github.com/coral-xyz/anchor</a> avm –locked –force 有版本兼容问题，换成 cargo install –git <a target="_blank" rel="noopener" href="https://github.com/coral-xyz/anchor">https://github.com/coral-xyz/anchor</a> –tag v0.30.1 anchor-cli –force</li>
+<li>avm install latest</li>
+<li>avm use latest</li>
+<li>验证是否安装成功: anchor -V</li>
+</ul>
+</li>
+<li><p>创建钱包</p>
+<ul>
+<li>solana-keygen new # –force overwrite</li>
+<li>solana config set -k ~&#x2F;.config&#x2F;solana&#x2F;id.json # 设置为默认钱包</li>
+<li>通过Playground创建 <a target="_blank" rel="noopener" href="https://https//beta.solpg.io/">https://https://beta.solpg.io/</a><ul>
+<li>右上角 -&gt; wallet -&gt; Add</li>
+</ul>
+</li>
+<li>空投SOL代币<ul>
+<li>solana airdrop 5 或者通过faucet领取 <a target="_blank" rel="noopener" href="https://faucet.solana.com/">https://faucet.solana.com/</a></li>
+<li>通过区块浏览器查看账户交易: <a target="_blank" rel="noopener" href="https://explorer.solana.com/address/[%E9%92%B1%E5%8C%85%E5%9C%B0%E5%9D%80]?cluster=devnet">https://explorer.solana.com/address/[钱包地址]?cluster=devnet</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>设置本地验证节点</p>
+<ul>
+<li>solana-test-validator</li>
+<li>solana config get # get config</li>
+<li>solana config set –url loaclhost # 配置本地主机验证器</li>
+<li>solana config set –url testnet # 配置test net</li>
+</ul>
+</li>
+<li><p>solana-cli常见用法</p>
+<ul>
+<li>solana config get</li>
+<li>solana config set –usr <net></net></li>
+<li>solana-keygen new –outfile <path></path>   # 指定路径创建钱包，可用于创建多个钱包</li>
+<li>solana-keygen new # 创建钱包</li>
+<li>solana address   # 查看地址</li>
+<li>solana balance <pub_key> # 查看余额</pub_key></li>
+<li>solana transfer <recipient_public_key> <amount> –from <sender_keypair_path></sender_keypair_path></amount></recipient_public_key></li>
+</ul>
+</li>
+</ul>
+<h2><span id="solana开发">solana开发</span></h2><ul>
+<li>创建Native Rust项目<ul>
+<li>cargo new –lib <project_name> # new project</project_name></li>
+<li>cargo add solana-program #deps</li>
+<li>修改编译配置<ul>
+<li>[lib]</li>
+<li>crate-type &#x3D; [“cdylib”, “lib”]</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用anchor创建项目<ul>
+<li>anchor init <project_name></project_name></li>
+<li>anchor test</li>
+<li>anchor deploy</li>
+</ul>
+</li>
+<li>Deploy Failed<ul>
+<li>solana program show –buffers</li>
+<li>solana program close –buffers</li>
+</ul>
+</li>
+</ul>
+<h2><span id="solana基础">Solana基础</span></h2><h3><span id="账户">账户</span></h3><ul>
+<li>数据账户<ul>
+<li>系统所有账户</li>
+<li>程序派生账户(PDA)</li>
+</ul>
+</li>
+<li>程序账户，用来存储可执行程序</li>
+<li>原生账户，指Solana上的原生程序，例如”System”, “Stake”, 以及”Vote”。</li>
+</ul>
+<h4><span id="账户结构体">账户结构体</span></h4><ul>
+<li>Account<ul>
+<li>lamports:u64; : 账户余额(solana余额)</li>
+<li>data:Vec<u8>; : 存储的数据</u8></li>
+<li>owner: Pubkey; : 存储所有者公钥</li>
+<li>executable: bool; : 账户是否可执行，如果是可执行，data存储的就是二进制程序；如果不可执行，那data存储的就是数据。</li>
+<li>rent_epoch: Epoch; : 租金</li>
+</ul>
+</li>
+<li>AccountInfo<ul>
+<li>key: &amp;’a Pubkey; 账户公钥，账户标识</li>
+<li>lamports: Rc&lt;RefCell&lt;&amp;’a mut u64&gt;&gt;; 账户余额(solana余额)</li>
+<li>data: Rc&lt;RefCell&lt;&amp;’a mut [u8]&gt;&gt;;</li>
+<li>owner: &amp;’a Pubkey;</li>
+<li>rent_epoch: Epoch;</li>
+<li>is_signer: bool; 是否被签名</li>
+<li>is_writtable:bool; 数据是否可以被修改</li>
+<li>executable:bool;</li>
+</ul>
+</li>
+<li>Account&amp;AccountInfo对比<ul>
+<li>AccountInfo:<ul>
+<li>更轻量级，包含对区块链上现有账户数据的引用。</li>
+<li>用于在Solana程序(智能合约)内部处理账户。</li>
+<li>适合在链上处理和操作账户数据</li>
+</ul>
+</li>
+<li>Account<ul>
+<li>更完整的账户表示，包含账户的所有数据副本。</li>
+<li>常用于客户端或测试环境中，用于模拟或获取完整的账户状态。</li>
+<li>适合离线处理或全局管理账户数据。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>要点<ul>
+<li>账户是用来存放数据的</li>
+<li>每个账户都有一个独一无二的地址</li>
+<li>每个账户大小不能超过10MB</li>
+<li>账户大小是静态的</li>
+<li>账户数据存储需要付租金</li>
+<li>默认的账户所有者是”系统程序”</li>
+</ul>
+</li>
+</ul>
+<h4><span id="程序派生账户pda">程序派生账户(PDA)</span></h4><ul>
+<li>相关概念: <a target="_blank" rel="noopener" href="https://solana.com/zh/docs/core/pda">https://solana.com/zh/docs/core/pda</a></li>
+</ul>
+<h5><span id="pda应用场景">PDA应用场景</span></h5><ul>
+<li>用户状态管理</li>
+<li>去中心化金融(DeFi)协议</li>
+<li>NTF元数据存储</li>
+<li>DAO(去中心化自治组织)投票系统</li>
+<li>时间锁合约</li>
+<li>多签(Multisig)钱包</li>
+<li>去中心化身份验证</li>
+</ul>
+<h2><span id="开发中用到的rust库">开发中用到的Rust库</span></h2><ul>
+<li>solana_client</li>
+<li>solana_sdk</li>
+<li>solana_program</li>
+</ul>
+<h3><span id="本地开发测试">本地开发测试</span></h3><ul>
+<li><p>使用本地测试环境</p>
+<ul>
+<li>solana-test-validator</li>
+</ul>
+</li>
+<li><p>修改solana配置</p>
+<ul>
+<li>solana config set –url <a target="_blank" rel="noopener" href="http://127.0.0.1:8899/">http://127.0.0.1:8899</a></li>
+</ul>
+</li>
+<li><p>设置本地账户</p>
+<ul>
+<li>生成: solana-keygen new -o [path]</li>
+<li>设置: solana config set –keypair [path]</li>
+</ul>
+</li>
+<li><p>创建rust项目，下载库</p>
+<ul>
+<li>cargo new sol</li>
+<li>cargo add solana-client</li>
+<li>cargo add solana-sdk</li>
+</ul>
+</li>
+<li><p>本地进行余额查询和获取空头</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::&#123;<span class="type">str</span>::FromStr, time::Duration&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> solana_client::rpc_client::RpcClient;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::pubkey::Pubkey;</span><br><span class="line"></span><br><span class="line"><span class="comment">//U8WQ6Uxu2ndzuJ4ejhYDFXTdH9dADbH2Ry4FnAmzkBH</span></span><br><span class="line"><span class="comment">//5U6mAsQCw3sKuVY1JneCnJCbdg8GKxECyYv5NowEhmE2</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 创建Solana链接</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rpc_url</span> = <span class="string">&quot;http://127.0.0.1:8899&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">client</span> = RpcClient::<span class="title function_ invoke__">new</span>(rpc_url);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指定想要查询余额的账户</span></span><br><span class="line">    <span class="comment">// 接收空投账户</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">account_pubkey</span> = Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;U8WQ6Uxu2ndzuJ4ejhYDFXTdH9dADbH2Ry4FnAmzkBH&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    <span class="comment">// 接收数量</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">amount</span> = <span class="number">1</span> * <span class="number">1_000_000_000</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">match</span> client.<span class="title function_ invoke__">request_airdrop</span>(&amp;account_pubkey, amount) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(signature) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;空投成功， 交易签名: &#123;&#125;&quot;</span>, signature),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;空投失败: &#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    std::thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_secs</span>(<span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取账户余额</span></span><br><span class="line">    <span class="keyword">match</span> client.<span class="title function_ invoke__">get_balance</span>(&amp;account_pubkey) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(balance) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;账户余额:&#123;&#125;, lamports&quot;</span>, balance),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;获取账户余额失败:&#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进行转账</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::<span class="type">str</span>::FromStr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> solana_client::rpc_client::RpcClient;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::pubkey::Pubkey;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::signature::read_keypair_file;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::signer::Signer;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::system_instruction;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::transaction::Transaction;</span><br><span class="line"></span><br><span class="line"><span class="comment">//U8WQ6Uxu2ndzuJ4ejhYDFXTdH9dADbH2Ry4FnAmzkBH</span></span><br><span class="line"><span class="comment">//5U6mAsQCw3sKuVY1JneCnJCbdg8GKxECyYv5NowEhmE2</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 创建Solana链接</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rpc_url</span> = <span class="string">&quot;http://127.0.0.1:8899&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">client</span> = RpcClient::<span class="title function_ invoke__">new</span>(rpc_url);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指定想要查询余额的账户</span></span><br><span class="line">    <span class="comment">// 发送端</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">sender</span> = <span class="title function_ invoke__">read_keypair_file</span>(<span class="string">&quot;/Users/dongkun/.config/solana/local1.json&quot;</span>).<span class="title function_ invoke__">expect</span>(<span class="string">&quot;read pubkey failed&quot;</span>);</span><br><span class="line">    <span class="comment">// 接收端</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">recipient_pubkey</span> = Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;5U6mAsQCw3sKuVY1JneCnJCbdg8GKxECyYv5NowEhmE2&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 接收数量</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">amount</span> = <span class="number">1</span> * <span class="number">1_000_000_000</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建转账指令</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">transfer_instruction</span> = system_instruction::<span class="title function_ invoke__">transfer</span>(</span><br><span class="line">        &amp;sender.<span class="title function_ invoke__">pubkey</span>(),</span><br><span class="line">        &amp;recipient_pubkey, </span><br><span class="line">        amount);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 获取最后一个区块</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">recent_blockhash</span> = client.<span class="title function_ invoke__">get_latest_blockhash</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建交易</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">transaction</span> = Transaction::<span class="title function_ invoke__">new_signed_with_payer</span>(</span><br><span class="line">        &amp;[transfer_instruction],</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(&amp;sender.<span class="title function_ invoke__">pubkey</span>()),</span><br><span class="line">        &amp;[&amp;sender],</span><br><span class="line">        recent_blockhash);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span> = client.<span class="title function_ invoke__">send_and_confirm_transaction</span>(&amp;transaction);</span><br><span class="line">    <span class="keyword">match</span> result &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(signature) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;转账成功，交易签名:&#123;&#125;&quot;</span>, signature),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;转账失败: &#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">match</span> client.<span class="title function_ invoke__">get_balance</span>(&amp;recipient_pubkey) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(balance) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;接收账户余额: &#123;&#125;&quot;</span>, balance),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;查询余额失败: &#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3><span id="solana-token解析">solana token解析</span></h3><h4><span id="solana上的代币">solana上的代币</span></h4><ul>
+<li><p>代币是代表对各种资产所有权的数字资产。代币化使得财产权的数字化成为可能，是管理可替代和不可替代资产的基本组成部分。</p>
+<ul>
+<li>可代替代币代表同类型和同价值的客户换和可分割资产(USDC)</li>
+<li>不可代替代币(NFT)代表不可分割资产的所有权(例如艺术品)</li>
+</ul>
+</li>
+<li><p>SPL(Solana Progranm Library)</p>
+<ul>
+<li>Token Program(代币程序): 它是SPL中的一个核心程序，用于创建和管理代币。<ul>
+<li>功能:<ul>
+<li>创建代币(Mint)</li>
+<li>转移代币</li>
+<li>冻结或解冻代币</li>
+<li>销毁代币</li>
+</ul>
+</li>
+<li>关键指令:<ul>
+<li>InitializeMint: 创建新的代币</li>
+<li>InitializeAccount: 创建代币账户</li>
+<li>Transfer: 转移代币</li>
+<li>MintTo: 铸造代币</li>
+<li>Burn: 销毁代币</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Mint Account(铸币账户): 它是代币的铸造账户，用于定义代币的属性和总量<ul>
+<li>作用:<ul>
+<li>定义代币的元数据(如名称、符号、小数点位数)</li>
+<li>控制代币的总供应量</li>
+<li>管理代币的铸造权限</li>
+</ul>
+</li>
+<li>关键字段:<ul>
+<li>supply: 当前代币的总供应量</li>
+<li>decimals: 代币的小数点位数</li>
+<li>mint_authority: 代币的铸造权限(可以铸造新代币的地址)</li>
+<li>freeze_authority: 代币的冻结权限(可以冻结代币账户的地址)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Token Account(代币账户): 它是代币的持有账户，用于存储某个用户持有的特定代币<ul>
+<li>作用:<ul>
+<li>存储用户持有的代币数量</li>
+<li>记录代币的转账和余额变化</li>
+</ul>
+</li>
+<li>关键字段:<ul>
+<li>mint: 关联的Mint Acount地址</li>
+<li>owner: 代币所有者地址</li>
+<li>amount: 当前代币的余额</li>
+<li>delegate: 代币的委托地址(允许其他地址操作代币)</li>
+<li>state: 账户状态(如是否被冻结)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Associated Token Account(关联代币账户): 它是一种特殊的Token Account，它于用户的公钥关联，用于简化代币管理<ul>
+<li>特点:<ul>
+<li>每个用户和Mint Account的组合对应一个唯一的Associated Token Account</li>
+<li>通过Associated Token Account Program自动创建和管理</li>
+</ul>
+</li>
+<li>作用:<ul>
+<li>简化代币账户的创建和查找</li>
+<li>确保每个用户对每种代币只有一个账户</li>
+</ul>
+</li>
+<li>创建方式:<ul>
+<li>使用 spl-token create-account 命令或调用 Associated Token Account Program创建</li>
+</ul>
+</li>
+<li>地址计算:<ul>
+<li>Associated Token Account的地址是通过用户公钥和Mint Account地址计算得出的，确保唯一性</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>创建代币</p>
+<ul>
+<li>创建mint account: spl-token create-token<br>  &#96;spl-token create-token<br>  Creating token E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp under program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA</li>
+</ul>
+<p>  Address:  E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  Decimals:  9</p>
+<p>  Signature: 24DCdMfZaJRvpDh7JGX9bi38vSYxeu2QmgwFEvfBVhddekJLExr6jcdh3v6eGPc9LKvtbSobSP2m9Xbmc1jChgkX&#96;</p>
+<ul>
+<li>查看账号信息: spl-token account info –address E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  &#96;spl-token account-info –address E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp</li>
+</ul>
+<p>  SPL Token Mint<br>  Address: E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  Program: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA<br>  Supply: 0<br>  Decimals: 9<br>  Mint authority: 8xZDVJj3xugYGTn4WRPgsa4BcZJSuam7RRpqbv1o51iH<br>  Freeze authority: (not set)&#96;</p>
+<ul>
+<li>创建token account: spl-token create-account E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp (默认创建ATA账户)<br>  &#96;spl-token create-account E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  Creating account HKDQ2SxG7FyP1NkdcpDuUZrsM8HHZ4a3qY1jwB4VBC1R</li>
+</ul>
+<p>  Signature: 5iL6hdGXPPoFoiZ2T9vVGaG86Whd8JGrouwRFaSRzfcLpUu87DxDGghyW1hTKuAYyWM9cefRut2FdnpVc7yQ4BCs&#96;</p>
+<ul>
+<li>创建token account: spl-token create-account E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp [keypair] (创建非ATA账户)<br>  &#96;spl-token create-account E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp .config&#x2F;solana&#x2F;t2.json<br>  Creating account 8a2rHLhLytTZGr5ZHr1o3doWyfDPbnnhMoyz4UtwvszW</li>
+</ul>
+<p>  Signature: 2NeAfdi73bt77CbZLxrsX25EsB4aNPq6eD9TG7GQJsvYhzAWUWFn6VidMnZP8oqjtzkwdTKgjTfsKxrSL8AEy1jN&#96;</p>
+<ul>
+<li><p>对ATA账户和非ATA账户进行空头</p>
+<ul>
+<li>ATA账户: spl-token mint E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp 100<br>  &#96;Minting 100 tokens<br>  Token: E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  Recipient: HKDQ2SxG7FyP1NkdcpDuUZrsM8HHZ4a3qY1jwB4VBC1R</li>
+</ul>
+<p>  Signature: 5MQZ7CVFmruBxoFrNzcqMXrtT28G2vdGJR4KcsURKcepTS7XD2RYVPxLNo1QSqqbxzZJ5dASiQ7J2x6oNBWs9z7j&#96;</p>
+<ul>
+<li>查看账号信息: spl-token account-info –address HKDQ2SxG7FyP1NkdcpDuUZrsM8HHZ4a3qY1jwB4VBC1R<br>  <code>SPL Token Account   Address: HKDQ2SxG7FyP1NkdcpDuUZrsM8HHZ4a3qY1jwB4VBC1R   Program: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA   Balance: 100   Decimals: 9   Mint: E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp   Owner: 8xZDVJj3xugYGTn4WRPgsa4BcZJSuam7RRpqbv1o51iH   State: Initialized   Delegation: (not set)   Close authority: (not set)</code></li>
+<li>非ATA账户: spl-token mint E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp 100 – 8a2rHLhLytTZGr5ZHr1o3doWyfDPbnnhMoyz4UtwvszW<br>  &#96;Minting 100 tokens<br>  Token: E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  Recipient: 8a2rHLhLytTZGr5ZHr1o3doWyfDPbnnhMoyz4UtwvszW</li>
+</ul>
+<p>  Signature: FRn7Kq9LWrqAp7FqPkaNK4RBAEHYoKWxYNoLQXdwyobANKMnEfjizQM2PAh4vUuqoQM7tRK2w7XLCj3FrSo7xWJ&#96;</p>
+<ul>
+<li>查看账户信息: spl-token account-info –address 8a2rHLhLytTZGr5ZHr1o3doWyfDPbnnhMoyz4UtwvszW<br>  <code>SPL Token Account   Address: 8a2rHLhLytTZGr5ZHr1o3doWyfDPbnnhMoyz4UtwvszW  (Aux*)   Program: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA   Balance: 100   Decimals: 9   Mint: E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp   Owner: 8xZDVJj3xugYGTn4WRPgsa4BcZJSuam7RRpqbv1o51iH   State: Initialized   Delegation: (not set)   Close authority: (not set)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5><span id="通过钱包地址和mint-account地址获取ata账户地址">通过钱包地址和mint account地址获取ATA账户地址</span></h5><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[package]</span><br><span class="line">name = <span class="string">&quot;sol&quot;</span></span><br><span class="line">version = <span class="string">&quot;0.1.0&quot;</span></span><br><span class="line">edition = <span class="string">&quot;2021&quot;</span></span><br><span class="line"></span><br><span class="line">[dependencies]</span><br><span class="line">solana-client = <span class="string">&quot;2.1.13&quot;</span></span><br><span class="line">solana-sdk = <span class="string">&quot;2.1.13&quot;</span></span><br><span class="line">spl-associated-token-account = <span class="string">&quot;6.0.0&quot;</span></span><br><span class="line">spl-token = <span class="string">&quot;7.0.0&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> std::<span class="type">str</span>::FromStr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> solana_sdk::pubkey::&#123;<span class="keyword">self</span>, Pubkey&#125;;</span><br><span class="line"><span class="keyword">use</span> spl_associated_token_account::get_associated_token_address;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 钱包地址</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">wallet_address</span> = Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;8xZDVJj3xugYGTn4WRPgsa4BcZJSuam7RRpqbv1o51iH&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// mint account地址</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">mint_address</span> = Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算Associated Token Account地址</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">associated_token_address</span> = <span class="title function_ invoke__">get_associated_token_address</span>(&amp;wallet_address, &amp;mint_address);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;associated token account: &#123;&#125;&quot;</span>, associated_token_address);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -381,7 +748,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -427,7 +794,7 @@
               
                 <a href="/archives%7C%7Carchive">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

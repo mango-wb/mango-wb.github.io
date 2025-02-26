@@ -81,7 +81,7 @@
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/page/11/index.html">
+<meta property="og:url" content="http://example.com/page/22/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="John Doe">
@@ -115,7 +115,7 @@
 
 
 
-  <link rel="canonical" href="http://example.com/page/11/"/>
+  <link rel="canonical" href="http://example.com/page/22/"/>
 
 
 
@@ -259,7 +259,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/05/rust_basic12/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/21/rust_firstday/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -278,7 +278,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2024/11/05/rust_basic12/" itemprop="url">Rust模块化</a></h1>
+                <a class="post-title-link" href="/2024/10/21/rust_firstday/" itemprop="url">环境搭建</a></h1>
         
 
         <div class="post-meta">
@@ -290,8 +290,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-11-05T00:00:00+08:00">
-                2024-11-05
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-21T00:00:00+08:00">
+                2024-10-21
               </time>
             
 
@@ -330,28 +330,123 @@
       
         
           
-            <h1 style="align-text: center"><span id="rust模块化">Rust模块化</span></h1>
-
-<h3><span id="目录">目录</span></h3>
+            <h1 style="text-align: center"><span id="环境搭建">环境搭建</span></h1>
+<h3><span id="目录">目录:</span></h3>
 
 <!-- toc -->
 
 <ul>
-<li><a href="#mod">mod</a><ul>
-<li><a href="#%E6%A8%A1%E5%9D%97%E5%8F%AF%E8%A7%81%E6%80%A7">模块可见性</a></li>
-</ul>
-</li>
+<li><a href="#1-%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85">1. 环境安装</a></li>
+<li><a href="#2-%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4">2. 常见命令</a></li>
+<li><a href="#3-cargo%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4">3. cargo常见命令</a></li>
+<li><a href="#4-%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AArust%E9%A1%B9%E7%9B%AE">4. 创建第一个rust项目</a></li>
+<li><a href="#5-%E4%BD%BF%E7%94%A8cargo%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8Crust%E9%A1%B9%E7%9B%AE">5. 使用cargo编译运行rust项目</a></li>
+<li><a href="#6-cargo%E9%85%8D%E7%BD%AEtoml%E6%BA%90">6. cargo配置toml源</a></li>
 </ul>
 <!-- tocstop -->
 
-<h2><span id="mod">mod</span></h2><ul>
-<li>需要使用use关键字来引入mod</li>
-<li>如果使用的话，mod内的函数需要是pub类型的</li>
-<li>如果有两个同名函数，可以使用as取别名<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">use a::&#123;b::log as log_b, log&#125;;</span><br><span class="line">fn main() &#123;</span><br><span class="line">    log_b();</span><br><span class="line">    log();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">mod a &#123;</span><br><span class="line">    const num: usize = 1;</span><br><span class="line">    pub fn echo() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    pub fn log() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    pub mod b &#123;</span><br><span class="line">        pub fn log() &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<h3><span id="1-环境安装">1. 环境安装</span></h3><p>Rust环境安装比较简单。在terminal输入:</p>
+<ul>
+<li><code>$curl --proto &#39;=https&#39; --tlsv1.2 https://sh.rustup.rs -sSf | sh</code></li>
+<li>这条命令用户安装Rust的管理工具rustup。</li>
+<li>安装成功会提示：<code>Rust is installed now. Greate!</code></li>
 </ul>
-<h3><span id="模块可见性">模块可见性</span></h3><ul>
-<li>pub(crate): 只在当前crate中可用<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">use a::&#123;echo, test&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fn main() &#123;</span><br><span class="line">    echo();</span><br><span class="line">    test();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mod a &#123;</span><br><span class="line">    pub(crate) fn echo() &#123;</span><br><span class="line">        println!(&quot;a::echo()&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    pub fn test() &#123;</span><br><span class="line">        println!(&quot;a::test()&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>pub(in crate::a): 只在crate a中可用<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">use a::&#123;echo, test&#125;;</span><br><span class="line"></span><br><span class="line">fn main() &#123;</span><br><span class="line">    echo();</span><br><span class="line">    //报错, 因为log只在crate::a中可用</span><br><span class="line">    log();</span><br><span class="line">    test();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mod a &#123;</span><br><span class="line">    pub(crate) fn echo() &#123;</span><br><span class="line">        println!(&quot;a::echo()&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    pub(in crate::a) fn log() &#123;</span><br><span class="line">        println!(&quot;a::log()&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    pub fn test() &#123;</span><br><span class="line">        println!(&quot;a::test()&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<h3><span id="2-常见命令">2. 常见命令</span></h3><ul>
+<li>更新Rust:<ul>
+<li><code>rustup update</code></li>
+</ul>
+</li>
+<li>查看已经按咋混改的工具链:<ul>
+<li><code>rustup toolchain list</code></li>
+</ul>
+</li>
+<li>安装特定版本的工具链:<ul>
+<li>rustup toolchain install nightly # 安装nightly版本<br>  rustup toolchain install 1.58.0  # 安装指定版本</li>
+</ul>
+</li>
+<li>切换到特定工具链:<ul>
+<li>rustup default nightly # 设置默认nightly版本<br>  rustup default 1.58.0  # 设置默认特定版本</li>
+</ul>
+</li>
+<li>查看已经安装的组件:<ul>
+<li>rustup component list –installed</li>
+</ul>
+</li>
+<li>安装Rust组件:<ul>
+<li>rustup component add rustfmt<br>  rustup component add clippy</li>
+</ul>
+</li>
+<li>卸载Rust组件:<ul>
+<li>rustup component remove rustfmt</li>
+</ul>
+</li>
+<li>创建新项目:<ul>
+<li>cargo new xxx</li>
+</ul>
+</li>
+<li>构建项目:<ul>
+<li>cd xxx<br>  cargo build</li>
+</ul>
+</li>
+<li>运行项目<ul>
+<li>cargo run</li>
+</ul>
+</li>
+<li>运行测试：<ul>
+<li>cargo test</li>
+</ul>
+</li>
+<li>发布项目<ul>
+<li>cargo publish</li>
+</ul>
+</li>
+</ul>
+<h3><span id="3-cargo常见命令">3. cargo常见命令</span></h3><ul>
+<li>更新依赖项<ul>
+<li>cargo update</li>
+</ul>
+</li>
+<li>检查项目：<ul>
+<li>cargo check</li>
+</ul>
+</li>
+<li>生成文档：<ul>
+<li>cargo doc –open # 生成并打开文档</li>
+</ul>
+</li>
+</ul>
+<h3><span id="4-创建第一个rust项目">4. 创建第一个rust项目</span></h3><ul>
+<li><p>cargo new hello_cargo<br>  cd hello_cargo</p>
+</li>
+<li><p>下边是项目目录<br><img src="/../images/project.jpg"></p>
+<ul>
+<li><p>src目录用于存放rust源码文件。rust项目的代码都存放在这里。<br>  <img src="/../images/main.jpg"></p>
+</li>
+<li><p>target目录: cargo编译代码时生成的文件都会存放在此目录中，其中包含中间文件、可执行文件等。<br>  <img src="/../images/target.jpg"></p>
+</li>
+<li><p>Cargo.toml文件: 此文件是项目的配置文件，管理项目等元数据、依赖和编译选项。<br>  <img src="/../images/toml.jpg"></p>
+<ul>
+<li>pakage: 定义包的基本信息，如名称、版本和Rust版本</li>
+<li>dependencies: 累出所需的依赖包及其版本，cargo会根据这些配置自动下载依赖项。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3><span id="5-使用cargo编译运行rust项目">5. 使用cargo编译运行rust项目</span></h3><ul>
+<li><code>cargo run: </code> 此命令会在target&#x2F;debug目录下生成可执行文件<br>  <img src="/../images/run.jpg"></li>
+<li><code>cargo run/build --debug/--release</code>: <ul>
+<li><code>debug</code>模式: debug为默认模式, 生成的文件会包含调试信息，便于调试和错误追踪，使用debug进行编译未进行优化，编译速度快，但是运行速度慢。 生成的文件位于target&#x2F;debug下。<br>  <img src="/../images/debug.jpg"><br>  <strong>默认使用debug模式，所以会报错，不需要加–debug</strong></li>
+<li><code>release</code>模式: release模式会启用编译起优化, 生成更小且更快的可执行文件，因为编译过程中编译起对其进行了优化，所以编译速度比较慢。生成的文件位于targer&#x2F;release下。<br>  <img src="/../images/release.jpg"></li>
+</ul>
+</li>
+</ul>
+<h3><span id="6-cargo配置toml源">6. cargo配置toml源</span></h3><ul>
+<li>文件位于 ~&#x2F;.cargo&#x2F;config.toml<br><img src="/../images/cargoconfig.jpg"><ul>
+<li></li>
+<li>[source.ustc]: 指定USTC的镜像地址，其中sparse+的意思表示使用Sparse Protocol是crates.io推出的协议。</li>
+</ul>
+</li>
 </ul>
 
           
@@ -392,7 +487,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/21/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span>
   </nav>
 
 

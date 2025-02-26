@@ -259,7 +259,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/02/12/solana_basic01/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/02/18/solana_basic02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -278,7 +278,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2025/02/12/solana_basic01/" itemprop="url">Solana基础</a></h1>
+                <a class="post-title-link" href="/2025/02/18/solana_basic02/" itemprop="url">Solana合约开发基础</a></h1>
         
 
         <div class="post-meta">
@@ -290,8 +290,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2025-02-12T00:00:00+08:00">
-                2025-02-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2025-02-18T00:00:00+08:00">
+                2025-02-18
               </time>
             
 
@@ -330,386 +330,26 @@
       
         
           
-            <h1 style="align-text: center"><span id="solana基础">Solana基础</span></h1>
+            <h1 style="align-text: center"><span id="solana合约开发基础">Solana合约开发基础</span></h1>
 
 <h3><span id="目录">目录</span></h3>
 <!--  toc -->
 
-<h2><span id="sol的8大核心概念">Sol的8大核心概念</span></h2><ul>
-<li>历史证明（Proof of History, POH）<ul>
-<li>技术原理:<ul>
-<li>全局可验证时钟: 将时间编码为可验证的数据结构(sha256)</li>
-<li>事件排序: 每个交易自带时间戳哈希，共识底层无需重复验证时序</li>
+<h2><span id="solana项目结构">solana项目结构</span></h2><h3><span id="核心文件">核心文件</span></h3><ul>
+<li>processor.rs: 核心业务逻辑，处理指令。</li>
+<li>state.rs: 定义账户的状态和扩展字段。</li>
+<li>instruction.rs: 定义各种代币操作的指令。</li>
+<li>error.rs: 定义了程序可能抛出的错误。</li>
+<li>lib.rs: 程序入口点，汇总各个模块。</li>
 </ul>
+<h3><span id="本地创建智能合约客户端进行创建代币-铸币">本地创建智能合约，客户端进行创建代币、铸币</span></h3><ul>
+<li><p>合约代码</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> solana_program::&#123;</span><br><span class="line">    entrypoint, </span><br><span class="line">    entrypoint::ProgramResult,</span><br><span class="line">    pubkey::Pubkey,</span><br><span class="line">    account_info::AccountInfo</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">entrypoint!(process_instruction);</span><br><span class="line"></span><br><span class="line"><span class="keyword">mod</span> instructions;</span><br><span class="line"><span class="keyword">mod</span> processor;</span><br><span class="line"><span class="keyword">use</span> crate::processor::Processor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">process_instruction</span>(</span><br><span class="line">    program_id: &amp;Pubkey,</span><br><span class="line">    accounts: &amp;[AccountInfo],</span><br><span class="line">    instruction_data: &amp;[<span class="type">u8</span>]</span><br><span class="line">) <span class="punctuation">-&gt;</span> ProgramResult &#123;</span><br><span class="line">    Processor::<span class="title function_ invoke__">process</span>(program_id, accounts, instruction_data)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> borsh::&#123;BorshSerialize, BorshDeserialize&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(BorshSerialize, BorshDeserialize)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">enum</span> <span class="title class_">TokenInstruction</span> &#123;</span><br><span class="line">    CreateToken &#123;decimals: <span class="type">u8</span>&#125;,</span><br><span class="line">    Mint &#123;amount:<span class="type">u64</span>&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> solana_program::&#123;</span><br><span class="line">    account_info::</span><br><span class="line">        &#123;next_account_info, AccountInfo&#125;, </span><br><span class="line">        entrypoint::ProgramResult, </span><br><span class="line">        system_instruction, </span><br><span class="line">        msg, program::&#123;invoke, invoke_signed&#125;, </span><br><span class="line">        program_pack::Pack, </span><br><span class="line">        pubkey::Pubkey, </span><br><span class="line">        sysvar::&#123;rent::Rent, Sysvar&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">use</span> borsh::BorshDeserialize;</span><br><span class="line"><span class="keyword">use</span> spl_associated_token_account::tools::account;</span><br><span class="line"><span class="keyword">use</span> spl_token::&#123;instruction::&#123;initialize_mint, mint_to&#125;, state::Mint&#125;;</span><br><span class="line"><span class="keyword">use</span> crate::instructions::TokenInstruction;</span><br><span class="line"></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Processor</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Processor</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">process</span>(</span><br><span class="line">        _program_id: &amp;Pubkey,</span><br><span class="line">        accounts: &amp;[AccountInfo],</span><br><span class="line">        instruction_data: &amp;[<span class="type">u8</span>]</span><br><span class="line">    ) <span class="punctuation">-&gt;</span> ProgramResult &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">instruction</span> = TokenInstruction::<span class="title function_ invoke__">try_from_slice</span>(instruction_data)?;</span><br><span class="line">        <span class="keyword">match</span> instruction &#123;</span><br><span class="line">            TokenInstruction::CreateToken &#123; decimals &#125; =&gt; <span class="keyword">Self</span>::<span class="title function_ invoke__">create_token</span>(accounts, decimals),</span><br><span class="line">            TokenInstruction::Mint &#123; amount &#125; =&gt; <span class="keyword">Self</span>::<span class="title function_ invoke__">mint_token</span>(accounts, amount),</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">create_token</span>(accounts: &amp;[AccountInfo], decimals: <span class="type">u8</span>) <span class="punctuation">-&gt;</span> ProgramResult &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">account_iter</span> = &amp;<span class="keyword">mut</span> accounts.<span class="title function_ invoke__">iter</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">mint_accout</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">mint_authority</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">payer</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">rent_sysvar</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">system_program</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">token_program</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line"></span><br><span class="line">        msg!(<span class="string">&quot;Creating mint account...&quot;</span>);</span><br><span class="line">        msg!(<span class="string">&quot;Mint account is &#123;&#125;&quot;</span>, mint_accout.key);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">create_account_ix</span> = &amp;system_instruction::<span class="title function_ invoke__">create_account</span>(</span><br><span class="line">            payer.key, </span><br><span class="line">            mint_accout.key, </span><br><span class="line">            (Rent::<span class="title function_ invoke__">get</span>()?).<span class="title function_ invoke__">minimum_balance</span>(Mint::LEN), </span><br><span class="line">            Mint::LEN <span class="keyword">as</span> <span class="type">u64</span>, </span><br><span class="line">            token_program.key);</span><br><span class="line"></span><br><span class="line">        <span class="title function_ invoke__">invoke</span>(</span><br><span class="line">            create_account_ix,</span><br><span class="line">            &amp;[</span><br><span class="line">                mint_accout.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                payer.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                system_program.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                system_program.<span class="title function_ invoke__">clone</span>()</span><br><span class="line">            ],</span><br><span class="line">        )?;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">mint_init</span> = <span class="title function_ invoke__">initialize_mint</span>(</span><br><span class="line">            token_program.key, </span><br><span class="line">            mint_accout.key, </span><br><span class="line">            mint_authority.key, </span><br><span class="line">            <span class="literal">None</span>, </span><br><span class="line">            decimals)?;</span><br><span class="line">        msg!(<span class="string">&quot;Initialize_mint account...&quot;</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="title function_ invoke__">invoke_signed</span>(</span><br><span class="line">            &amp;mint_init, </span><br><span class="line">            &amp;[</span><br><span class="line">                mint_accout.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                rent_sysvar.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                token_program.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                mint_authority.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">            ], </span><br><span class="line">            &amp;[]</span><br><span class="line">        )?;</span><br><span class="line">        msg!(<span class="string">&quot;SPL Token Mint create success!&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(())       </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">mint_token</span>(accounts: &amp;[AccountInfo], amount: <span class="type">u64</span>) <span class="punctuation">-&gt;</span> ProgramResult &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">accounts_iter</span> = &amp;<span class="keyword">mut</span> accounts.<span class="title function_ invoke__">iter</span>();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> <span class="variable">mint_account</span> = <span class="title function_ invoke__">next_account_info</span>(accounts_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">associated_token_account</span> = <span class="title function_ invoke__">next_account_info</span>(accounts_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">rent_sysvar</span> = <span class="title function_ invoke__">next_account_info</span>(accounts_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">payer</span> = <span class="title function_ invoke__">next_account_info</span>(accounts_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">system_program</span> = <span class="title function_ invoke__">next_account_info</span>(accounts_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">token_program</span> = <span class="title function_ invoke__">next_account_info</span>(accounts_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">associated_token_program</span> = <span class="title function_ invoke__">next_account_info</span>(accounts_iter)?;</span><br><span class="line"></span><br><span class="line">        msg!(<span class="string">&quot;ATA is: &#123;:?&#125;&quot;</span>, associated_token_account);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> associated_token_account.<span class="title function_ invoke__">lamports</span>() == <span class="number">0</span> &#123;</span><br><span class="line">            msg!(<span class="string">&quot;Creating associated token account...&quot;</span>);</span><br><span class="line">            <span class="keyword">let</span> <span class="variable">create_ata_ix</span> = &amp;spl_associated_token_account::instruction::<span class="title function_ invoke__">create_associated_token_account</span>(</span><br><span class="line">                payer.key,</span><br><span class="line">                payer.key,</span><br><span class="line">                mint_account.key,</span><br><span class="line">                token_program.key,</span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line">            <span class="title function_ invoke__">invoke</span>(</span><br><span class="line">                create_ata_ix,</span><br><span class="line">                &amp;[</span><br><span class="line">                    payer.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                    associated_token_account.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                    mint_account.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                    system_program.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                    token_program.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                    associated_token_program.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                ],</span><br><span class="line">            )?;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">let</span> <span class="variable">mint_ix</span> = &amp;<span class="title function_ invoke__">mint_to</span>(</span><br><span class="line">                token_program.key, </span><br><span class="line">                mint_account.key, </span><br><span class="line">                associated_token_account.key, </span><br><span class="line">                payer.key, </span><br><span class="line">                &amp;[payer.key], </span><br><span class="line">                amount</span><br><span class="line">            )?;</span><br><span class="line">            </span><br><span class="line">            <span class="title function_ invoke__">invoke</span>(</span><br><span class="line">                mint_ix, </span><br><span class="line">                &amp;[</span><br><span class="line">                    mint_account.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                    payer.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                    associated_token_account.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                    token_program.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                ],</span><br><span class="line">            )?;</span><br><span class="line">            msg!(<span class="string">&quot;Token Minted to ata success&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li>解决的问题:<ul>
-<li>传统区块链的节点时钟同步难题(如比特币的10分钟区块间隔)</li>
-<li>降低共识机制的时间协调开销</li>
+<li><p>客户端代码</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::&#123;<span class="type">str</span>::FromStr, vec&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> borsh::&#123;BorshSerialize, BorshDeserialize&#125;;</span><br><span class="line"><span class="keyword">use</span> solana_client::rpc_client::RpcClient;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::&#123;</span><br><span class="line">    instruction::&#123;AccountMeta, Instruction&#125;, pubkey::Pubkey, signature::&#123;</span><br><span class="line">        read_keypair_file, Keypair&#125;, signer::Signer, sysvar, transaction::Transaction</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(BorshSerialize, BorshDeserialize)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">enum</span> <span class="title class_">TokenInstruction</span> &#123;</span><br><span class="line">    CreateToken &#123;decimals: <span class="type">u8</span>&#125;,</span><br><span class="line">    Mint &#123;amounts: <span class="type">u64</span>&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// DvTLetzf2dNbK5mHZcpy7jMHFg1jJyr6zDKFESEFquv3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// fn main() &#123;</span></span><br><span class="line"><span class="comment">//     let rpc_client = RpcClient::new(&quot;127.0.0.1:8899&quot;.to_string());</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">//     let payer = read_keypair_file(&quot;/Users/dongkun/.config/solana/t1.json&quot;).expect(&quot;failed&quot;);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//     let program_id = Pubkey::from_str(&quot;DvTLetzf2dNbK5mHZcpy7jMHFg1jJyr6zDKFESEFquv3&quot;).unwrap();</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//     let mint_account = Keypair::new();</span></span><br><span class="line"><span class="comment">//     println!(&quot;mint_account: &#123;&#125;&quot;, mint_account.pubkey().to_string());</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//     _ = create_token(&amp;rpc_client, &amp;program_id, &amp;payer, &amp;mint_account, &amp;payer.pubkey(), 6);</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#[test]</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">test_fn</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rpc_client</span> = RpcClient::<span class="title function_ invoke__">new</span>(<span class="string">&quot;http://127.0.0.1:8899&quot;</span>.<span class="title function_ invoke__">to_string</span>());</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> <span class="variable">payer</span> = <span class="title function_ invoke__">read_keypair_file</span>(<span class="string">&quot;/Users/dongkun/.config/solana/t1.json&quot;</span>).<span class="title function_ invoke__">expect</span>(<span class="string">&quot;failed&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">program_id</span> = Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;DvTLetzf2dNbK5mHZcpy7jMHFg1jJyr6zDKFESEFquv3&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">mint_account</span> = Keypair::<span class="title function_ invoke__">new</span>();</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;mint_account: &#123;&#125;&quot;</span>, mint_account.<span class="title function_ invoke__">pubkey</span>().<span class="title function_ invoke__">to_string</span>());</span><br><span class="line"></span><br><span class="line">    _ = <span class="title function_ invoke__">create_token</span>(&amp;rpc_client, &amp;program_id, &amp;payer, &amp;mint_account, &amp;payer.<span class="title function_ invoke__">pubkey</span>(), <span class="number">6</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">create_token</span>(</span><br><span class="line">    rpc_client: &amp;RpcClient,</span><br><span class="line">    program_id: &amp;Pubkey,</span><br><span class="line">    payer: &amp;Keypair,</span><br><span class="line">    mint_account: &amp;Keypair,</span><br><span class="line">    mint_authority: &amp;Pubkey,</span><br><span class="line">    decimals: <span class="type">u8</span></span><br><span class="line">) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;(), <span class="type">Box</span>&lt;<span class="keyword">dyn</span> std::error::Error&gt;&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">instruction_data</span> = borsh::<span class="title function_ invoke__">to_vec</span>(&amp;TokenInstruction::CreateToken &#123; decimals &#125;).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">accounts</span> = <span class="built_in">vec!</span>[</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new</span>(mint_account.<span class="title function_ invoke__">pubkey</span>(), <span class="literal">true</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new_readonly</span>(*mint_authority, <span class="literal">false</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new_readonly</span>(payer.<span class="title function_ invoke__">pubkey</span>(), <span class="literal">false</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new_readonly</span>(sysvar::rent::<span class="title function_ invoke__">id</span>(), <span class="literal">false</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new_readonly</span>(solana_sdk::system_program::<span class="title function_ invoke__">id</span>(), <span class="literal">false</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new_readonly</span>(spl_token::<span class="title function_ invoke__">id</span>(), <span class="literal">false</span>)</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">token_instruction</span> = Instruction &#123;</span><br><span class="line">        program_id: *program_id,</span><br><span class="line">        accounts,</span><br><span class="line">        data:instruction_data</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">latest_blockhash</span> = rpc_client.<span class="title function_ invoke__">get_latest_blockhash</span>().<span class="title function_ invoke__">expect</span>(<span class="string">&quot;get latset blockhash failed!&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">tx</span> = Transaction::<span class="title function_ invoke__">new_signed_with_payer</span>(</span><br><span class="line">        &amp;[token_instruction], </span><br><span class="line">        <span class="title function_ invoke__">Some</span>(&amp;payer.<span class="title function_ invoke__">pubkey</span>()), </span><br><span class="line">        &amp;[payer, mint_account], </span><br><span class="line">        latest_blockhash</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r</span> = rpc_client.<span class="title function_ invoke__">send_and_confirm_transaction</span>(&amp;tx)?;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, r);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;create token success!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
-</li>
-</ul>
-</li>
-<li>Tower BFT共识<ul>
-<li>技术原理:<ul>
-<li>PBFT优化版: 利用PoH作为可信时间源，减少通信轮次</li>
-<li>锁定检查点: 节点对特定的PoH高度达成共识后不可以回滚</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Gulf Stream协议<ul>
-<li>技术原理:<ul>
-<li>交易预推: 验证节点提前交易缓存至下游领导者</li>
-<li>零确认交易: 用户可立即发送交易至未来的8个领导节点</li>
-</ul>
-</li>
-<li>性能提升:<ul>
-<li>减少确认延迟: 交易在到达领导者前已开始处理</li>
-<li>网络负载均衡: 避免交易洪峰中冲击单个节点</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Turbine分块广播<ul>
-<li>技术原理:<ul>
-<li>UDP+分片传输: 将区块分解为多个小包进行传输</li>
-<li>树状拓扑传播: 每个节点负责向特定子节点组转发数据</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Sealevel并行智能合约环境<ul>
-<li>技术原理:<ul>
-<li>交易并行处理: 运行时根据状态依赖关系调度交易</li>
-<li>显示状态声明: 合约需预先声明访问的账户，避免资源竞争</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Cloudbreak水平扩展存储<ul>
-<li>技术原理:<ul>
-<li>内存映射文件: 将账户状态存储在随机访问内存中</li>
-<li>无锁写入: 通过内存地址偏移实现并行写入</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Archiver网络<ul>
-<li>技术原理:<ul>
-<li>去中心化存储: 历史数据分片存储于轻节点网络</li>
-<li>激励模型: 存储提供者通过质押获得网络奖励</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>本地化费用市场(Local Fee Markets)<ul>
-<li>技术原理:<ul>
-<li>资源隔离: 每个状态账户独立设置Gas费用</li>
-<li>拥堵控制: 高频访问自动提升交易费用门槛</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2><span id="环境搭建">环境搭建</span></h2><ul>
-<li><p>Rust环境配置</p>
-<ul>
-<li><code>curl --proto &#39;https&#39; --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y</code></li>
-</ul>
-</li>
-<li><p>Solana-cli</p>
-<ul>
-<li>sh -c “$(curl -sSfL <a target="_blank" rel="noopener" href="https://release.anza.xyz/stable/install">https://release.anza.xyz/stable/install</a>)”</li>
-<li>升级: agave-install udpate</li>
-<li>检查是否安装成功: <code>solana -V</code></li>
-</ul>
-</li>
-<li><p>Anchor开发框架</p>
-<ul>
-<li>cargo install –git <a target="_blank" rel="noopener" href="https://github.com/coral-xyz/anchor">https://github.com/coral-xyz/anchor</a> avm –locked –force 有版本兼容问题，换成 cargo install –git <a target="_blank" rel="noopener" href="https://github.com/coral-xyz/anchor">https://github.com/coral-xyz/anchor</a> –tag v0.30.1 anchor-cli –force</li>
-<li>avm install latest</li>
-<li>avm use latest</li>
-<li>验证是否安装成功: anchor -V</li>
-</ul>
-</li>
-<li><p>创建钱包</p>
-<ul>
-<li>solana-keygen new # –force overwrite</li>
-<li>solana config set -k ~&#x2F;.config&#x2F;solana&#x2F;id.json # 设置为默认钱包</li>
-<li>通过Playground创建 <a target="_blank" rel="noopener" href="https://https//beta.solpg.io/">https://https://beta.solpg.io/</a><ul>
-<li>右上角 -&gt; wallet -&gt; Add</li>
-</ul>
-</li>
-<li>空投SOL代币<ul>
-<li>solana airdrop 5 或者通过faucet领取 <a target="_blank" rel="noopener" href="https://faucet.solana.com/">https://faucet.solana.com/</a></li>
-<li>通过区块浏览器查看账户交易: <a target="_blank" rel="noopener" href="https://explorer.solana.com/address/[%E9%92%B1%E5%8C%85%E5%9C%B0%E5%9D%80]?cluster=devnet">https://explorer.solana.com/address/[钱包地址]?cluster=devnet</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>设置本地验证节点</p>
-<ul>
-<li>solana-test-validator</li>
-<li>solana config get # get config</li>
-<li>solana config set –url loaclhost # 配置本地主机验证器</li>
-<li>solana config set –url testnet # 配置test net</li>
-</ul>
-</li>
-<li><p>solana-cli常见用法</p>
-<ul>
-<li>solana config get</li>
-<li>solana config set –usr <net></net></li>
-<li>solana-keygen new –outfile <path></path>   # 指定路径创建钱包，可用于创建多个钱包</li>
-<li>solana-keygen new # 创建钱包</li>
-<li>solana address   # 查看地址</li>
-<li>solana balance <pub_key> # 查看余额</pub_key></li>
-<li>solana transfer <recipient_public_key> <amount> –from <sender_keypair_path></sender_keypair_path></amount></recipient_public_key></li>
-</ul>
-</li>
-</ul>
-<h2><span id="solana开发">solana开发</span></h2><ul>
-<li>创建Native Rust项目<ul>
-<li>cargo new –lib <project_name> # new project</project_name></li>
-<li>cargo add solana-program #deps</li>
-<li>修改编译配置<ul>
-<li>[lib]</li>
-<li>crate-type &#x3D; [“cdylib”, “lib”]</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>使用anchor创建项目<ul>
-<li>anchor init <project_name></project_name></li>
-<li>anchor test</li>
-<li>anchor deploy</li>
-</ul>
-</li>
-<li>Deploy Failed<ul>
-<li>solana program show –buffers</li>
-<li>solana program close –buffers</li>
-</ul>
-</li>
-</ul>
-<h2><span id="solana基础">Solana基础</span></h2><h3><span id="账户">账户</span></h3><ul>
-<li>数据账户<ul>
-<li>系统所有账户</li>
-<li>程序派生账户(PDA)</li>
-</ul>
-</li>
-<li>程序账户，用来存储可执行程序</li>
-<li>原生账户，指Solana上的原生程序，例如”System”, “Stake”, 以及”Vote”。</li>
-</ul>
-<h4><span id="账户结构体">账户结构体</span></h4><ul>
-<li>Account<ul>
-<li>lamports:u64; : 账户余额(solana余额)</li>
-<li>data:Vec<u8>; : 存储的数据</u8></li>
-<li>owner: Pubkey; : 存储所有者公钥</li>
-<li>executable: bool; : 账户是否可执行，如果是可执行，data存储的就是二进制程序；如果不可执行，那data存储的就是数据。</li>
-<li>rent_epoch: Epoch; : 租金</li>
-</ul>
-</li>
-<li>AccountInfo<ul>
-<li>key: &amp;’a Pubkey; 账户公钥，账户标识</li>
-<li>lamports: Rc&lt;RefCell&lt;&amp;’a mut u64&gt;&gt;; 账户余额(solana余额)</li>
-<li>data: Rc&lt;RefCell&lt;&amp;’a mut [u8]&gt;&gt;;</li>
-<li>owner: &amp;’a Pubkey;</li>
-<li>rent_epoch: Epoch;</li>
-<li>is_signer: bool; 是否被签名</li>
-<li>is_writtable:bool; 数据是否可以被修改</li>
-<li>executable:bool;</li>
-</ul>
-</li>
-<li>Account&amp;AccountInfo对比<ul>
-<li>AccountInfo:<ul>
-<li>更轻量级，包含对区块链上现有账户数据的引用。</li>
-<li>用于在Solana程序(智能合约)内部处理账户。</li>
-<li>适合在链上处理和操作账户数据</li>
-</ul>
-</li>
-<li>Account<ul>
-<li>更完整的账户表示，包含账户的所有数据副本。</li>
-<li>常用于客户端或测试环境中，用于模拟或获取完整的账户状态。</li>
-<li>适合离线处理或全局管理账户数据。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>要点<ul>
-<li>账户是用来存放数据的</li>
-<li>每个账户都有一个独一无二的地址</li>
-<li>每个账户大小不能超过10MB</li>
-<li>账户大小是静态的</li>
-<li>账户数据存储需要付租金</li>
-<li>默认的账户所有者是”系统程序”</li>
-</ul>
-</li>
-</ul>
-<h4><span id="程序派生账户pda">程序派生账户(PDA)</span></h4><ul>
-<li>相关概念: <a target="_blank" rel="noopener" href="https://solana.com/zh/docs/core/pda">https://solana.com/zh/docs/core/pda</a></li>
-</ul>
-<h5><span id="pda应用场景">PDA应用场景</span></h5><ul>
-<li>用户状态管理</li>
-<li>去中心化金融(DeFi)协议</li>
-<li>NTF元数据存储</li>
-<li>DAO(去中心化自治组织)投票系统</li>
-<li>时间锁合约</li>
-<li>多签(Multisig)钱包</li>
-<li>去中心化身份验证</li>
-</ul>
-<h2><span id="开发中用到的rust库">开发中用到的Rust库</span></h2><ul>
-<li>solana_client</li>
-<li>solana_sdk</li>
-<li>solana_program</li>
-</ul>
-<h3><span id="本地开发测试">本地开发测试</span></h3><ul>
-<li><p>使用本地测试环境</p>
-<ul>
-<li>solana-test-validator</li>
-</ul>
-</li>
-<li><p>修改solana配置</p>
-<ul>
-<li>solana config set –url <a target="_blank" rel="noopener" href="http://127.0.0.1:8899/">http://127.0.0.1:8899</a></li>
-</ul>
-</li>
-<li><p>设置本地账户</p>
-<ul>
-<li>生成: solana-keygen new -o [path]</li>
-<li>设置: solana config set –keypair [path]</li>
-</ul>
-</li>
-<li><p>创建rust项目，下载库</p>
-<ul>
-<li>cargo new sol</li>
-<li>cargo add solana-client</li>
-<li>cargo add solana-sdk</li>
-</ul>
-</li>
-<li><p>本地进行余额查询和获取空头</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::&#123;<span class="type">str</span>::FromStr, time::Duration&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> solana_client::rpc_client::RpcClient;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::pubkey::Pubkey;</span><br><span class="line"></span><br><span class="line"><span class="comment">//U8WQ6Uxu2ndzuJ4ejhYDFXTdH9dADbH2Ry4FnAmzkBH</span></span><br><span class="line"><span class="comment">//5U6mAsQCw3sKuVY1JneCnJCbdg8GKxECyYv5NowEhmE2</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 创建Solana链接</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rpc_url</span> = <span class="string">&quot;http://127.0.0.1:8899&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">client</span> = RpcClient::<span class="title function_ invoke__">new</span>(rpc_url);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指定想要查询余额的账户</span></span><br><span class="line">    <span class="comment">// 接收空投账户</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">account_pubkey</span> = Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;U8WQ6Uxu2ndzuJ4ejhYDFXTdH9dADbH2Ry4FnAmzkBH&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    <span class="comment">// 接收数量</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">amount</span> = <span class="number">1</span> * <span class="number">1_000_000_000</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">match</span> client.<span class="title function_ invoke__">request_airdrop</span>(&amp;account_pubkey, amount) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(signature) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;空投成功， 交易签名: &#123;&#125;&quot;</span>, signature),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;空投失败: &#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    std::thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_secs</span>(<span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取账户余额</span></span><br><span class="line">    <span class="keyword">match</span> client.<span class="title function_ invoke__">get_balance</span>(&amp;account_pubkey) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(balance) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;账户余额:&#123;&#125;, lamports&quot;</span>, balance),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;获取账户余额失败:&#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>进行转账</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::<span class="type">str</span>::FromStr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> solana_client::rpc_client::RpcClient;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::pubkey::Pubkey;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::signature::read_keypair_file;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::signer::Signer;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::system_instruction;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::transaction::Transaction;</span><br><span class="line"></span><br><span class="line"><span class="comment">//U8WQ6Uxu2ndzuJ4ejhYDFXTdH9dADbH2Ry4FnAmzkBH</span></span><br><span class="line"><span class="comment">//5U6mAsQCw3sKuVY1JneCnJCbdg8GKxECyYv5NowEhmE2</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 创建Solana链接</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rpc_url</span> = <span class="string">&quot;http://127.0.0.1:8899&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">client</span> = RpcClient::<span class="title function_ invoke__">new</span>(rpc_url);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指定想要查询余额的账户</span></span><br><span class="line">    <span class="comment">// 发送端</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">sender</span> = <span class="title function_ invoke__">read_keypair_file</span>(<span class="string">&quot;/Users/dongkun/.config/solana/local1.json&quot;</span>).<span class="title function_ invoke__">expect</span>(<span class="string">&quot;read pubkey failed&quot;</span>);</span><br><span class="line">    <span class="comment">// 接收端</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">recipient_pubkey</span> = Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;5U6mAsQCw3sKuVY1JneCnJCbdg8GKxECyYv5NowEhmE2&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 接收数量</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">amount</span> = <span class="number">1</span> * <span class="number">1_000_000_000</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建转账指令</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">transfer_instruction</span> = system_instruction::<span class="title function_ invoke__">transfer</span>(</span><br><span class="line">        &amp;sender.<span class="title function_ invoke__">pubkey</span>(),</span><br><span class="line">        &amp;recipient_pubkey, </span><br><span class="line">        amount);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 获取最后一个区块</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">recent_blockhash</span> = client.<span class="title function_ invoke__">get_latest_blockhash</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建交易</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">transaction</span> = Transaction::<span class="title function_ invoke__">new_signed_with_payer</span>(</span><br><span class="line">        &amp;[transfer_instruction],</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(&amp;sender.<span class="title function_ invoke__">pubkey</span>()),</span><br><span class="line">        &amp;[&amp;sender],</span><br><span class="line">        recent_blockhash);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span> = client.<span class="title function_ invoke__">send_and_confirm_transaction</span>(&amp;transaction);</span><br><span class="line">    <span class="keyword">match</span> result &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(signature) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;转账成功，交易签名:&#123;&#125;&quot;</span>, signature),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;转账失败: &#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">match</span> client.<span class="title function_ invoke__">get_balance</span>(&amp;recipient_pubkey) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(balance) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;接收账户余额: &#123;&#125;&quot;</span>, balance),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;查询余额失败: &#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3><span id="solana-token解析">solana token解析</span></h3><h4><span id="solana上的代币">solana上的代币</span></h4><ul>
-<li><p>代币是代表对各种资产所有权的数字资产。代币化使得财产权的数字化成为可能，是管理可替代和不可替代资产的基本组成部分。</p>
-<ul>
-<li>可代替代币代表同类型和同价值的客户换和可分割资产(USDC)</li>
-<li>不可代替代币(NFT)代表不可分割资产的所有权(例如艺术品)</li>
-</ul>
-</li>
-<li><p>SPL(Solana Progranm Library)</p>
-<ul>
-<li>Token Program(代币程序): 它是SPL中的一个核心程序，用于创建和管理代币。<ul>
-<li>功能:<ul>
-<li>创建代币(Mint)</li>
-<li>转移代币</li>
-<li>冻结或解冻代币</li>
-<li>销毁代币</li>
-</ul>
-</li>
-<li>关键指令:<ul>
-<li>InitializeMint: 创建新的代币</li>
-<li>InitializeAccount: 创建代币账户</li>
-<li>Transfer: 转移代币</li>
-<li>MintTo: 铸造代币</li>
-<li>Burn: 销毁代币</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Mint Account(铸币账户): 它是代币的铸造账户，用于定义代币的属性和总量<ul>
-<li>作用:<ul>
-<li>定义代币的元数据(如名称、符号、小数点位数)</li>
-<li>控制代币的总供应量</li>
-<li>管理代币的铸造权限</li>
-</ul>
-</li>
-<li>关键字段:<ul>
-<li>supply: 当前代币的总供应量</li>
-<li>decimals: 代币的小数点位数</li>
-<li>mint_authority: 代币的铸造权限(可以铸造新代币的地址)</li>
-<li>freeze_authority: 代币的冻结权限(可以冻结代币账户的地址)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Token Account(代币账户): 它是代币的持有账户，用于存储某个用户持有的特定代币<ul>
-<li>作用:<ul>
-<li>存储用户持有的代币数量</li>
-<li>记录代币的转账和余额变化</li>
-</ul>
-</li>
-<li>关键字段:<ul>
-<li>mint: 关联的Mint Acount地址</li>
-<li>owner: 代币所有者地址</li>
-<li>amount: 当前代币的余额</li>
-<li>delegate: 代币的委托地址(允许其他地址操作代币)</li>
-<li>state: 账户状态(如是否被冻结)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Associated Token Account(关联代币账户): 它是一种特殊的Token Account，它于用户的公钥关联，用于简化代币管理<ul>
-<li>特点:<ul>
-<li>每个用户和Mint Account的组合对应一个唯一的Associated Token Account</li>
-<li>通过Associated Token Account Program自动创建和管理</li>
-</ul>
-</li>
-<li>作用:<ul>
-<li>简化代币账户的创建和查找</li>
-<li>确保每个用户对每种代币只有一个账户</li>
-</ul>
-</li>
-<li>创建方式:<ul>
-<li>使用 spl-token create-account 命令或调用 Associated Token Account Program创建</li>
-</ul>
-</li>
-<li>地址计算:<ul>
-<li>Associated Token Account的地址是通过用户公钥和Mint Account地址计算得出的，确保唯一性</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>创建代币</p>
-<ul>
-<li>创建mint account: spl-token create-token<br>  &#96;spl-token create-token<br>  Creating token E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp under program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA</li>
-</ul>
-<p>  Address:  E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  Decimals:  9</p>
-<p>  Signature: 24DCdMfZaJRvpDh7JGX9bi38vSYxeu2QmgwFEvfBVhddekJLExr6jcdh3v6eGPc9LKvtbSobSP2m9Xbmc1jChgkX&#96;</p>
-<ul>
-<li>查看账号信息: spl-token account info –address E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  &#96;spl-token account-info –address E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp</li>
-</ul>
-<p>  SPL Token Mint<br>  Address: E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  Program: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA<br>  Supply: 0<br>  Decimals: 9<br>  Mint authority: 8xZDVJj3xugYGTn4WRPgsa4BcZJSuam7RRpqbv1o51iH<br>  Freeze authority: (not set)&#96;</p>
-<ul>
-<li>创建token account: spl-token create-account E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp (默认创建ATA账户)<br>  &#96;spl-token create-account E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  Creating account HKDQ2SxG7FyP1NkdcpDuUZrsM8HHZ4a3qY1jwB4VBC1R</li>
-</ul>
-<p>  Signature: 5iL6hdGXPPoFoiZ2T9vVGaG86Whd8JGrouwRFaSRzfcLpUu87DxDGghyW1hTKuAYyWM9cefRut2FdnpVc7yQ4BCs&#96;</p>
-<ul>
-<li>创建token account: spl-token create-account E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp [keypair] (创建非ATA账户)<br>  &#96;spl-token create-account E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp .config&#x2F;solana&#x2F;t2.json<br>  Creating account 8a2rHLhLytTZGr5ZHr1o3doWyfDPbnnhMoyz4UtwvszW</li>
-</ul>
-<p>  Signature: 2NeAfdi73bt77CbZLxrsX25EsB4aNPq6eD9TG7GQJsvYhzAWUWFn6VidMnZP8oqjtzkwdTKgjTfsKxrSL8AEy1jN&#96;</p>
-<ul>
-<li><p>对ATA账户和非ATA账户进行空头</p>
-<ul>
-<li>ATA账户: spl-token mint E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp 100<br>  &#96;Minting 100 tokens<br>  Token: E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  Recipient: HKDQ2SxG7FyP1NkdcpDuUZrsM8HHZ4a3qY1jwB4VBC1R</li>
-</ul>
-<p>  Signature: 5MQZ7CVFmruBxoFrNzcqMXrtT28G2vdGJR4KcsURKcepTS7XD2RYVPxLNo1QSqqbxzZJ5dASiQ7J2x6oNBWs9z7j&#96;</p>
-<ul>
-<li>查看账号信息: spl-token account-info –address HKDQ2SxG7FyP1NkdcpDuUZrsM8HHZ4a3qY1jwB4VBC1R<br>  <code>SPL Token Account   Address: HKDQ2SxG7FyP1NkdcpDuUZrsM8HHZ4a3qY1jwB4VBC1R   Program: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA   Balance: 100   Decimals: 9   Mint: E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp   Owner: 8xZDVJj3xugYGTn4WRPgsa4BcZJSuam7RRpqbv1o51iH   State: Initialized   Delegation: (not set)   Close authority: (not set)</code></li>
-<li>非ATA账户: spl-token mint E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp 100 – 8a2rHLhLytTZGr5ZHr1o3doWyfDPbnnhMoyz4UtwvszW<br>  &#96;Minting 100 tokens<br>  Token: E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp<br>  Recipient: 8a2rHLhLytTZGr5ZHr1o3doWyfDPbnnhMoyz4UtwvszW</li>
-</ul>
-<p>  Signature: FRn7Kq9LWrqAp7FqPkaNK4RBAEHYoKWxYNoLQXdwyobANKMnEfjizQM2PAh4vUuqoQM7tRK2w7XLCj3FrSo7xWJ&#96;</p>
-<ul>
-<li>查看账户信息: spl-token account-info –address 8a2rHLhLytTZGr5ZHr1o3doWyfDPbnnhMoyz4UtwvszW<br>  <code>SPL Token Account   Address: 8a2rHLhLytTZGr5ZHr1o3doWyfDPbnnhMoyz4UtwvszW  (Aux*)   Program: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA   Balance: 100   Decimals: 9   Mint: E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp   Owner: 8xZDVJj3xugYGTn4WRPgsa4BcZJSuam7RRpqbv1o51iH   State: Initialized   Delegation: (not set)   Close authority: (not set)</code></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h5><span id="通过钱包地址和mint-account地址获取ata账户地址">通过钱包地址和mint account地址获取ATA账户地址</span></h5><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[package]</span><br><span class="line">name = <span class="string">&quot;sol&quot;</span></span><br><span class="line">version = <span class="string">&quot;0.1.0&quot;</span></span><br><span class="line">edition = <span class="string">&quot;2021&quot;</span></span><br><span class="line"></span><br><span class="line">[dependencies]</span><br><span class="line">solana-client = <span class="string">&quot;2.1.13&quot;</span></span><br><span class="line">solana-sdk = <span class="string">&quot;2.1.13&quot;</span></span><br><span class="line">spl-associated-token-account = <span class="string">&quot;6.0.0&quot;</span></span><br><span class="line">spl-token = <span class="string">&quot;7.0.0&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> std::<span class="type">str</span>::FromStr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> solana_sdk::pubkey::&#123;<span class="keyword">self</span>, Pubkey&#125;;</span><br><span class="line"><span class="keyword">use</span> spl_associated_token_account::get_associated_token_address;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 钱包地址</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">wallet_address</span> = Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;8xZDVJj3xugYGTn4WRPgsa4BcZJSuam7RRpqbv1o51iH&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// mint account地址</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">mint_address</span> = Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;E4AA1yKJ8JwQ5UEM37hLrc8FYMLp2hLgDfszcygL4Ckp&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算Associated Token Account地址</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">associated_token_address</span> = <span class="title function_ invoke__">get_associated_token_address</span>(&amp;wallet_address, &amp;mint_address);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;associated token account: &#123;&#125;&quot;</span>, associated_token_address);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
           
         
       
@@ -748,7 +388,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -794,7 +434,7 @@
               
                 <a href="/archives%7C%7Carchive">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

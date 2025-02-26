@@ -259,7 +259,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/07/rust_advanced03/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/07/rust_advanced02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -278,7 +278,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2024/11/07/rust_advanced03/" itemprop="url">Rust中的Rc</a></h1>
+                <a class="post-title-link" href="/2024/11/07/rust_advanced02/" itemprop="url">Rust生命周期</a></h1>
         
 
         <div class="post-meta">
@@ -330,18 +330,50 @@
       
         
           
-            <h1 style="align-text: center"><span id="rust中的rc">Rust中的Rc</span></h1>
+            <h1 style="align-text: center"><span id="rust生命周期">Rust生命周期</span></h1>
 
 <h3><span id="目录">目录</span></h3>
-<!--  toc -->
 
-<h2><span id="rc定义">Rc定义</span></h2><ul>
-<li>Rc是Rust标准库中的一个智能指针, 表示引用计数的指针。它允许多个所有者共享对同一数据的所有权, 同时确保数据在不再需要时可以被自动清理。Rc是不可变的, 这意味着不能通过Rc修改它所指向的数据, 但可以通过Rc来创建多个所有者。</li>
+<!-- toc -->
+
+<ul>
+<li><a href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5">生命周期的基本概念</a></li>
+<li><a href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A0%87%E6%B3%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95">生命周期标注的基本用法</a><ul>
+<li><a href="#%E5%87%BD%E6%95%B0%E4%B8%AD%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A0%87%E6%B3%A8">函数中的生命周期标注</a></li>
+<li><a href="#%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F">结构体中的生命周期</a></li>
 </ul>
-<h2><span id="使用rc">使用Rc</span></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#[derive(Debug)]</span><br><span class="line">enum List&lt;&#x27;a&gt; &#123;</span><br><span class="line">    Cons(i32,&amp;&#x27;a List&lt;&#x27;a&gt;),</span><br><span class="line">    Nil,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#[derive(Debug)]</span><br><span class="line">enum List1 &#123;</span><br><span class="line">    Conss(i32, Rc&lt;List1&gt;),</span><br><span class="line">    Nil,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">use std::rc::Rc;</span><br><span class="line"></span><br><span class="line">use crate::List::*;</span><br><span class="line">use crate::List1::*;</span><br><span class="line"></span><br><span class="line">fn _study() &#123;</span><br><span class="line">    let a = Cons(5, &amp;Cons(10, &amp;List::Nil));</span><br><span class="line">    let b = Cons(3, &amp;a);</span><br><span class="line">    let c = Cons(4, &amp;a);</span><br><span class="line"></span><br><span class="line">    println!(&quot;a: &#123;:?&#125;&quot;, a);</span><br><span class="line">    println!(&quot;b: &#123;:?&#125;&quot;, b);</span><br><span class="line">    println!(&quot;c: &#123;:?&#125;&quot;, c);</span><br><span class="line"></span><br><span class="line">    let d = Rc::new(Conss(5, Rc::new(Conss(10, Rc::new(List1::Nil)))));</span><br><span class="line">    println!(&quot;d rc: &#123;&#125;&quot;, Rc::strong_count(&amp;d));</span><br><span class="line">    let e = Conss(3, Rc::clone(&amp;d));</span><br><span class="line">    println!(&quot;e rc: &#123;&#125;&quot;, Rc::strong_count(&amp;d));</span><br><span class="line">    let f = Conss(4, Rc::clone(&amp;d));</span><br><span class="line">    println!(&quot;f rc: &#123;&#125;&quot;, Rc::strong_count(&amp;d));</span><br><span class="line"></span><br><span class="line">    println!(&quot;d: &#123;:?&#125;&quot;, d);</span><br><span class="line">    println!(&quot;e: &#123;:?&#125;&quot;, e);</span><br><span class="line">    println!(&quot;f: &#123;:?&#125;&quot;, f);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><a href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9C%81%E7%95%A5%E8%A7%84%E5%88%99">生命周期省略规则</a></li>
+<li><a href="#%E7%BB%83%E4%B9%A0">练习</a></li>
+</ul>
+<!-- tocstop -->
 
-<h2><span id="refcell">RefCell</span></h2><ul>
-<li>Rc本身不支持修改它所指向的数据, 因为它只能通过不可变引用访问数据。 如果需要可变性, 可以结合RefCell使用。RefCell提供了内部可变性, 即使是不可变的引用也可以修改数据。</li>
+<h2><span id="生命周期的基本概念">生命周期的基本概念</span></h2><ul>
+<li>Rust的生命周期是一种编译时检查机制，用来保证引用的有效性，防止悬垂指针等内存安全问题。Rust使用生命周期标注来追踪引用的生存时间，从而确保在访问引用时它们指向的数据是有效的。</li>
+</ul>
+<h2><span id="生命周期标注的基本用法">生命周期标注的基本用法</span></h2><h3><span id="函数中的生命周期标注">函数中的生命周期标注</span></h3><ul>
+<li>如果一个函数接受多个引用作为参数并返回一个引用，Rust需要知道返回的引用与哪个参数生命周期关联。<ul>
+<li>下边longest函数中, ‘a标记了输入和返回值的生命周期, 表示返回的引用至少和x和y中生命周期较短的哪个相同。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fn longest&lt;&#x27;a&gt;(x: &amp;&#x27;a str, y: &amp;&#x27;a str) -&gt; &amp;&#x27;a str &#123;</span><br><span class="line">    if x.len() &gt; y.len &#123;</span><br><span class="line">        x</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h3><span id="结构体中的生命周期">结构体中的生命周期</span></h3><ul>
+<li>当结构体包含引用时, 也需要使用生命周期标注<ul>
+<li>下边结构体ImportantExcept存在一个引用成员part, 它的生命周期由’a标注。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">struct ImportantExcept&lt;&#x27;a&gt; &#123;</span><br><span class="line">    part: &amp;&#x27;a str,</span><br><span class="line">&#125;</span><br><span class="line">impl&lt;&#x27;a&gt; ImportantExcept&lt;&#x27;a&gt; &#123;</span><br><span class="line">    fn level(&amp;self) -&gt; i32 &#123;</span><br><span class="line">        3</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h2><span id="生命周期省略规则">生命周期省略规则</span></h2><ul>
+<li>Rust引入了生命周期省略规则,让编译器能推断一些生命周期, 而不需要手动标注。常见的省略规则包括:<ul>
+<li>每一个引用参数都有它独立的生命周期</li>
+<li>如果只有一个引用参数, 那么返回值的生命周期等于该参数的生命周期</li>
+<li>如果有多个引用红参数且其中一个是&amp;self或&amp;mut self, 返回值的生命周期等于self的生命周期</li>
+</ul>
+</li>
+<li>例如: 下边例子中, 由于只有一个引用参数&amp;str, 返回值的生命周期会自动与s相同, 无需显示标注。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fn first_word(s: &amp;str) -&gt; &amp;str &#123;</span><br><span class="line">    &amp;s[..]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2><span id="练习">练习</span></h2><ul>
+<li>insert_value函数&lt;’a ‘b: ‘a&gt;标注的生命周期要求’b的生命周期至少包含’a的生命周期, 这样value才能确保被插入<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">fn _test_lifetime_mut() &#123;</span><br><span class="line">    fn insert_value&lt;&#x27;a, &#x27;b: &#x27;a&gt;(myvec: &amp;mut Vec&lt;&amp;&#x27;a i32&gt;, value: &amp;&#x27;b i32) &#123;</span><br><span class="line">        myvec.push(value);</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">        let x = 1;</span><br><span class="line">        let mut my_vec = vec![&amp;x];</span><br><span class="line">        let y = 2;</span><br><span class="line">        insert_value(&amp;mut my_vec, &amp;y);</span><br><span class="line">        println!(&quot;&#123;my_vec:?&#125;&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
 </ul>
 
           
@@ -382,7 +414,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -428,7 +460,7 @@
               
                 <a href="/archives%7C%7Carchive">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
